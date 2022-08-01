@@ -43,7 +43,6 @@ export const validateOutputTargets = (config: d.ValidatedConfig, diagnostics: d.
     ...validateWww(config, diagnostics, userOutputs),
     ...validateDist(config, userOutputs),
     ...validateDocs(config, diagnostics, userOutputs),
-    ...validateAngular(config, userOutputs),
     ...validateStats(config, userOutputs),
   ];
 
