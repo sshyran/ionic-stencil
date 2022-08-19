@@ -20,6 +20,7 @@ export function initServerProcessWorkerProxy(sendToMain: (msg: d.DevServerMessag
 
   const receiveFromMain = (msg: d.DevServerMessage) => {
     // get a message from main to send to the worker
+    console.log(`server-worker-main::receiveFromMain - msg ${JSON.stringify(msg,null,2)}`)
     if (serverProcess) {
       serverProcess.send(msg);
     } else if (msg.closeServer) {

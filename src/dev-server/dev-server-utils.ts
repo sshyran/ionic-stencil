@@ -22,7 +22,9 @@ const DEFAULT_HEADERS: d.DevResponseHeaders = {
   'access-control-expose-headers': '*',
 };
 
+// TODO(NOW): I think this is it
 export function getBrowserUrl(protocol: string, address: string, port: number, basePath: string, pathname: string) {
+  console.log(`dev-server-utils::getBrowserUrl protocol: ${protocol}, address: ${address}, port: ${port}, basePath: ${basePath}, pathname: ${pathname}`)
   address = address === `0.0.0.0` ? `localhost` : address;
   const portSuffix = !port || port === 80 || port === 443 ? '' : ':' + port;
 
@@ -31,9 +33,11 @@ export function getBrowserUrl(protocol: string, address: string, port: number, b
     pathname = pathname.substring(1);
   }
   path += pathname;
+  console.log(`dev-server-utils::getBrowserUrl path is ${path}`)
 
   protocol = protocol.replace(/\:/g, '');
 
+  console.log(`dev-server-utils::getBrowserUrl returns ${protocol}://${address}${portSuffix}${path}`)
   return `${protocol}://${address}${portSuffix}${path}`;
 }
 

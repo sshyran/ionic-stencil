@@ -150,6 +150,7 @@ export async function newE2EPage(opts: NewE2EPageOptions = {}): Promise<E2EPage>
       }
     });
 
+    console.log(`puppeteer-page: opts is ${JSON.stringify(opts, null, 2)}`)
     if (typeof opts.html === 'string') {
       await e2eSetContent(page, opts.html, { waitUntil: opts.waitUntil });
     } else if (typeof opts.url === 'string') {

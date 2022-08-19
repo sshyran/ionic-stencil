@@ -13,6 +13,7 @@ import { initServerProcessWorkerProxy } from './server-worker-main';
 import path from 'path';
 
 export function start(stencilDevServerConfig: StencilDevServerConfig, logger: Logger, watcher?: CompilerWatcher) {
+  console.log(`dev-server/index::start ${JSON.stringify(stencilDevServerConfig, null, 2)}`)
   return new Promise<DevServer>(async (resolve, reject) => {
     try {
       const devServerConfig: DevServerConfig = {
@@ -28,9 +29,11 @@ export function start(stencilDevServerConfig: StencilDevServerConfig, logger: Lo
 
       if (stencilDevServerConfig.worker === true || stencilDevServerConfig.worker === undefined) {
         // fork a worker process
+        console.log(`initServerProcess1`)
         initServerProcess = initServerProcessWorkerProxy;
       } else {
         // same process
+        console.log(`initServerProcess2`)
         const devServerProcess = await import('@dev-server-process');
         initServerProcess = devServerProcess.initServerProcess;
       }
@@ -91,6 +94,8 @@ function startServer(
   };
 
   const emit = async (eventName: any, data: any) => {
+    console.log(`EMIT ${eventName} (s2w: ${!!sendToWorker})`)
+    console.log(`EMIT ${JSON.stringify(data,null,4)}`)
     if (sendToWorker) {
       if (eventName === 'buildFinish') {
         isActivelyBuilding = false;
@@ -185,6 +190,7 @@ function startServer(
   };
 
   const receiveFromWorker = (msg: DevServerMessage) => {
+    console.log(`receiveFromWorker ${JSON.stringify(msg, null, 4)}`)
     try {
       if (msg.serverStarted) {
         serverStarted(msg);
