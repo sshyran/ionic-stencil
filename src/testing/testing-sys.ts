@@ -3,15 +3,27 @@ import { createSystem } from '../compiler/sys/stencil-sys';
 import { createHash } from 'crypto';
 import path from 'path';
 
+/**
+ * TODO
+ */
 export interface TestingSystem extends CompilerSystem {
   diskReads: number;
   diskWrites: number;
 }
 
+/**
+ * Type guard for determining if a provided `CompilerSystem` is a `TestingSystem`
+ * @param sys the `CompilerSystem` to evaluate
+ * @returns true if the provided `CompilerSystem` is a `TestingSystem`, false otherwise
+ */
 function isTestingSystem(sys: CompilerSystem): sys is TestingSystem {
   return 'diskReads' in sys && 'diskWrites' in sys;
 }
 
+/**
+ * TODO
+ * @returns
+ */
 export const createTestingSystem = (): TestingSystem => {
   let diskReads = 0;
   let diskWrites = 0;
@@ -28,7 +40,20 @@ export const createTestingSystem = (): TestingSystem => {
     return Promise.resolve(hash);
   };
 
-  const wrapRead = (fn: any) => {
+  /**
+   * Wraps a function that performs read operations on the provided function.
+   *
+   * The wrapped function will be called with its provided arguments (I.E. it retains its original functionality). In
+   * addition to the original functionality, the returned function will increment the `diskReads` property on an
+   * instance of `TestingSystem`.
+   *
+   * It is at the discretion of the user of this function to determine if the provided function performs a read
+   * operation. No compile-time nor run-time checks occur to verify that a read operation occurs on `fn`
+   *
+   * @param fn the function to wrap
+   * @returns a new function that wraps the provided one and keeps track of the number of read operations that occurred
+   */
+  const wrapRead = (fn: (...args: any[]) => any): typeof fn => {
     const orgFn = fn;
     return (...args: any[]) => {
       diskReads++;
@@ -36,7 +61,20 @@ export const createTestingSystem = (): TestingSystem => {
     };
   };
 
-  const wrapWrite = (fn: any) => {
+  /**
+   * Wraps a function that performs write operations on the provided function.
+   *
+   * The wrapped function will be called with its provided arguments (I.E. it retains its original functionality). In
+   * addition to the original functionality, the returned function will increment the `diskWrites` property on an
+   * instance of `TestingSystem`.
+   *
+   * It is at the discretion of the user of this function to determine if the provided function performs a write
+   * operation. No compile-time nor run-time checks occur to verify that a write operation occurs on `fn`
+   *
+   * @param fn the function to wrap
+   * @returns a new function that wraps the provided one and keeps track of the number of write operations that occurred
+   */
+  const wrapWrite = (fn: (...args: any[]) => any): typeof fn => {
     const orgFn = fn;
     return (...args: any[]) => {
       diskWrites++;
