@@ -198,7 +198,8 @@ const addVnodes = (
   parentVNode: d.VNode,
   vnodes: d.VNode[],
   startIdx: number,
-  endIdx: number
+  endIdx: number,
+  queue: DOMModificationQueue
 ) => {
   let containerElm = ((BUILD.slotRelocation && parentElm['s-cr'] && parentElm['s-cr'].parentNode) || parentElm) as any;
   let childNode: Node;
@@ -208,38 +209,43 @@ const addVnodes = (
 
   for (; startIdx <= endIdx; ++startIdx) {
     if (vnodes[startIdx]) {
-      childNode = createElm(null, parentVNode, startIdx, parentElm);
-      if (childNode) {
-        vnodes[startIdx].$elm$ = childNode as any;
-        containerElm.insertBefore(childNode, BUILD.slotRelocation ? referenceNode(before) : before);
-      }
+      queue.insertions.push(() => {
+        childNode = createElm(null, parentVNode, startIdx, parentElm);
+        if (childNode) {
+          vnodes[startIdx].$elm$ = childNode as any;
+          containerElm.insertBefore(childNode, BUILD.slotRelocation ? referenceNode(before) : before);
+        }
+      })
     }
   }
 };
 
-const removeVnodes = (vnodes: d.VNode[], startIdx: number, endIdx: number, vnode?: d.VNode, elm?: d.RenderNode) => {
+const removeVnodes = (vnodes: d.VNode[], startIdx: number, endIdx: number,   queue: DOMModificationQueue, vnode?: d.VNode, elm?: d.RenderNode, ) => {
   for (; startIdx <= endIdx; ++startIdx) {
     if ((vnode = vnodes[startIdx])) {
       elm = vnode.$elm$;
-      callNodeRefs(vnode);
 
-      if (BUILD.slotRelocation) {
-        // we're removing this element
-        // so it's possible we need to show slot fallback content now
-        checkSlotFallbackVisibility = true;
+      queue.deletions.push(() => {
+        callNodeRefs(vnode);
 
-        if (elm['s-ol']) {
-          // remove the original location comment
-          elm['s-ol'].remove();
-        } else {
-          // it's possible that child nodes of the node
-          // that's being removed are slot nodes
-          putBackInOriginalLocation(elm, true);
+        if (BUILD.slotRelocation) {
+          // we're removing this element
+          // so it's possible we need to show slot fallback content now
+          checkSlotFallbackVisibility = true;
+
+          if (elm['s-ol']) {
+            // remove the original location comment
+            elm['s-ol'].remove();
+          } else {
+            // it's possible that child nodes of the node
+            // that's being removed are slot nodes
+            putBackInOriginalLocation(elm, true);
+          }
         }
-      }
 
-      // remove the vnode's element from the dom
-      elm.remove();
+        // remove the vnode's element from the dom
+        elm.remove();
+      })
     }
   }
 };
@@ -312,7 +318,7 @@ const removeVnodes = (vnodes: d.VNode[], startIdx: number, endIdx: number, vnode
  * @param newVNode the new VNode which will replace the parent
  * @param newCh the new children of the parent node
  */
-const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.VNode, newCh: d.VNode[]) => {
+const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.VNode, newCh: d.VNode[], queue: DOMModificationQueue) => {
   let oldStartIdx = 0;
   let newStartIdx = 0;
   let idxInOld = 0;
@@ -341,14 +347,14 @@ const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.V
       // onto the old one, and increment our `newStartIdx` and `oldStartIdx`
       // indices to reflect that. We don't need to move any DOM Nodes around
       // since things are matched up in order.
-      patch(oldStartVnode, newStartVnode);
+      patch(oldStartVnode, newStartVnode, queue);
       oldStartVnode = oldCh[++oldStartIdx];
       newStartVnode = newCh[++newStartIdx];
     } else if (isSameVnode(oldEndVnode, newEndVnode)) {
       // likewise, if the end nodes are the same we patch new onto old and
       // decrement our end indices, and also likewise in this case we don't
       // need to move any DOM Nodes.
-      patch(oldEndVnode, newEndVnode);
+      patch(oldEndVnode, newEndVnode, queue);
       oldEndVnode = oldCh[--oldEndIdx];
       newEndVnode = newCh[--newEndIdx];
     } else if (isSameVnode(oldStartVnode, newEndVnode)) {
@@ -369,7 +375,7 @@ const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.V
       if (BUILD.slotRelocation && (oldStartVnode.$tag$ === 'slot' || newEndVnode.$tag$ === 'slot')) {
         putBackInOriginalLocation(oldStartVnode.$elm$.parentNode, false);
       }
-      patch(oldStartVnode, newEndVnode);
+      patch(oldStartVnode, newEndVnode, queue);
       // We need to move the element for `oldStartVnode` into a position which
       // will be appropriate for `newEndVnode`. For this we can use
       // `.insertBefore` and `oldEndVnode.$elm$.nextSibling`. If there is a
@@ -409,7 +415,7 @@ const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.V
       if (BUILD.slotRelocation && (oldStartVnode.$tag$ === 'slot' || newEndVnode.$tag$ === 'slot')) {
         putBackInOriginalLocation(oldEndVnode.$elm$.parentNode, false);
       }
-      patch(oldEndVnode, newStartVnode);
+      patch(oldEndVnode, newStartVnode, queue);
       // We've already checked above if `oldStartVnode` and `newStartVnode` are
       // the same node, so since we're here we know that they are not. Thus we
       // can move the element for `oldEndVnode` _before_ the element for
@@ -446,7 +452,7 @@ const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.V
           // the tag doesn't match so we'll need a new DOM element
           node = createElm(oldCh && oldCh[newStartIdx], newVNode, idxInOld, parentElm);
         } else {
-          patch(elmToMove, newStartVnode);
+          patch(elmToMove, newStartVnode, queue);
           // invalidate the matching old node so that we won't try to update it
           // again later on
           oldCh[idxInOld] = undefined;
@@ -482,13 +488,14 @@ const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.V
       newVNode,
       newCh,
       newStartIdx,
-      newEndIdx
+      newEndIdx,
+      queue
     );
   } else if (BUILD.updatable && newStartIdx > newEndIdx) {
     // there are nodes in the `oldCh` array which no longer correspond to nodes
     // in the new array, so lets remove them (which entails cleaning up the
     // relevant DOM nodes)
-    removeVnodes(oldCh, oldStartIdx, oldEndIdx);
+    removeVnodes(oldCh, oldStartIdx, oldEndIdx, queue);
   }
 };
 
@@ -535,6 +542,14 @@ const referenceNode = (node: d.RenderNode) => {
 
 const parentReferenceNode = (node: d.RenderNode) => (node['s-ol'] ? node['s-ol'] : node).parentNode;
 
+type DOMModification = () => void;
+
+// TODO find a better name for this
+interface DOMModificationQueue {
+  insertions: DOMModification[];
+  deletions: DOMModification[];
+}
+
 /**
  * Handle reconciling an outdated VNode with a new one which corresponds to
  * it. This function handles flushing updates to the DOM and reconciling the
@@ -542,14 +557,22 @@ const parentReferenceNode = (node: d.RenderNode) => (node['s-ol'] ? node['s-ol']
  *
  * @param oldVNode an old VNode whose DOM element and children we want to update
  * @param newVNode a new VNode representing an updated version of the old one
+ * @param queue an optional DOM modification queue (default: `null`)
+ * @returns an object holding queued insertion and deletion operations
  */
-export const patch = (oldVNode: d.VNode, newVNode: d.VNode) => {
+export const patch = (oldVNode: d.VNode, newVNode: d.VNode, queue: DOMModificationQueue | null = null): DOMModificationQueue => {
   const elm = (newVNode.$elm$ = oldVNode.$elm$);
   const oldChildren = oldVNode.$children$;
   const newChildren = newVNode.$children$;
   const tag = newVNode.$tag$;
   const text = newVNode.$text$;
   let defaultHolder: Comment;
+
+  // queue will be null unless `patch` is being called recursively
+  const outQueue = queue || {
+    insertions: [],
+    deletions : []
+  };
 
   if (!BUILD.vdomText || text === null) {
     if (BUILD.svg) {
@@ -572,7 +595,7 @@ export const patch = (oldVNode: d.VNode, newVNode: d.VNode) => {
     if (BUILD.updatable && oldChildren !== null && newChildren !== null) {
       // looks like there's child vnodes for both the old and new vnodes
       // so we need to call `updateChildren` to reconcile them
-      updateChildren(elm, oldChildren, newVNode, newChildren);
+      updateChildren(elm, oldChildren, newVNode, newChildren, outQueue);
     } else if (newChildren !== null) {
       // no old child vnodes, but there are new child vnodes to add
       if (BUILD.updatable && BUILD.vdomText && oldVNode.$text$ !== null) {
@@ -580,10 +603,10 @@ export const patch = (oldVNode: d.VNode, newVNode: d.VNode) => {
         elm.textContent = '';
       }
       // add the new vnode children
-      addVnodes(elm, null, newVNode, newChildren, 0, newChildren.length - 1);
+      addVnodes(elm, null, newVNode, newChildren, 0, newChildren.length - 1, outQueue);
     } else if (BUILD.updatable && oldChildren !== null) {
       // no new child vnodes, but there are old child vnodes to remove
-      removeVnodes(oldChildren, 0, oldChildren.length - 1);
+      removeVnodes(oldChildren, 0, oldChildren.length - 1, outQueue);
     }
 
     if (BUILD.svg && isSvgMode && tag === 'svg') {
@@ -597,6 +620,8 @@ export const patch = (oldVNode: d.VNode, newVNode: d.VNode) => {
     // and also only if the text is different than before
     elm.data = text;
   }
+
+  return queue
 };
 
 const updateFallbackSlotVisibility = (elm: d.RenderNode) => {
@@ -761,6 +786,15 @@ interface RelocateNodeData {
   $nodeToRelocate$: d.RenderNode;
 }
 
+/**
+ * The main entry point into Stencil's virtual DOM. This function takes a
+ * `HostRef`, which basically wraps up the root DOM node for the tree and the
+ * related `VNode`, and the output of running the JSX through the render
+ * function, `h`, which produces virtual DOM nodes given tags, attrs, and so on.
+ *
+ * @param hostRef a bundle of information about the host nodes for the tree
+ * @param renderFnResults output from the render function `h`
+ */
 export const renderVdom = (hostRef: d.HostRef, renderFnResults: d.VNode | d.VNode[]) => {
   const hostElm = hostRef.$hostElement$;
   const cmpMeta = hostRef.$cmpMeta$;
@@ -808,7 +842,10 @@ render() {
   }
 
   // synchronous patch
-  patch(oldVNode, rootVnode);
+  const modificationQueue = patch(oldVNode, rootVnode);
+
+  modificationQueue.deletions.forEach(fn => fn())
+  modificationQueue.insertions.forEach(fn => fn())
 
   if (BUILD.slotRelocation) {
     // while we're moving nodes around existing nodes, temporarily disable
