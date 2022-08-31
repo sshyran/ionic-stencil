@@ -209,18 +209,28 @@ const addVnodes = (
 
   for (; startIdx <= endIdx; ++startIdx) {
     if (vnodes[startIdx]) {
+      // scoping?
+      let nodeOfInterest = vnodes[startIdx];
+      let startIdxSaved = startIdx;
       queue.insertions.push(() => {
-        childNode = createElm(null, parentVNode, startIdx, parentElm);
+        childNode = createElm(null, parentVNode, startIdxSaved, parentElm);
         if (childNode) {
-          vnodes[startIdx].$elm$ = childNode as any;
+          nodeOfInterest.$elm$ = childNode as any;
           containerElm.insertBefore(childNode, BUILD.slotRelocation ? referenceNode(before) : before);
         }
-      })
+      });
     }
   }
 };
 
-const removeVnodes = (vnodes: d.VNode[], startIdx: number, endIdx: number,   queue: DOMModificationQueue, vnode?: d.VNode, elm?: d.RenderNode, ) => {
+const removeVnodes = (
+  vnodes: d.VNode[],
+  startIdx: number,
+  endIdx: number,
+  queue: DOMModificationQueue,
+  vnode?: d.VNode,
+  elm?: d.RenderNode
+) => {
   for (; startIdx <= endIdx; ++startIdx) {
     if ((vnode = vnodes[startIdx])) {
       elm = vnode.$elm$;
@@ -245,7 +255,7 @@ const removeVnodes = (vnodes: d.VNode[], startIdx: number, endIdx: number,   que
 
         // remove the vnode's element from the dom
         elm.remove();
-      })
+      });
     }
   }
 };
@@ -318,7 +328,13 @@ const removeVnodes = (vnodes: d.VNode[], startIdx: number, endIdx: number,   que
  * @param newVNode the new VNode which will replace the parent
  * @param newCh the new children of the parent node
  */
-const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.VNode, newCh: d.VNode[], queue: DOMModificationQueue) => {
+const updateChildren = (
+  parentElm: d.RenderNode,
+  oldCh: d.VNode[],
+  newVNode: d.VNode,
+  newCh: d.VNode[],
+  queue: DOMModificationQueue
+) => {
   let oldStartIdx = 0;
   let newStartIdx = 0;
   let idxInOld = 0;
@@ -450,13 +466,32 @@ const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.V
 
         if (elmToMove.$tag$ !== newStartVnode.$tag$) {
           // the tag doesn't match so we'll need a new DOM element
-          node = createElm(oldCh && oldCh[newStartIdx], newVNode, idxInOld, parentElm);
+          queue.insertions.push(() => {
+            node = createElm(oldCh && oldCh[newStartIdx], newVNode, idxInOld, parentElm);
+            if (node) {
+              // if we created a new node then handle inserting it to the DOM
+              if (BUILD.slotRelocation) {
+                parentReferenceNode(oldStartVnode.$elm$).insertBefore(node, referenceNode(oldStartVnode.$elm$));
+              } else {
+                oldStartVnode.$elm$.parentNode.insertBefore(node, oldStartVnode.$elm$);
+              }
+            }
+          });
         } else {
           patch(elmToMove, newStartVnode, queue);
           // invalidate the matching old node so that we won't try to update it
           // again later on
           oldCh[idxInOld] = undefined;
-          node = elmToMove.$elm$;
+          let node = elmToMove.$elm$;
+
+          if (node) {
+            // if we created a new node then handle inserting it to the DOM
+            if (BUILD.slotRelocation) {
+              parentReferenceNode(oldStartVnode.$elm$).insertBefore(node, referenceNode(oldStartVnode.$elm$));
+            } else {
+              oldStartVnode.$elm$.parentNode.insertBefore(node, oldStartVnode.$elm$);
+            }
+          }
         }
 
         newStartVnode = newCh[++newStartIdx];
@@ -465,18 +500,29 @@ const updateChildren = (parentElm: d.RenderNode, oldCh: d.VNode[], newVNode: d.V
         // the key of the first new child OR the build is not using `key`
         // attributes at all. In either case we need to create a new element
         // for the new node.
-        node = createElm(oldCh && oldCh[newStartIdx], newVNode, newStartIdx, parentElm);
+        queue.insertions.push(() => {
+          let node = createElm(oldCh && oldCh[newStartIdx], newVNode, newStartIdx, parentElm);
+          if (node) {
+            // if we created a new node then handle inserting it to the DOM
+            if (BUILD.slotRelocation) {
+              parentReferenceNode(oldStartVnode.$elm$).insertBefore(node, referenceNode(oldStartVnode.$elm$));
+            } else {
+              oldStartVnode.$elm$.parentNode.insertBefore(node, oldStartVnode.$elm$);
+            }
+          }
+        });
+
         newStartVnode = newCh[++newStartIdx];
       }
 
-      if (node) {
-        // if we created a new node then handle inserting it to the DOM
-        if (BUILD.slotRelocation) {
-          parentReferenceNode(oldStartVnode.$elm$).insertBefore(node, referenceNode(oldStartVnode.$elm$));
-        } else {
-          oldStartVnode.$elm$.parentNode.insertBefore(node, oldStartVnode.$elm$);
-        }
-      }
+      // if (node) {
+      //   // if we created a new node then handle inserting it to the DOM
+      //   if (BUILD.slotRelocation) {
+      //     parentReferenceNode(oldStartVnode.$elm$).insertBefore(node, referenceNode(oldStartVnode.$elm$));
+      //   } else {
+      //     oldStartVnode.$elm$.parentNode.insertBefore(node, oldStartVnode.$elm$);
+      //   }
+      // }
     }
   }
 
@@ -560,7 +606,11 @@ interface DOMModificationQueue {
  * @param queue an optional DOM modification queue (default: `null`)
  * @returns an object holding queued insertion and deletion operations
  */
-export const patch = (oldVNode: d.VNode, newVNode: d.VNode, queue: DOMModificationQueue | null = null): DOMModificationQueue => {
+export const patch = (
+  oldVNode: d.VNode,
+  newVNode: d.VNode,
+  queue: DOMModificationQueue | null = null
+): DOMModificationQueue => {
   const elm = (newVNode.$elm$ = oldVNode.$elm$);
   const oldChildren = oldVNode.$children$;
   const newChildren = newVNode.$children$;
@@ -571,7 +621,7 @@ export const patch = (oldVNode: d.VNode, newVNode: d.VNode, queue: DOMModificati
   // queue will be null unless `patch` is being called recursively
   const outQueue = queue || {
     insertions: [],
-    deletions : []
+    deletions: [],
   };
 
   if (!BUILD.vdomText || text === null) {
@@ -603,7 +653,9 @@ export const patch = (oldVNode: d.VNode, newVNode: d.VNode, queue: DOMModificati
         elm.textContent = '';
       }
       // add the new vnode children
+      console.log(`patch::right before add VNodes`);
       addVnodes(elm, null, newVNode, newChildren, 0, newChildren.length - 1, outQueue);
+      console.log(`patch::right after add VNodes`);
     } else if (BUILD.updatable && oldChildren !== null) {
       // no new child vnodes, but there are old child vnodes to remove
       removeVnodes(oldChildren, 0, oldChildren.length - 1, outQueue);
@@ -621,7 +673,7 @@ export const patch = (oldVNode: d.VNode, newVNode: d.VNode, queue: DOMModificati
     elm.data = text;
   }
 
-  return queue
+  return outQueue;
 };
 
 const updateFallbackSlotVisibility = (elm: d.RenderNode) => {
@@ -796,6 +848,7 @@ interface RelocateNodeData {
  * @param renderFnResults output from the render function `h`
  */
 export const renderVdom = (hostRef: d.HostRef, renderFnResults: d.VNode | d.VNode[]) => {
+  console.log('renderVdom::1');
   const hostElm = hostRef.$hostElement$;
   const cmpMeta = hostRef.$cmpMeta$;
   const oldVNode: d.VNode = hostRef.$vnode$ || newVNode(null, null);
@@ -806,18 +859,19 @@ export const renderVdom = (hostRef: d.HostRef, renderFnResults: d.VNode | d.VNod
   // <Host> runtime check
   if (BUILD.isDev && Array.isArray(renderFnResults) && renderFnResults.some(isHost)) {
     throw new Error(`The <Host> must be the single root component.
-Looks like the render() function of "${hostTagName.toLowerCase()}" is returning an array that contains the <Host>.
+                    Looks like the render() function of "${hostTagName.toLowerCase()}" is returning an array that contains the <Host>.
 
-The render() function should look like this instead:
+                    The render() function should look like this instead:
 
-render() {
-  // Do not return an array
-  return (
-    <Host>{content}</Host>
-  );
-}
-  `);
+                    render() {
+      // Do not return an array
+      return (
+        <Host>{content}</Host>
+      );
+    }
+    `);
   }
+  console.log('renderVdom::2');
   if (BUILD.reflect && cmpMeta.$attrsToReflect$) {
     rootVnode.$attrs$ = rootVnode.$attrs$ || {};
     cmpMeta.$attrsToReflect$.map(
@@ -825,6 +879,7 @@ render() {
     );
   }
 
+  console.log('renderVdom::3');
   rootVnode.$tag$ = null;
   rootVnode.$flags$ |= VNODE_FLAGS.isHost;
   hostRef.$vnode$ = rootVnode;
@@ -841,11 +896,13 @@ render() {
     checkSlotFallbackVisibility = false;
   }
 
+  console.log('renderVdom::4 before call to `patch`');
   // synchronous patch
   const modificationQueue = patch(oldVNode, rootVnode);
+  console.log(modificationQueue);
 
-  modificationQueue.deletions.forEach(fn => fn())
-  modificationQueue.insertions.forEach(fn => fn())
+  modificationQueue.deletions.forEach((fn) => fn());
+  modificationQueue.insertions.forEach((fn) => fn());
 
   if (BUILD.slotRelocation) {
     // while we're moving nodes around existing nodes, temporarily disable
