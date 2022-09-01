@@ -212,11 +212,15 @@ const addVnodes = (
       // scoping?
       let nodeOfInterest = vnodes[startIdx];
       let startIdxSaved = startIdx;
+      let parentElmScoped = parentElm;
+      let beforeScoped = before;
+      let parentVNodeScoped = parentVNode;
+      let containerElmScoped = containerElm;
       queue.insertions.push(() => {
-        childNode = createElm(null, parentVNode, startIdxSaved, parentElm);
+        childNode = createElm(null, parentVNodeScoped, startIdxSaved, parentElmScoped);
         if (childNode) {
           nodeOfInterest.$elm$ = childNode as any;
-          containerElm.insertBefore(childNode, BUILD.slotRelocation ? referenceNode(before) : before);
+          containerElmScoped.insertBefore(childNode, BUILD.slotRelocation ? referenceNode(beforeScoped) : beforeScoped);
         }
       });
     }
@@ -235,9 +239,13 @@ const removeVnodes = (
       let elm = vnode.$elm$;
 
       let nodeOfInterest = vnode;
-      queue.deletions.push(() => {
-        callNodeRefs(nodeOfInterest);
+      // we update the refs (calling it with `null` in this case) when we
+      // queue the deletion operation because we want this to happen before we add
+      // new elements to the DOM which may cause the same `ref` to fire
+      callNodeRefs(nodeOfInterest);
 
+      // defer deletion until later, after we've added all the new DOM elements
+      queue.deletions.push(() => {
         if (BUILD.slotRelocation) {
           // we're removing this element
           // so it's possible we need to show slot fallback content now
@@ -515,10 +523,6 @@ const updateChildren = (
           if (node) {
             // if we created a new node then handle inserting it to the DOM
             if (BUILD.slotRelocation) {
-              // @ts-ignore
-              let reffyNode = parentReferenceNode(elmo);
-
-              debugger;
               parentReferenceNode(elmo).insertBefore(node, referenceNode(elmo));
             } else {
               elmo.parentNode.insertBefore(node, elmo)
@@ -602,6 +606,7 @@ const referenceNode = (node: d.RenderNode) => {
 
 const parentReferenceNode = (node: d.RenderNode) => {
   console.log('parentReferenceNode::node::', node);
+  console.log('parentReferenceNode::node::parentNode', node.parentNode);
   return (node['s-ol'] ? node['s-ol'] : node).parentNode;
 }
 
@@ -911,8 +916,11 @@ export const renderVdom = (hostRef: d.HostRef, renderFnResults: d.VNode | d.VNod
   // synchronous patch
   const modificationQueue = patch(oldVNode, rootVnode);
 
-  modificationQueue.deletions.forEach((fn) => fn());
+  // many insertion operations depend on old DOM elements still
+  // being on the DOM, so we run those all first
   modificationQueue.insertions.forEach((fn) => fn());
+  // then we clean up the mess!
+  modificationQueue.deletions.forEach((fn) => fn());
 
   if (BUILD.slotRelocation) {
     // while we're moving nodes around existing nodes, temporarily disable
