@@ -3,7 +3,7 @@ import { SVG_NS } from '@utils';
 
 import type * as d from '../../../declarations';
 import { h, newVNode } from '../h';
-import { patch } from '../vdom-render';
+import { patch, commitDOMModifications } from '../vdom-render';
 import { toVNode } from './to-vnode';
 
 describe('renderer', () => {
@@ -29,14 +29,14 @@ describe('renderer', () => {
 
       const vnode1 = h('my-tag', null, h(DoesNotRenderChildren, null, '88'), h(RendersChildren, null, 'DMC'));
 
-      patch(vnode0, vnode1);
+      commitDOMModifications(patch(vnode0, vnode1));
       expect(hostElm.tagName).toBe('MY-TAG');
       expect(hostElm.childNodes[0].innerHTML).toBe('mph');
       expect(hostElm.childNodes[1].innerHTML).toBe('DMC-12');
 
       const vnode2 = h('my-tag', null, h(DoesNotRenderChildren, null, '88'), h(RendersChildren, null, 'dmc'));
 
-      patch(vnode1, vnode2);
+      commitDOMModifications(patch(vnode1, vnode2));
       expect(hostElm.childNodes[0].innerHTML).toBe('mph');
       expect(hostElm.childNodes[1].innerHTML).toBe('dmc-12');
     });
@@ -53,12 +53,12 @@ describe('renderer', () => {
 
       const vnode1 = h('my-tag', null, h(functionalComp, { class: 'render-one' }));
 
-      patch(vnode0, vnode1);
+      commitDOMModifications(patch(vnode0, vnode1));
       expect(hostElm.childNodes[0].className).toBe('render-one');
 
       const vnode2 = h('my-tag', null, h(functionalComp, { class: 'render-two' }));
 
-      patch(vnode1, vnode2);
+      commitDOMModifications(patch(vnode1, vnode2));
       expect(hostElm.childNodes[0].className).toBe('render-two');
     });
 
@@ -70,7 +70,7 @@ describe('renderer', () => {
       hostElm = document.createElement('my-tag');
       vnode0 = newVNode(null, null);
       vnode0.$elm$ = hostElm;
-      patch(vnode0, h('my-tag', null, h(functionalComp, { class: 'functional-cmp' })));
+      commitDOMModifications(patch(vnode0, h('my-tag', null, h(functionalComp, { class: 'functional-cmp' }))));
       expect(hostElm.childNodes[0].tagName).toBe('SPAN');
       expect(hostElm.childNodes[0].textContent).toBe('');
       expect(hostElm.childNodes[0].className).toBe('functional-cmp');
@@ -84,7 +84,9 @@ describe('renderer', () => {
       hostElm = document.createElement('my-tag');
       vnode0 = newVNode(null, null);
       vnode0.$elm$ = hostElm;
-      patch(vnode0, h('my-tag', null, h('span', null, 'Test Child'), h(functionalComp, { class: 'functional-cmp' })));
+      commitDOMModifications(
+        patch(vnode0, h('my-tag', null, h('span', null, 'Test Child'), h(functionalComp, { class: 'functional-cmp' })))
+      );
       expect(hostElm.childNodes[0].tagName).toBe('SPAN');
       expect(hostElm.childNodes[0].textContent).toBe('Test Child');
       expect(hostElm.childNodes[1].tagName).toBe('SPAN');
@@ -100,7 +102,9 @@ describe('renderer', () => {
       hostElm = document.createElement('my-tag');
       vnode0 = newVNode(null, null);
       vnode0.$elm$ = hostElm;
-      patch(vnode0, h('my-tag', null, h(functionalComp, { class: 'functional-cmp' }, h('span', null, 'Test Child'))));
+      commitDOMModifications(
+        patch(vnode0, h('my-tag', null, h(functionalComp, { class: 'functional-cmp' }, h('span', null, 'Test Child'))))
+      );
       expect(hostElm.childNodes[0].tagName).toBe('SPAN');
       expect(hostElm.childNodes[0].className).toBe('functional-cmp');
       expect(hostElm.childNodes[0].textContent).toBe('Test Child');
@@ -109,18 +113,18 @@ describe('renderer', () => {
 
   describe('created element', () => {
     it('has tag', () => {
-      patch(vnode0, h('div', null));
+      commitDOMModifications(patch(vnode0, h('div', null)));
       expect(hostElm.tagName).toEqual('DIV');
     });
 
     it('receives css classes', () => {
       const vnode1 = h('div', null, h('i', { class: { i: true, am: true, a: true, class: true } }));
-      patch(vnode0, vnode1);
+      commitDOMModifications(patch(vnode0, vnode1));
       expect(hostElm.firstChild).toHaveClasses(['i', 'am', 'a', 'class']);
     });
 
     it('can create elements with text content', () => {
-      patch(vnode0, h('div', null, 'I am a string'));
+      commitDOMModifications(patch(vnode0, h('div', null, 'I am a string')));
       expect(hostElm.innerHTML).toEqual('I am a string');
     });
   });
@@ -129,7 +133,7 @@ describe('renderer', () => {
     it('does not remove classes of previous from dom if vdom does not document them', () => {
       hostElm.classList.add('horse');
       const vnode1 = h('i', { class: { i: true, am: true } });
-      patch(vnode0, vnode1);
+      commitDOMModifications(patch(vnode0, vnode1));
 
       expect(hostElm).toHaveClasses(['i', 'am', 'horse']);
     });
@@ -137,8 +141,8 @@ describe('renderer', () => {
     it('changes elements classes from previous vnode', () => {
       const vnode1 = h('i', { class: { i: true, am: true, horse: true } });
       const vnode2 = h('i', { class: { i: true, am: true, horse: false } });
-      patch(vnode0, vnode1);
-      patch(vnode1, vnode2);
+      commitDOMModifications(patch(vnode0, vnode1));
+      commitDOMModifications(patch(vnode1, vnode2));
 
       expect(hostElm).toHaveClasses(['i', 'am']);
     });
@@ -147,26 +151,26 @@ describe('renderer', () => {
       const cachedClass = { i: true, am: true, horse: false };
       const vnode1 = h('i', { class: cachedClass });
       const vnode2 = h('i', { class: cachedClass });
-      patch(vnode0, vnode1);
+      commitDOMModifications(patch(vnode0, vnode1));
       expect(hostElm).toHaveClasses(['i', 'am']);
 
-      patch(vnode1, vnode2);
+      commitDOMModifications(patch(vnode1, vnode2));
       expect(hostElm).toHaveClasses(['i', 'am']);
     });
 
     it('removes missing classes', () => {
       const vnode1 = h('i', { class: { i: true, am: true, horse: true } });
       const vnode2 = h('i', { class: { i: true, am: true } });
-      patch(vnode0, vnode1);
-      patch(vnode1, vnode2);
+      commitDOMModifications(patch(vnode0, vnode1));
+      commitDOMModifications(patch(vnode1, vnode2));
       expect(hostElm).toHaveClasses(['i', 'am']);
     });
 
     it('removes classes when class set to empty string', () => {
       const vnode1 = h('i', { class: { i: true, am: true, horse: true } });
       const vnode2 = h('i', { class: '' });
-      patch(vnode0, vnode1);
-      patch(vnode1, vnode2);
+      commitDOMModifications(patch(vnode0, vnode1));
+      commitDOMModifications(patch(vnode1, vnode2));
       expect(hostElm).toHaveClasses([]);
     });
 
@@ -181,7 +185,7 @@ describe('renderer', () => {
         prevElm.appendChild(h2);
 
         const nextVNode = h('div', null, h('span', null, 'Hi'));
-        patch(toVNode(prevElm), nextVNode);
+        commitDOMModifications(patch(toVNode(prevElm), nextVNode));
         hostElm = nextVNode.$elm$;
 
         expect(hostElm).toEqual(prevElm);
@@ -203,7 +207,7 @@ describe('renderer', () => {
         prevElm.appendChild(h2);
 
         const nextVNode = h('div', null, h('span', null, 'Hi'));
-        patch(toVNode(prevElm), nextVNode);
+        commitDOMModifications(patch(toVNode(prevElm), nextVNode));
         hostElm = nextVNode.$elm$;
 
         expect(hostElm).toEqual(prevElm);
@@ -231,7 +235,7 @@ describe('renderer', () => {
         prevElm.appendChild(h2);
 
         const nextVNode = h('div', null, 'Foobar');
-        patch(toVNode(prevElm), nextVNode);
+        commitDOMModifications(patch(toVNode(prevElm), nextVNode));
         hostElm = nextVNode.$elm$;
 
         expect(hostElm).toEqual(prevElm);
@@ -257,7 +261,7 @@ describe('renderer', () => {
         prevElm.appendChild(h2);
 
         const nextVNode = h('div', null, h('h2', null, 'Hello'));
-        patch(toVNode(prevElm), nextVNode);
+        commitDOMModifications(patch(toVNode(prevElm), nextVNode));
         hostElm = nextVNode.$elm$;
 
         expect(hostElm).toEqual(prevElm);
@@ -290,10 +294,10 @@ describe('renderer', () => {
           const vnode1 = vnodeMap([1]);
           const vnode2 = vnodeMap([1, 2, 3]);
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(1);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(3);
           expect(hostElm.children[1].innerHTML).toEqual('2');
           expect(hostElm.children[2].innerHTML).toEqual('3');
@@ -303,10 +307,10 @@ describe('renderer', () => {
           const vnode1 = vnodeMap([4, 5]);
           const vnode2 = vnodeMap([1, 2, 3, 4, 5]);
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(2);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(map(inner, hostElm.children)).toEqual(['1', '2', '3', '4', '5']);
         });
 
@@ -314,11 +318,11 @@ describe('renderer', () => {
           const vnode1 = vnodeMap([1, 2, 4, 5]);
           const vnode2 = vnodeMap([1, 2, 3, 4, 5]);
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(4);
           expect(hostElm.children.length).toEqual(4);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(map(inner, hostElm.children)).toEqual(['1', '2', '3', '4', '5']);
         });
 
@@ -326,10 +330,10 @@ describe('renderer', () => {
           const vnode1 = vnodeMap([2, 3, 4]);
           const vnode2 = vnodeMap([1, 2, 3, 4, 5]);
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(3);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(map(inner, hostElm.children)).toEqual(['1', '2', '3', '4', '5']);
         });
 
@@ -337,28 +341,28 @@ describe('renderer', () => {
           const vnode1 = h('span', { key: 'span' });
           const vnode2 = h('span', { key: 'span' }, ...[1, 2, 3].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(0);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(map(inner, hostElm.children)).toEqual(['1', '2', '3']);
         });
 
         it('removes all children from parent', () => {
           const vnode1 = h('span', { key: 'span' }, ...[1, 2, 3].map(spanNum));
           const vnode2 = h('span', { key: 'span' });
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(map(inner, hostElm.children)).toEqual(['1', '2', '3']);
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(0);
         });
 
         it('update one child with same key but different sel', () => {
           const vnode1 = h('span', { key: 'spans' }, ...[1, 2, 3].map(spanNum));
           const vnode2 = h('span', { key: 'span' }, ...[spanNum(1), h('i', { key: 2 }, '2'), spanNum(3)]);
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(map(inner, hostElm.children)).toEqual(['1', '2', '3']);
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(map(inner, hostElm.children)).toEqual(['1', '2', '3']);
           expect(hostElm.children.length).toEqual(3);
           expect(hostElm.children[1].tagName).toEqual('I');
@@ -369,9 +373,9 @@ describe('renderer', () => {
         it('removes elements from the beginning', () => {
           const vnode1 = h('span', null, ...[1, 2, 3, 4, 5].map(spanNum));
           const vnode2 = h('span', null, ...[3, 4, 5].map(spanNum));
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(5);
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(map(inner, hostElm.children)).toEqual(['3', '4', '5']);
         });
 
@@ -379,10 +383,10 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[1, 2, 3, 4, 5].map(spanNum));
           const vnode2 = h('span', null, ...[1, 2, 3].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(5);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(3);
 
           expect(hostElm.children[0].innerHTML).toEqual('1');
@@ -394,10 +398,10 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[1, 2, 3, 4, 5].map(spanNum));
           const vnode2 = h('span', null, ...[1, 2, 4, 5].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(5);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(4);
 
           expect(hostElm.children[0].innerHTML).toEqual('1');
@@ -412,11 +416,11 @@ describe('renderer', () => {
           const a = h('svg', { n: SVG_NS }, h('g', null), h('g', null));
           const b = h('svg', { n: SVG_NS }, h('g', null));
 
-          patch(vnode0, a);
+          commitDOMModifications(patch(vnode0, a));
           const resultA = toVNode(vnode0.$elm$);
           expect(resultA.$elm$.childNodes.length).toEqual(2);
 
-          patch(resultA, b);
+          commitDOMModifications(patch(resultA, b));
           const resultB = toVNode(resultA.$elm$);
           expect(resultB.$elm$.childNodes.length).toEqual(1);
         });
@@ -427,7 +431,7 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[1, 2, 3, 4].map(spanNum));
           const vnode2 = h('span', null, ...[2, 3, 1, 4].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(4);
 
           (<any>hostElm.children[0]).instance = 1;
@@ -435,7 +439,7 @@ describe('renderer', () => {
           (<any>hostElm.children[2]).instance = 3;
           (<any>hostElm.children[3]).instance = 4;
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(4);
 
           expect(hostElm.children[0].innerHTML).toEqual('2');
@@ -459,10 +463,10 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[1, 2, 3].map(spanNum));
           const vnode2 = h('span', null, ...[2, 3, 1].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(3);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(3);
           expect(hostElm.children[0].innerHTML).toEqual('2');
           expect(hostElm.children[1].innerHTML).toEqual('3');
@@ -473,10 +477,10 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[1, 2, 3, 4].map(spanNum));
           const vnode2 = h('span', null, ...[1, 4, 2, 3].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(4);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(4);
           expect(hostElm.children[0].innerHTML).toEqual('1');
           expect(hostElm.children[1].innerHTML).toEqual('4');
@@ -488,10 +492,10 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[1, 2, 3, 4].map(spanNum));
           const vnode2 = h('span', null, ...[4, 2, 3, 1].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(4);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(4);
           expect(hostElm.children[0].innerHTML).toEqual('4');
           expect(hostElm.children[1].innerHTML).toEqual('2');
@@ -505,10 +509,10 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[1, 2, 3, 4, 5].map(spanNum));
           const vnode2 = h('span', null, ...[4, 1, 2, 3, 6].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(5);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(5);
           expect(hostElm.children[0].innerHTML).toEqual('4');
           expect(hostElm.children[1].innerHTML).toEqual('1');
@@ -521,10 +525,10 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[1, 4, 5].map(spanNum));
           const vnode2 = h('span', null, ...[4, 6].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(3);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(map(inner, hostElm.children)).toEqual(['4', '6']);
         });
 
@@ -532,10 +536,10 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[2, 4, 5].map(spanNum));
           const vnode2 = h('span', null, ...[4, 5, 3].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.children.length).toEqual(3);
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.children.length).toEqual(3);
           expect(hostElm.children[0].innerHTML).toEqual('4');
           expect(hostElm.children[1].innerHTML).toEqual('5');
@@ -546,11 +550,11 @@ describe('renderer', () => {
           const vnode1 = h('span', null, ...[1, 'a', 'b', 'c'].map(spanNum));
           const vnode2 = h('span', null, ...['d', 'a', 'b', 'c', 1, 'e'].map(spanNum));
 
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           expect(hostElm.childNodes.length).toEqual(4);
           expect(hostElm.textContent).toEqual('1abc');
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(hostElm.childNodes.length).toEqual(6);
           expect(hostElm.textContent).toEqual('dabc1e');
         });
@@ -560,10 +564,10 @@ describe('renderer', () => {
         const vnode1 = h('span', null, ...[1, 2, 3, 4, 5, 6, 7, 8].map(spanNum));
         const vnode2 = h('span', null, ...[8, 7, 6, 5, 4, 3, 2, 1].map(spanNum));
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(hostElm.children.length).toEqual(8);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(inner, hostElm.children)).toEqual(['8', '7', '6', '5', '4', '3', '2', '1']);
       });
 
@@ -571,10 +575,10 @@ describe('renderer', () => {
         const vnode1 = h('span', null, ...[0, 1, 2, 3, 4, 5].map(spanNum));
         const vnode2 = h('span', null, ...[4, 3, 2, 1, 5, 0].map(spanNum));
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(hostElm.children.length).toEqual(6);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(inner, hostElm.children)).toEqual(['4', '3', '2', '1', '5', '0']);
       });
 
@@ -605,7 +609,7 @@ describe('renderer', () => {
           const shufArr = shuffleArray(arr.slice(0));
           let elm: any = document.createElement('div');
           vnode0.$elm$ = elm;
-          patch(vnode0, vnode1);
+          commitDOMModifications(patch(vnode0, vnode1));
           elm = vnode1.$elm$;
 
           for (i = 0; i < elms; ++i) {
@@ -621,7 +625,7 @@ describe('renderer', () => {
             })
           );
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           elm = vnode2.$elm$;
           for (i = 0; i < elms; ++i) {
             expect(elm.children[i].innerHTML).toEqual(shufArr[i].toString());
@@ -634,10 +638,10 @@ describe('renderer', () => {
         const vnode1 = h('i', null, ...[0, 1, 2, 3, 4, 5].map(spanNum));
         const vnode2 = h('i', null, ...[null, 2, undefined, null, 1, 0, null, 5, 4, null, 3, undefined].map(spanNum));
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(hostElm.children.length).toEqual(6);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(inner, hostElm.children)).toEqual(['2', '1', '0', '5', '4', '3']);
       });
 
@@ -646,12 +650,12 @@ describe('renderer', () => {
         const vnode2 = h('v2', null, ...[null, null, undefined, null, null, undefined]);
         const vnode3 = h('v3', null, ...[5, 4, 3, 2, 1, 0].map(spanNum));
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(hostElm.children.length).toEqual(0);
 
-        patch(vnode2, vnode3);
+        commitDOMModifications(patch(vnode2, vnode3));
         expect(map(inner, hostElm.children)).toEqual(['5', '4', '3', '2', '1', '0']);
       });
 
@@ -675,7 +679,7 @@ describe('renderer', () => {
           shuffleArray(arr);
           vnode2 = h('div', null, ...arr.map(spanNum));
 
-          patch(vnode1, vnode2);
+          commitDOMModifications(patch(vnode1, vnode2));
           expect(map(inner, hostElm.children)).toEqual(
             arr.filter(function (x) {
               return x != null;
@@ -690,10 +694,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, h('span', null, 'Hello'));
         const vnode2 = h('div', null, h('span', null, 'Hello'), h('span', null, 'World'));
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(map(inner, hostElm.children)).toEqual(['Hello']);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(inner, hostElm.children)).toEqual(['Hello', 'World']);
       });
 
@@ -701,10 +705,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, ...['Text', h('span', null, 'Span')]);
         const vnode2 = h('div', null, ...['Text', h('span', null, 'Span')]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(hostElm.childNodes[0].textContent).toEqual('Text');
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(hostElm.childNodes[0].textContent).toEqual('Text');
       });
 
@@ -712,10 +716,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, ...['Text', h('span', null, 'Span')]);
         const vnode2 = h('div', null, ...['Text2', h('span', null, 'Span')]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(hostElm.childNodes[0].textContent).toEqual('Text');
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(hostElm.childNodes[0].textContent).toEqual('Text2');
       });
 
@@ -723,10 +727,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, ...[h('span', null, 'World')]);
         const vnode2 = h('div', null, ...[h('span', null, 'Hello'), h('span', null, 'World')]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(map(inner, hostElm.children)).toEqual(['World']);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(inner, hostElm.children)).toEqual(['Hello', 'World']);
       });
 
@@ -734,10 +738,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, ...[h('span', null, 'World')]);
         const vnode2 = h('div', null, ...[h('div', null, 'Hello'), h('span', null, 'World')]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(map(inner, hostElm.children)).toEqual(['World']);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(prop('tagName'), hostElm.children)).toEqual(['DIV', 'SPAN']);
         expect(map(inner, hostElm.children)).toEqual(['Hello', 'World']);
       });
@@ -746,10 +750,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, ...[h('span', null, 'One'), h('span', null, 'Two'), h('span', null, 'Three')]);
         const vnode2 = h('div', null, ...[h('span', null, 'One'), h('span', null, 'Three')]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(map(inner, hostElm.children)).toEqual(['One', 'Two', 'Three']);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(inner, hostElm.children)).toEqual(['One', 'Three']);
       });
 
@@ -757,10 +761,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, 'One');
         const vnode2 = h('div', null);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(hostElm.textContent).toEqual('One');
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(hostElm.textContent).toEqual('');
       });
 
@@ -768,10 +772,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, 'One');
         const vnode2 = h('div', null, ...[h('div', null, 'Two'), h('span', null, 'Three')]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(hostElm.textContent).toEqual('One');
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(prop('textContent'), hostElm.childNodes)).toEqual(['Two', 'Three']);
       });
 
@@ -781,12 +785,12 @@ describe('renderer', () => {
         const vnode1 = h('span', null, ...a);
         const vnode2 = h('span', null, 'just text');
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
 
         expect(hostElm.childNodes.length).toEqual(2);
         expect(hostElm.textContent).toEqual('aa');
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(hostElm.childNodes.length).toEqual(1);
         expect(hostElm.textContent).toEqual('just text');
       });
@@ -795,10 +799,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, ...['One', h('span', null, 'Two')]);
         const vnode2 = h('div', null, ...[h('div', null, 'Three')]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(map(prop('textContent'), hostElm.childNodes)).toEqual(['One', 'Two']);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
 
         expect(hostElm.childNodes.length).toEqual(1);
         expect(hostElm.childNodes[0].tagName).toEqual('DIV');
@@ -809,10 +813,10 @@ describe('renderer', () => {
         const vnode1 = h('div', null, ...[h('span', null, 'One'), h('div', null, 'Two'), h('b', null, 'Three')]);
         const vnode2 = h('div', null, ...[h('b', null, 'Three'), h('span', null, 'One'), h('div', null, 'Two')]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(map(inner, hostElm.children)).toEqual(['One', 'Two', 'Three']);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(prop('tagName'), hostElm.children)).toEqual(['B', 'SPAN', 'DIV']);
         expect(map(inner, hostElm.children)).toEqual(['Three', 'One', 'Two']);
       });
@@ -822,13 +826,13 @@ describe('renderer', () => {
         const vnode2 = h('i', null, ...[h('i', null, '2'), undefined, undefined, h('i', null, '1'), undefined]);
         const vnode3 = h('i', null, ...[null, h('i', null, '1'), undefined, null, h('i', null, '2'), undefined, null]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
         expect(map(inner, hostElm.children)).toEqual(['1', '2']);
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(map(inner, hostElm.children)).toEqual(['2', '1']);
 
-        patch(vnode2, vnode3);
+        commitDOMModifications(patch(vnode2, vnode3));
         expect(map(inner, hostElm.children)).toEqual(['1', '2']);
       });
 
@@ -837,12 +841,12 @@ describe('renderer', () => {
         const vnode2 = h('i', null, ...[null, null, undefined]);
         const vnode3 = h('i', null, ...[h('i', null, '2'), h('i', null, '1')]);
 
-        patch(vnode0, vnode1);
+        commitDOMModifications(patch(vnode0, vnode1));
 
-        patch(vnode1, vnode2);
+        commitDOMModifications(patch(vnode1, vnode2));
         expect(hostElm.children.length).toEqual(0);
 
-        patch(vnode2, vnode3);
+        commitDOMModifications(patch(vnode2, vnode3));
         expect(map(inner, hostElm.children)).toEqual(['2', '1']);
       });
     });

@@ -1,6 +1,6 @@
 import type * as d from '../../../declarations';
 import { h, newVNode } from '../h';
-import { patch } from '../vdom-render';
+import { commitDOMModifications, patch } from '../vdom-render';
 
 describe('event listeners', () => {
   let hostElm: d.HostElement;
@@ -21,7 +21,7 @@ describe('event listeners', () => {
 
     const vnode = h('div', { onClick: clicked }, h('a', null, 'Click my parent'));
 
-    patch(vnode0, vnode);
+    commitDOMModifications(patch(vnode0, vnode));
     hostElm.click();
 
     expect(result.length).toBe(1);
@@ -50,10 +50,10 @@ describe('event listeners', () => {
       h('a', null, 'Click my parent')
     );
 
-    patch(vnode0, vnode1);
+    commitDOMModifications(patch(vnode0, vnode1));
     hostElm.click();
 
-    patch(vnode1, vnode2);
+    commitDOMModifications(patch(vnode1, vnode2));
     hostElm.click();
 
     expect(result[0]).toBe(1);
@@ -69,7 +69,7 @@ describe('event listeners', () => {
 
     const vnode1 = h('div', { onClick: clicked }, h('a', null, 'Click my parent'));
 
-    patch(vnode0, vnode1);
+    commitDOMModifications(patch(vnode0, vnode1));
     hostElm.click();
     hostElm.click();
 
@@ -77,7 +77,7 @@ describe('event listeners', () => {
 
     const vnode2 = h('div', { o: {} }, h('a', null, 'Click my parent'));
 
-    patch(vnode1, vnode2);
+    commitDOMModifications(patch(vnode1, vnode2));
     hostElm.click();
     hostElm.click();
 
@@ -93,7 +93,7 @@ describe('event listeners', () => {
 
     const vnode1 = h('div', { onClick: click }, h('a', { onClick: click }, 'Click my parent'));
 
-    patch(vnode0, vnode1);
+    commitDOMModifications(patch(vnode0, vnode1));
     hostElm.click();
 
     expect(result.length).toBe(1);

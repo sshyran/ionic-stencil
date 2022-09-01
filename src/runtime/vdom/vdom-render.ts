@@ -33,7 +33,12 @@ let isSvgMode = false;
  * @param parentElm the parent DOM node which our new node will be a child of
  * @returns the newly created node
  */
-const createElm = (oldParentVNode: d.VNode, newParentVNode: d.VNode, childIndex: number, parentElm: d.RenderNode): d.RenderNode => {
+const createElm = (
+  oldParentVNode: d.VNode,
+  newParentVNode: d.VNode,
+  childIndex: number,
+  parentElm: d.RenderNode
+): d.RenderNode => {
   // tslint:disable-next-line: prefer-const
   const newVNode = newParentVNode.$children$[childIndex];
   let i = 0;
@@ -232,7 +237,7 @@ const removeVnodes = (
   startIdx: number,
   endIdx: number,
   queue: DOMModificationQueue,
-  vnode?: d.VNode,
+  vnode?: d.VNode
 ) => {
   for (; startIdx <= endIdx; ++startIdx) {
     if ((vnode = vnodes[startIdx])) {
@@ -478,13 +483,16 @@ const updateChildren = (
           let idxInOldScoped = idxInOld;
           let parentElmScoped = parentElm;
           let oldStartVnodeScoped = oldStartVnode;
-          console.log('updateChildren::inserting node::parentElmScoped:', );
+          console.log('updateChildren::inserting node::parentElmScoped:');
           queue.insertions.push(() => {
             node = createElm(oldCh && oldCh[newStartIdxScoped], newVNode, idxInOldScoped, parentElmScoped);
             if (node) {
               // if we created a new node then handle inserting it to the DOM
               if (BUILD.slotRelocation) {
-                parentReferenceNode(oldStartVnodeScoped.$elm$).insertBefore(node, referenceNode(oldStartVnodeScoped.$elm$));
+                parentReferenceNode(oldStartVnodeScoped.$elm$).insertBefore(
+                  node,
+                  referenceNode(oldStartVnodeScoped.$elm$)
+                );
               } else {
                 oldStartVnode.$elm$.parentNode.insertBefore(node, oldStartVnodeScoped.$elm$);
               }
@@ -525,7 +533,7 @@ const updateChildren = (
             if (BUILD.slotRelocation) {
               parentReferenceNode(elmo).insertBefore(node, referenceNode(elmo));
             } else {
-              elmo.parentNode.insertBefore(node, elmo)
+              elmo.parentNode.insertBefore(node, elmo);
             }
           }
         });
@@ -608,7 +616,7 @@ const parentReferenceNode = (node: d.RenderNode) => {
   console.log('parentReferenceNode::node::', node);
   console.log('parentReferenceNode::node::parentNode', node.parentNode);
   return (node['s-ol'] ? node['s-ol'] : node).parentNode;
-}
+};
 
 type DOMModification = () => void;
 
@@ -617,6 +625,14 @@ interface DOMModificationQueue {
   insertions: DOMModification[];
   deletions: DOMModification[];
 }
+
+export const commitDOMModifications = (queue: DOMModificationQueue) => {
+  // many insertion operations depend on old DOM elements still
+  // being on the DOM, so we run those all first
+  queue.insertions.forEach((fn) => fn());
+  // then we clean up the mess!
+  queue.deletions.forEach((fn) => fn());
+};
 
 /**
  * Handle reconciling an outdated VNode with a new one which corresponds to
@@ -915,12 +931,7 @@ export const renderVdom = (hostRef: d.HostRef, renderFnResults: d.VNode | d.VNod
 
   // synchronous patch
   const modificationQueue = patch(oldVNode, rootVnode);
-
-  // many insertion operations depend on old DOM elements still
-  // being on the DOM, so we run those all first
-  modificationQueue.insertions.forEach((fn) => fn());
-  // then we clean up the mess!
-  modificationQueue.deletions.forEach((fn) => fn());
+  commitDOMModifications(modificationQueue);
 
   if (BUILD.slotRelocation) {
     // while we're moving nodes around existing nodes, temporarily disable
