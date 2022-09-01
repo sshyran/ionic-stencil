@@ -39,7 +39,6 @@ const createElm = (
   childIndex: number,
   parentElm: d.RenderNode
 ): d.RenderNode => {
-  // tslint:disable-next-line: prefer-const
   const newVNode = newParentVNode.$children$[childIndex];
   let i = 0;
   let elm: d.RenderNode;
