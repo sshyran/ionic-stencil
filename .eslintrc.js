@@ -79,6 +79,14 @@ module.exports = {
     'prefer-spread': 'error',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
+    // sort keys in object literals alphabetically
+    // https://eslint.org/docs/latest/rules/sort-keys
+    'sort-keys': ['error', 'asc', {
+      'caseSensitive': true,
+      'natural': false,
+      'minKeys': 2,
+      'allowLineSeparatedGroups': true
+    }]
   },
   // inform ESLint about the global variables defined in a Jest context
   // see https://github.com/jest-community/eslint-plugin-jest/#usage
