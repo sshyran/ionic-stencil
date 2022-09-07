@@ -83,7 +83,7 @@ module.exports = {
     // https://eslint.org/docs/latest/rules/sort-keys
     'sort-keys': ['error', 'asc', {
       'caseSensitive': true,
-      'natural': false,
+      'natural': true,
       'minKeys': 2,
       'allowLineSeparatedGroups': true
     }]
