@@ -16,6 +16,7 @@ import { isString } from '@utils';
  * @returns a list of Jest legacy options generated for all users of Stencil+Jest testing
  */
 function getLegacyJestOptions(): Record<string, boolean | number | string> {
+  /* eslint-disable sort-keys -- we're doing our own sorting here */
   return {
     detectLeaks: false,
     'detect-leaks': false,
@@ -36,6 +37,7 @@ function getLegacyJestOptions(): Record<string, boolean | number | string> {
     testLocationInResults: false,
     'test-location-in-results': false,
   };
+  /* eslint-enable sort-keys */
 }
 
 /**

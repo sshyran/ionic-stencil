@@ -27,8 +27,8 @@ export class E2EElement extends MockHTMLElement implements pd.E2EElementInternal
 
   callMethod(methodName: string, ...methodArgs: any[]) {
     this._queueAction({
-      methodName: methodName,
       methodArgs: methodArgs,
+      methodName: methodName,
     });
 
     return this.e2eRunActions();
@@ -36,8 +36,8 @@ export class E2EElement extends MockHTMLElement implements pd.E2EElementInternal
 
   triggerEvent(eventName: string, eventInitDict?: EventInitDict) {
     this._queueAction({
-      eventName: eventName,
       eventInitDict: eventInitDict,
+      eventName: eventName,
     });
   }
 
@@ -207,8 +207,8 @@ export class E2EElement extends MockHTMLElement implements pd.E2EElementInternal
 
   toggleAttribute(name: string, force?: boolean) {
     this._queueAction({
-      toggleAttributeName: name,
       toggleAttributeForce: force,
+      toggleAttributeName: name,
     });
   }
 
@@ -221,6 +221,10 @@ export class E2EElement extends MockHTMLElement implements pd.E2EElementInternal
           });
         });
       },
+      contains: (className: string) => {
+        this._validate();
+        return super.className.split(' ').includes(className);
+      },
       remove: (...classNames: string[]) => {
         classNames.forEach((className) => {
           this._queueAction({
@@ -232,10 +236,6 @@ export class E2EElement extends MockHTMLElement implements pd.E2EElementInternal
         this._queueAction({
           classToggle: className,
         });
-      },
-      contains: (className: string) => {
-        this._validate();
-        return super.className.split(' ').includes(className);
       },
     };
     return api;
@@ -692,10 +692,10 @@ export async function findAll(
 
 function getSelector(selector: pd.FindSelector) {
   const rtn = {
+    contains: null as string,
     lightSelector: null as string,
     shadowSelector: null as string,
     text: null as string,
-    contains: null as string,
   };
 
   if (typeof selector === 'string') {
@@ -718,15 +718,15 @@ interface ElementAction {
   classAdd?: string;
   classRemove?: string;
   classToggle?: string;
-  eventName?: string;
   eventInitDict?: EventInitDict;
-  methodName?: string;
+  eventName?: string;
   methodArgs?: any[];
+  methodName?: string;
   removeAttribute?: string;
   setAttributeName?: string;
   setAttributeValue?: any;
   setPropertyName?: string;
   setPropertyValue?: any;
-  toggleAttributeName?: string;
   toggleAttributeForce?: boolean;
+  toggleAttributeName?: string;
 }

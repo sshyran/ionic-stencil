@@ -14,15 +14,15 @@ export const loadRollupDiagnostics = (
   const formattedCode = formatErrorCode(rollupError.code);
 
   const diagnostic: d.Diagnostic = {
-    level: 'error',
-    type: 'bundling',
-    language: 'javascript',
+    absFilePath: null,
     code: rollupError.code,
     header: `Rollup${formattedCode.length > 0 ? ': ' + formattedCode : ''}`,
+    language: 'javascript',
+    level: 'error',
+    lines: [],
     messageText: formattedCode,
     relFilePath: null,
-    absFilePath: null,
-    lines: [],
+    type: 'bundling',
   };
 
   if (config.logLevel === 'debug' && rollupError.stack) {
@@ -48,11 +48,11 @@ export const loadRollupDiagnostics = (
             const srcLines = splitLineBreaks(sourceText);
 
             const errorLine: d.PrintLine = {
+              errorCharStart: loc.column,
+              errorLength: 0,
               lineIndex: loc.line - 1,
               lineNumber: loc.line,
               text: srcLines[loc.line - 1],
-              errorCharStart: loc.column,
-              errorLength: 0,
             };
 
             diagnostic.lineNumber = errorLine.lineNumber;
@@ -75,11 +75,11 @@ export const loadRollupDiagnostics = (
 
             if (errorLine.lineIndex > 0) {
               const previousLine: d.PrintLine = {
+                errorCharStart: -1,
+                errorLength: -1,
                 lineIndex: errorLine.lineIndex - 1,
                 lineNumber: errorLine.lineNumber - 1,
                 text: srcLines[errorLine.lineIndex - 1],
-                errorCharStart: -1,
-                errorLength: -1,
               };
 
               diagnostic.lines.unshift(previousLine);
@@ -87,11 +87,11 @@ export const loadRollupDiagnostics = (
 
             if (errorLine.lineIndex + 1 < srcLines.length) {
               const nextLine: d.PrintLine = {
+                errorCharStart: -1,
+                errorLength: -1,
                 lineIndex: errorLine.lineIndex + 1,
                 lineNumber: errorLine.lineNumber + 1,
                 text: srcLines[errorLine.lineIndex + 1],
-                errorCharStart: -1,
-                errorLength: -1,
               };
 
               diagnostic.lines.push(nextLine);

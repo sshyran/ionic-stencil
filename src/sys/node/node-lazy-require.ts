@@ -14,7 +14,6 @@ import { NodeResolveModule } from './node-resolve-module';
  */
 interface DepVersionRange {
   minVersion: string;
-  recommendedVersion: string;
   /**
    * Max version is optional because we aren't always worried about upgrades.
    * This should be set for packages where major version upgrades have
@@ -23,6 +22,7 @@ interface DepVersionRange {
    * `NodeLazyRequire.ensure` only checks the major version.
    */
   maxVersion?: string;
+  recommendedVersion: string;
 }
 
 /**

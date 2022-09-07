@@ -34,36 +34,36 @@ export async function compareScreenshot(
   const screenshotId = getScreenshotId(emulateConfig, desc);
 
   const screenshot: d.Screenshot = {
-    id: screenshotId,
-    image: currentImageName,
-    device: emulateConfig.device,
-    userAgent: emulateConfig.userAgent,
     desc: desc,
-    testPath: testPath,
-    width: width,
-    height: height,
+    device: emulateConfig.device,
     deviceScaleFactor: emulateConfig.viewport.deviceScaleFactor,
-    hasTouch: emulateConfig.viewport.hasTouch,
-    isLandscape: emulateConfig.viewport.isLandscape,
-    isMobile: emulateConfig.viewport.isMobile,
     diff: {
-      id: screenshotId,
-      desc: desc,
-      imageA: currentImageName,
-      imageB: currentImageName,
-      mismatchedPixels: 0,
-      device: emulateConfig.device,
-      userAgent: emulateConfig.userAgent,
-      width: width,
-      height: height,
-      deviceScaleFactor: emulateConfig.viewport.deviceScaleFactor,
-      hasTouch: emulateConfig.viewport.hasTouch,
-      isLandscape: emulateConfig.viewport.isLandscape,
-      isMobile: emulateConfig.viewport.isMobile,
       allowableMismatchedPixels: screenshotBuildData.allowableMismatchedPixels,
       allowableMismatchedRatio: screenshotBuildData.allowableMismatchedRatio,
+      desc: desc,
+      device: emulateConfig.device,
+      deviceScaleFactor: emulateConfig.viewport.deviceScaleFactor,
+      hasTouch: emulateConfig.viewport.hasTouch,
+      height: height,
+      id: screenshotId,
+      imageA: currentImageName,
+      imageB: currentImageName,
+      isLandscape: emulateConfig.viewport.isLandscape,
+      isMobile: emulateConfig.viewport.isMobile,
+      mismatchedPixels: 0,
       testPath: testPath,
+      userAgent: emulateConfig.userAgent,
+      width: width,
     },
+    hasTouch: emulateConfig.viewport.hasTouch,
+    height: height,
+    id: screenshotId,
+    image: currentImageName,
+    isLandscape: emulateConfig.viewport.isLandscape,
+    isMobile: emulateConfig.viewport.isMobile,
+    testPath: testPath,
+    userAgent: emulateConfig.userAgent,
+    width: width,
   };
 
   if (screenshotBuildData.updateMaster) {
@@ -108,11 +108,11 @@ export async function compareScreenshot(
       const naturalHeight = Math.round(emulateConfig.viewport.height * emulateConfig.viewport.deviceScaleFactor);
 
       const pixelMatchInput: d.PixelMatchInput = {
+        height: naturalHeight,
         imageAPath: join(screenshotBuildData.imagesDir, screenshot.diff.imageA),
         imageBPath: join(screenshotBuildData.imagesDir, screenshot.diff.imageB),
-        width: naturalWidth,
-        height: naturalHeight,
         pixelmatchThreshold: pixelmatchThreshold,
+        width: naturalWidth,
       };
 
       screenshot.diff.mismatchedPixels = await getMismatchedPixels(
@@ -138,9 +138,9 @@ async function getMismatchedPixels(pixelmatchModulePath: string, pixelMatchInput
       const filteredExecArgs = process.execArgv.filter((v) => !/^--(debug|inspect)/.test(v));
 
       const options = {
-        execArgv: filteredExecArgs,
-        env: process.env,
         cwd: process.cwd(),
+        env: process.env,
+        execArgv: filteredExecArgs,
         stdio: ['pipe', 'pipe', 'pipe', 'ipc'] as any,
       };
 

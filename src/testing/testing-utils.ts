@@ -151,9 +151,9 @@ export function setupConsoleMocker(): ConsoleMocker {
     console.error = errorMock;
 
     return {
+      errorMock,
       logMock,
       warnMock,
-      errorMock,
     };
   }
   return setupConsoleMocks;

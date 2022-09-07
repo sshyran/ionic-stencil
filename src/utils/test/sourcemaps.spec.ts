@@ -27,9 +27,9 @@ describe('sourcemaps', () => {
         sourcesContent: [
           '/*\\n Stencil Client Patch Esm v0.0.0-dev.20210825190806 | MIT Licensed | https://stenciljs.com\\n */',
         ],
-        version: 3,
         toString: () => 'stub',
         toUrl: () => 'stub',
+        version: 3,
       };
 
       const stencilSourceMap: d.SourceMap = rollupToStencilSourceMap(rollupSourceMap);

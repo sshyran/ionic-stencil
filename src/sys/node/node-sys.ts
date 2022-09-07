@@ -52,8 +52,6 @@ export function createNodeSys(c: { process?: any } = {}) {
   };
 
   const sys: CompilerSystem = {
-    name: 'node',
-    version: prcs.versions.node,
     access(p) {
       return new Promise((resolve) => {
         fs.access(p, (err) => resolve(!err));
@@ -69,9 +67,6 @@ export function createNodeSys(c: { process?: any } = {}) {
     },
     addDestory(cb) {
       destroys.add(cb);
-    },
-    removeDestory(cb) {
-      destroys.delete(cb);
     },
     applyPrerenderGlobalPatch(opts) {
       if (typeof global.fetch !== 'function') {
@@ -101,20 +96,8 @@ export function createNodeSys(c: { process?: any } = {}) {
       opts.window.Response = global.Response;
       opts.window.FetchError = (global as any).FetchError;
     },
-    fetch: (input: any, init: any) => {
-      const nodeFetch = require(path.join(__dirname, 'node-fetch.js'));
-
-      if (typeof input === 'string') {
-        // fetch(url) w/ url string
-        const urlStr = new URL(input).href;
-        return nodeFetch.fetch(urlStr, init);
-      } else {
-        // fetch(Request) w/ request object
-        input.url = new URL(input.url).href;
-        return nodeFetch.fetch(input, init);
-      }
-    },
     checkVersion,
+    copy: nodeCopyTasks,
     copyFile(src, dst) {
       return new Promise((resolve) => {
         fs.copyFile(src, dst, (err) => {
@@ -129,9 +112,9 @@ export function createNodeSys(c: { process?: any } = {}) {
             resolve({
               basename: path.basename(p),
               dirname: path.dirname(p),
-              path: p,
-              newDirs: [],
               error: err,
+              newDirs: [],
+              path: p,
             });
           });
         } else {
@@ -139,9 +122,9 @@ export function createNodeSys(c: { process?: any } = {}) {
             resolve({
               basename: path.basename(p),
               dirname: path.dirname(p),
-              path: p,
-              newDirs: [],
               error: err,
+              newDirs: [],
+              path: p,
             });
           });
         }
@@ -151,9 +134,9 @@ export function createNodeSys(c: { process?: any } = {}) {
       const results: CompilerSystemCreateDirectoryResults = {
         basename: path.basename(p),
         dirname: path.dirname(p),
-        path: p,
-        newDirs: [],
         error: null,
+        newDirs: [],
+        path: p,
       };
       try {
         fs.mkdirSync(p, opts);
@@ -183,6 +166,16 @@ export function createNodeSys(c: { process?: any } = {}) {
       }
       destroys.clear();
     },
+    details: {
+      cpuModel: (Array.isArray(sysCpus) && sysCpus.length > 0 ? sysCpus[0] && sysCpus[0].model : '') || '',
+      freemem() {
+        return freemem();
+      },
+      platform:
+        osPlatform === 'darwin' || osPlatform === 'linux' ? osPlatform : osPlatform === 'win32' ? 'windows' : '',
+      release: release(),
+      totalmem: totalmem(),
+    },
     dynamicImport(p) {
       return Promise.resolve(require(p));
     },
@@ -191,8 +184,8 @@ export function createNodeSys(c: { process?: any } = {}) {
     },
     async ensureDependencies() {
       return {
-        stencilPath: sys.getCompilerExecutingPath(),
         diagnostics: [],
+        stencilPath: sys.getCompilerExecutingPath(),
       };
     },
     async ensureResources() {},
@@ -200,11 +193,46 @@ export function createNodeSys(c: { process?: any } = {}) {
       await runInterruptsCallbacks();
       exit(exitCode);
     },
-    getCurrentDirectory() {
-      return normalizePath(prcs.cwd());
+    fetch: (input: any, init: any) => {
+      const nodeFetch = require(path.join(__dirname, 'node-fetch.js'));
+
+      if (typeof input === 'string') {
+        // fetch(url) w/ url string
+        const urlStr = new URL(input).href;
+        return nodeFetch.fetch(urlStr, init);
+      } else {
+        // fetch(Request) w/ request object
+        input.url = new URL(input.url).href;
+        return nodeFetch.fetch(input, init);
+      }
+    },
+    generateContentHash(content, length) {
+      let hash = createHash('sha1').update(content).digest('hex').toLowerCase();
+      if (typeof length === 'number') {
+        hash = hash.slice(0, length);
+      }
+      return Promise.resolve(hash);
+    },
+    generateFileHash(filePath, length) {
+      return new Promise((resolve, reject) => {
+        const h = createHash('sha1');
+        fs.createReadStream(filePath)
+          .on('error', (err) => reject(err))
+          .on('data', (data) => h.update(data))
+          .on('end', () => {
+            let hash = h.digest('hex').toLowerCase();
+            if (typeof length === 'number') {
+              hash = hash.slice(0, length);
+            }
+            resolve(hash);
+          });
+      });
     },
     getCompilerExecutingPath() {
       return compilerExecutingPath;
+    },
+    getCurrentDirectory() {
+      return normalizePath(prcs.cwd());
     },
     getDevServerExecutingPath() {
       return devServerExecutingPath;
@@ -220,6 +248,12 @@ export function createNodeSys(c: { process?: any } = {}) {
     },
     glob: asyncGlob,
     hardwareConcurrency,
+    homeDir() {
+      try {
+        return os.homedir();
+      } catch (e) {}
+      return undefined;
+    },
     isSymbolicLink(p: string) {
       return new Promise<boolean>((resolve) => {
         try {
@@ -235,12 +269,19 @@ export function createNodeSys(c: { process?: any } = {}) {
         }
       });
     },
+    isTTY() {
+      return !!process?.stdout?.isTTY;
+    },
+    name: 'node',
     nextTick: prcs.nextTick,
     normalizePath,
     onProcessInterrupt: (cb) => {
       if (!onInterruptsCallbacks.includes(cb)) {
         onInterruptsCallbacks.push(cb);
       }
+    },
+    parseYarnLockFile(content: string) {
+      return parseYarnLockFile(content);
     },
     platformPath: path,
     readDir(p) {
@@ -257,12 +298,6 @@ export function createNodeSys(c: { process?: any } = {}) {
           }
         });
       });
-    },
-    parseYarnLockFile(content: string) {
-      return parseYarnLockFile(content);
-    },
-    isTTY() {
-      return !!process?.stdout?.isTTY;
     },
     readDirSync(p) {
       try {
@@ -292,26 +327,20 @@ export function createNodeSys(c: { process?: any } = {}) {
       } catch (e) {}
       return undefined;
     },
-    homeDir() {
-      try {
-        return os.homedir();
-      } catch (e) {}
-      return undefined;
-    },
     realpath(p) {
       return new Promise((resolve) => {
         fs.realpath(p, 'utf8', (e, data) => {
           resolve({
-            path: data,
             error: e,
+            path: data,
           });
         });
       });
     },
     realpathSync(p) {
       const results: CompilerSystemRealpathResults = {
-        path: undefined,
         error: null,
+        path: undefined,
       };
       try {
         results.path = fs.realpathSync(p, 'utf8');
@@ -320,26 +349,9 @@ export function createNodeSys(c: { process?: any } = {}) {
       }
       return results;
     },
-    rename(oldPath, newPath) {
-      return new Promise((resolve) => {
-        fs.rename(oldPath, newPath, (error) => {
-          resolve({
-            oldPath,
-            newPath,
-            error,
-            oldDirs: [],
-            oldFiles: [],
-            newDirs: [],
-            newFiles: [],
-            renamed: [],
-            isFile: false,
-            isDirectory: false,
-          });
-        });
-      });
-    },
-    resolvePath(p) {
-      return normalizePath(p);
+
+    removeDestory(cb) {
+      destroys.delete(cb);
     },
     removeDir(p, opts) {
       return new Promise((resolve) => {
@@ -349,10 +361,10 @@ export function createNodeSys(c: { process?: any } = {}) {
             resolve({
               basename: path.basename(p),
               dirname: path.dirname(p),
+              error: err,
               path: p,
               removedDirs: [],
               removedFiles: [],
-              error: err,
             });
           });
         } else {
@@ -360,10 +372,10 @@ export function createNodeSys(c: { process?: any } = {}) {
             resolve({
               basename: path.basename(p),
               dirname: path.dirname(p),
+              error: err,
               path: p,
               removedDirs: [],
               removedFiles: [],
-              error: err,
             });
           });
         }
@@ -380,19 +392,19 @@ export function createNodeSys(c: { process?: any } = {}) {
         return {
           basename: path.basename(p),
           dirname: path.dirname(p),
+          error: null,
           path: p,
           removedDirs: [],
           removedFiles: [],
-          error: null,
         };
       } catch (e) {
         return {
           basename: path.basename(p),
           dirname: path.dirname(p),
+          error: e,
           path: p,
           removedDirs: [],
           removedFiles: [],
-          error: e,
         };
       }
     },
@@ -402,8 +414,8 @@ export function createNodeSys(c: { process?: any } = {}) {
           resolve({
             basename: path.basename(p),
             dirname: path.dirname(p),
-            path: p,
             error: err,
+            path: p,
           });
         });
       });
@@ -412,8 +424,8 @@ export function createNodeSys(c: { process?: any } = {}) {
       const results: CompilerSystemRemoveFileResults = {
         basename: path.basename(p),
         dirname: path.dirname(p),
-        path: p,
         error: null,
+        path: p,
       };
       try {
         fs.unlinkSync(p);
@@ -421,6 +433,27 @@ export function createNodeSys(c: { process?: any } = {}) {
         results.error = e;
       }
       return results;
+    },
+    rename(oldPath, newPath) {
+      return new Promise((resolve) => {
+        fs.rename(oldPath, newPath, (error) => {
+          resolve({
+            error,
+            isDirectory: false,
+            isFile: false,
+            newDirs: [],
+            newFiles: [],
+            newPath,
+            oldDirs: [],
+            oldFiles: [],
+            oldPath,
+            renamed: [],
+          });
+        });
+      });
+    },
+    resolvePath(p) {
+      return normalizePath(p);
     },
     setupCompiler(c) {
       const ts: typeof TypeScript = c.ts;
@@ -487,21 +520,21 @@ export function createNodeSys(c: { process?: any } = {}) {
         fs.stat(p, (err, fsStat) => {
           if (err) {
             resolve({
+              error: err,
               isDirectory: false,
               isFile: false,
               isSymbolicLink: false,
-              size: 0,
               mtimeMs: 0,
-              error: err,
+              size: 0,
             });
           } else {
             resolve({
+              error: null,
               isDirectory: fsStat.isDirectory(),
               isFile: fsStat.isFile(),
               isSymbolicLink: fsStat.isSymbolicLink(),
-              size: fsStat.size,
               mtimeMs: fsStat.mtimeMs,
-              error: null,
+              size: fsStat.size,
             });
           }
         });
@@ -511,38 +544,39 @@ export function createNodeSys(c: { process?: any } = {}) {
       try {
         const fsStat = fs.statSync(p);
         return {
+          error: null,
           isDirectory: fsStat.isDirectory(),
           isFile: fsStat.isFile(),
           isSymbolicLink: fsStat.isSymbolicLink(),
-          size: fsStat.size,
           mtimeMs: fsStat.mtimeMs,
-          error: null,
+          size: fsStat.size,
         };
       } catch (e) {
         return {
+          error: e,
           isDirectory: false,
           isFile: false,
           isSymbolicLink: false,
-          size: 0,
           mtimeMs: 0,
-          error: e,
+          size: 0,
         };
       }
     },
     tmpDirSync() {
       return tmpdir();
     },
+    version: prcs.versions.node,
     writeFile(p, content) {
       return new Promise((resolve) => {
         fs.writeFile(p, content, (err) => {
-          resolve({ path: p, error: err });
+          resolve({ error: err, path: p });
         });
       });
     },
     writeFileSync(p, content) {
       const results: CompilerSystemWriteFileResults = {
-        path: p,
         error: null,
+        path: p,
       };
       try {
         fs.writeFileSync(p, content);
@@ -551,46 +585,16 @@ export function createNodeSys(c: { process?: any } = {}) {
       }
       return results;
     },
-    generateContentHash(content, length) {
-      let hash = createHash('sha1').update(content).digest('hex').toLowerCase();
-      if (typeof length === 'number') {
-        hash = hash.slice(0, length);
-      }
-      return Promise.resolve(hash);
-    },
-    generateFileHash(filePath, length) {
-      return new Promise((resolve, reject) => {
-        const h = createHash('sha1');
-        fs.createReadStream(filePath)
-          .on('error', (err) => reject(err))
-          .on('data', (data) => h.update(data))
-          .on('end', () => {
-            let hash = h.digest('hex').toLowerCase();
-            if (typeof length === 'number') {
-              hash = hash.slice(0, length);
-            }
-            resolve(hash);
-          });
-      });
-    },
-    copy: nodeCopyTasks,
-    details: {
-      cpuModel: (Array.isArray(sysCpus) && sysCpus.length > 0 ? sysCpus[0] && sysCpus[0].model : '') || '',
-      freemem() {
-        return freemem();
-      },
-      platform:
-        osPlatform === 'darwin' || osPlatform === 'linux' ? osPlatform : osPlatform === 'win32' ? 'windows' : '',
-      release: release(),
-      totalmem: totalmem(),
-    },
   };
 
   const nodeResolve = new NodeResolveModule();
 
   sys.lazyRequire = new NodeLazyRequire(nodeResolve, {
+    // eslint-disable-next-line sort-keys -- keep these in logical order
     '@types/jest': { minVersion: '24.9.1', recommendedVersion: '27.0.3', maxVersion: '27.0.0' },
+    // eslint-disable-next-line sort-keys -- keep these in logical order
     jest: { minVersion: '24.9.1', recommendedVersion: '27.0.3', maxVersion: '27.0.0' },
+    // eslint-disable-next-line sort-keys -- keep these in logical order
     'jest-cli': { minVersion: '24.9.0', recommendedVersion: '27.4.5', maxVersion: '27.0.0' },
     pixelmatch: { minVersion: '4.0.2', recommendedVersion: '4.0.2' },
     puppeteer: { minVersion: '1.19.0', recommendedVersion: '10.0.0' },

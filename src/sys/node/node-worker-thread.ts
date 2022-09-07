@@ -10,8 +10,8 @@ export const initNodeWorkerThread = (prcs: NodeJS.Process, msgHandler: d.WorkerM
   const errorHandler = (stencilMsgId: number, err: any) => {
     const errMsgBackToMain: d.MsgFromWorker = {
       stencilId: stencilMsgId,
-      stencilRtnValue: null,
       stencilRtnError: 'Error',
+      stencilRtnValue: null,
     };
     if (typeof err === 'string') {
       errMsgBackToMain.stencilRtnError += ': ' + err;
@@ -32,8 +32,8 @@ export const initNodeWorkerThread = (prcs: NodeJS.Process, msgHandler: d.WorkerM
         // run the handler to get the data
         const msgFromWorker: d.MsgFromWorker = {
           stencilId: msgToWorker.stencilId,
-          stencilRtnValue: await msgHandler(msgToWorker),
           stencilRtnError: null,
+          stencilRtnValue: await msgHandler(msgToWorker),
         };
 
         // send response data from the worker to the main thread

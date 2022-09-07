@@ -64,21 +64,21 @@ const normalizeDiagnostic = (compilerCtx: d.CompilerCtx, diagnostic: d.Diagnosti
             const beforeLineIndex = i - 1;
             if (beforeLineIndex > -1) {
               const beforeLine: d.PrintLine = {
+                errorCharStart: -1,
+                errorLength: -1,
                 lineIndex: beforeLineIndex,
                 lineNumber: beforeLineIndex + 1,
                 text: srcLines[beforeLineIndex],
-                errorCharStart: -1,
-                errorLength: -1,
               };
               msgLines.push(beforeLine);
             }
 
             const errorLine: d.PrintLine = {
+              errorCharStart: 0,
+              errorLength: -1,
               lineIndex: i,
               lineNumber: i + 1,
               text: srcLine,
-              errorCharStart: 0,
-              errorLength: -1,
             };
             msgLines.push(errorLine);
             diagnostic.lineNumber = errorLine.lineNumber;
@@ -87,11 +87,11 @@ const normalizeDiagnostic = (compilerCtx: d.CompilerCtx, diagnostic: d.Diagnosti
             const afterLineIndex = i + 1;
             if (afterLineIndex < srcLines.length) {
               const afterLine: d.PrintLine = {
+                errorCharStart: -1,
+                errorLength: -1,
                 lineIndex: afterLineIndex,
                 lineNumber: afterLineIndex + 1,
                 text: srcLines[afterLineIndex],
-                errorCharStart: -1,
-                errorLength: -1,
               };
               msgLines.push(afterLine);
             }

@@ -51,8 +51,8 @@ export async function startPuppeteerBrowser(config: ValidatedConfig) {
   } else {
     const launchOpts: puppeteer.BrowserLaunchArgumentOptions & puppeteer.LaunchOptions & puppeteer.ConnectOptions = {
       args: config.testing.browserArgs,
-      headless: config.testing.browserHeadless,
       devtools: config.testing.browserDevtools,
+      headless: config.testing.browserHeadless,
       ...connectOpts,
     };
     if (config.testing.browserExecutablePath) {

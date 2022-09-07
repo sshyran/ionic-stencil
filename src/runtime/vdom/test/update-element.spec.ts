@@ -15,14 +15,14 @@ describe('updateElement', () => {
     elm.className = 'mr plutonium';
     const oldVNode: d.VNode = {
       ...newVNode('div', ''),
-      $flags$: 0,
       $attrs$: { class: 'mr plutonium' },
+      $flags$: 0,
     };
     const newNode: d.VNode = {
       ...newVNode('div', ''),
-      $flags$: 0,
-      $elm$: elm,
       $attrs$: { class: 'mr fusion' },
+      $elm$: elm,
+      $flags$: 0,
     };
     updateElement(oldVNode, newNode, false);
     expect(elm.className).toBe('mr fusion');
@@ -32,12 +32,12 @@ describe('updateElement', () => {
     const elm = document.createElement('my-tag') as HTMLElement;
     elm.className = 'mr fusion';
     const oldVNode = createTestNode({
-      $flags$: 0,
       $attrs$: { class: 'mr fusion' },
+      $flags$: 0,
     });
     const newVnode = createTestNode({
-      $flags$: 0,
       $elm$: elm,
+      $flags$: 0,
     });
     updateElement(oldVNode, newVnode, false);
     expect(elm.className).toBe('');
@@ -47,13 +47,13 @@ describe('updateElement', () => {
     const elm = document.createElement('my-tag') as HTMLElement;
     elm.className = 'mr fusion';
     const oldVNode = createTestNode({
-      $flags$: 0,
       $attrs$: { class: 'mr fusion' },
+      $flags$: 0,
     });
     const newVnode = createTestNode({
-      $flags$: 0,
-      $elm$: elm,
       $attrs$: { class: 'mr fusion' },
+      $elm$: elm,
+      $flags$: 0,
     });
     updateElement(oldVNode, newVnode, false);
     expect(elm.className).toBe('mr fusion');
@@ -73,9 +73,9 @@ describe('updateElement', () => {
     const elm = document.createElement('my-tag') as HTMLElement;
     const oldVNode: d.VNode = null;
     const newVnode = createTestNode({
-      $flags$: 0,
-      $elm$: elm,
       $attrs$: { class: 'mr fusion' },
+      $elm$: elm,
+      $flags$: 0,
     });
     updateElement(oldVNode, newVnode, false);
     expect(elm.className).toBe('mr fusion');
@@ -86,8 +86,8 @@ describe('updateElement', () => {
       const elm = document.createElement('my-tag') as HTMLElement;
       const oldVNode: d.VNode = null;
       const newVnode = createTestNode({
-        $flags$: 0,
         $elm$: elm,
+        $flags$: 0,
       });
       updateElement(oldVNode, newVnode, false);
     }).not.toThrow();
@@ -100,12 +100,12 @@ describe('updateElement', () => {
     };
     const oldVNode: d.VNode = null;
     const newVnode = createTestNode({
-      $flags$: 0,
-      $elm$: elm,
       $attrs$: {
         class: 'mr fusion',
         style: { color: 'gray' },
       },
+      $elm$: elm,
+      $flags$: 0,
     });
     updateElement(oldVNode, newVnode, false);
     expect(elm.host.className).toBe('mr fusion');
@@ -117,12 +117,12 @@ describe('updateElement', () => {
     elm.host = 'localhost:8888';
     const oldVNode: d.VNode = null;
     const newVnode = createTestNode({
-      $flags$: 0,
-      $elm$: elm,
       $attrs$: {
         class: 'mr fusion',
         style: { color: 'gray' },
       },
+      $elm$: elm,
+      $flags$: 0,
     });
     updateElement(oldVNode, newVnode, false);
     expect(elm.className).toBe('mr fusion');
@@ -133,12 +133,12 @@ describe('updateElement', () => {
     const elm = document.createElement('my-tag') as HTMLElement;
     const oldVNode: d.VNode = null;
     const newVnode = createTestNode({
-      $flags$: 0,
-      $elm$: elm,
       $attrs$: {
         class: 'mr fusion',
         style: { color: 'gray' },
       },
+      $elm$: elm,
+      $flags$: 0,
     });
     updateElement(oldVNode, newVnode, false);
     expect(elm.className).toBe('mr fusion');
@@ -150,26 +150,30 @@ describe('updateElement', () => {
     const elm = document.createElement('section') as HTMLElement;
     const initialVNode: d.VNode = null;
     const firstVNode = createTestNode({
-      $flags$: 0,
-      $elm$: elm,
       $attrs$: {
+        /* eslint-disable sort-keys -- these are order-dependent */
         content: 'attributes removed',
         padding: false,
         bold: 'false',
         'no-attr': null,
+        /* eslint-enable sort-keys */
       },
+      $elm$: elm,
+      $flags$: 0,
     });
     const secondVNode = createTestNode({
-      $flags$: 0,
-      $elm$: elm,
       $attrs$: {
+        /* eslint-disable sort-keys -- these are order-dependent */
         content: 'attributes added',
         padding: true,
         bold: 'true',
         margin: '',
         color: 'lime',
         'no-attr': null,
+        /* eslint-enable sort-keys */
       },
+      $elm$: elm,
+      $flags$: 0,
     });
     updateElement(initialVNode, firstVNode, false);
     expect(spy).toHaveBeenCalledTimes(4);

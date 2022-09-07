@@ -118,8 +118,8 @@ export async function addE2EListener(
   // NODE CONTEXT
   const id = page._e2eEventIds++;
   page._e2eEvents.set(id, {
-    eventName,
     callback,
+    eventName,
   });
 
   const executionContext = elmHandle.executionContext();
@@ -197,13 +197,13 @@ function browserContextEvents() {
     }
     if (target.nodeType != null) {
       const serializedElement: any = {
-        serializedElement: true,
-        nodeName: target.nodeName,
-        nodeValue: target.nodeValue,
-        nodeType: target.nodeType,
-        tagName: target.tagName,
         className: target.className,
         id: target.id,
+        nodeName: target.nodeName,
+        nodeType: target.nodeType,
+        nodeValue: target.nodeValue,
+        serializedElement: true,
+        tagName: target.tagName,
       };
       return serializedElement;
     }
@@ -221,13 +221,13 @@ function browserContextEvents() {
       defaultPrevented: orgEv.defaultPrevented,
       detail: orgEv.detail,
       eventPhase: orgEv.eventPhase,
+      isSerializedEvent: true,
       isTrusted: orgEv.isTrusted,
       returnValue: orgEv.returnValue,
       srcElement: (window as unknown as pd.BrowserWindow).stencilSerializeEventTarget(orgEv.srcElement),
       target: (window as unknown as pd.BrowserWindow).stencilSerializeEventTarget(orgEv.target),
       timeStamp: orgEv.timeStamp,
       type: orgEv.type,
-      isSerializedEvent: true,
     };
     return serializedEvent;
   };

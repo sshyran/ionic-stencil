@@ -13,8 +13,8 @@ function getMismatchedPixels(pixelMatchInput: d.PixelMatchInput) {
     if (++filesRead < 2) return;
 
     const mismatchedPixels = pixelmatch(imgA.data, imgB.data, null, pixelMatchInput.width, pixelMatchInput.height, {
-      threshold: pixelMatchInput.pixelmatchThreshold,
       includeAA: false,
+      threshold: pixelMatchInput.pixelmatchThreshold,
     });
 
     process.send(mismatchedPixels);

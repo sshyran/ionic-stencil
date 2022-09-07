@@ -134,8 +134,8 @@ export type ParsePackageJsonResult = {
  */
 export const parsePackageJson = (pkgJsonStr: string, pkgJsonFilePath: string): ParsePackageJsonResult => {
   const parseResult: ParsePackageJsonResult = {
-    diagnostic: null,
     data: null,
+    diagnostic: null,
     filePath: pkgJsonFilePath,
   };
 

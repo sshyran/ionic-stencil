@@ -109,8 +109,8 @@ const processRules = (input: string, ruleCallback: (rule: CssRule) => CssRule): 
       contentPrefix = '{';
     }
     const cssRule: CssRule = {
-      selector,
       content,
+      selector,
     };
     const rule = ruleCallback(cssRule);
     return `${m[1]}${rule.selector}${m[3]}${contentPrefix}${rule.content}${suffix}`;
@@ -147,8 +147,8 @@ const escapeBlocks = (input: string) => {
     resultParts.push(BLOCK_PLACEHOLDER);
   }
   const strEscapedBlocks: StringWithEscapedBlocks = {
-    escapedString: resultParts.join(''),
     blocks: escapedBlocks,
+    escapedString: resultParts.join(''),
   };
   return strEscapedBlocks;
 };
@@ -231,8 +231,8 @@ const convertColonSlotted = (cssText: string, slotScopeId: string) => {
   });
 
   return {
-    selectors,
     cssText,
+    selectors,
   };
 };
 
@@ -380,8 +380,8 @@ const scopeSelectors = (
     }
 
     const cssRule: CssRule = {
-      selector: selector.replace(/\s{2,}/g, ' ').trim(),
       content,
+      selector: selector.replace(/\s{2,}/g, ' ').trim(),
     };
     return cssRule;
   });
@@ -432,7 +432,7 @@ export const scopeCss = (cssText: string, scopeId: string, commentOriginalSelect
       const placeholder = `/*!@___${orgSelectors.length}___*/`;
       const comment = `/*!@${rule.selector}*/`;
 
-      orgSelectors.push({ placeholder, comment });
+      orgSelectors.push({ comment, placeholder });
       rule.selector = placeholder + rule.selector;
       return rule;
     };

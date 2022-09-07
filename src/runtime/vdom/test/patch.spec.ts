@@ -114,6 +114,7 @@ describe('renderer', () => {
     });
 
     it('receives css classes', () => {
+      // eslint-disable-next-line sort-keys -- keep the joke intact :)
       const vnode1 = h('div', null, h('i', { class: { i: true, am: true, a: true, class: true } }));
       patch(vnode0, vnode1);
       expect(hostElm.firstChild).toHaveClasses(['i', 'am', 'a', 'class']);
@@ -128,6 +129,7 @@ describe('renderer', () => {
   describe('patching an element', () => {
     it('does not remove classes of previous from dom if vdom does not document them', () => {
       hostElm.classList.add('horse');
+      // eslint-disable-next-line sort-keys -- keep the joke intact :)
       const vnode1 = h('i', { class: { i: true, am: true } });
       patch(vnode0, vnode1);
 
@@ -135,7 +137,9 @@ describe('renderer', () => {
     });
 
     it('changes elements classes from previous vnode', () => {
+      // eslint-disable-next-line sort-keys -- keep the joke intact :)
       const vnode1 = h('i', { class: { i: true, am: true, horse: true } });
+      // eslint-disable-next-line sort-keys -- keep the joke intact :)
       const vnode2 = h('i', { class: { i: true, am: true, horse: false } });
       patch(vnode0, vnode1);
       patch(vnode1, vnode2);
@@ -144,6 +148,7 @@ describe('renderer', () => {
     });
 
     it('preserves memoized classes', () => {
+      // eslint-disable-next-line sort-keys -- keep the joke intact :)
       const cachedClass = { i: true, am: true, horse: false };
       const vnode1 = h('i', { class: cachedClass });
       const vnode2 = h('i', { class: cachedClass });
@@ -155,7 +160,9 @@ describe('renderer', () => {
     });
 
     it('removes missing classes', () => {
+      // eslint-disable-next-line sort-keys -- keep the joke intact :)
       const vnode1 = h('i', { class: { i: true, am: true, horse: true } });
+      // eslint-disable-next-line sort-keys -- keep the joke intact :)
       const vnode2 = h('i', { class: { i: true, am: true } });
       patch(vnode0, vnode1);
       patch(vnode1, vnode2);
@@ -163,6 +170,7 @@ describe('renderer', () => {
     });
 
     it('removes classes when class set to empty string', () => {
+      // eslint-disable-next-line sort-keys -- keep the joke intact :)
       const vnode1 = h('i', { class: { i: true, am: true, horse: true } });
       const vnode2 = h('i', { class: '' });
       patch(vnode0, vnode1);

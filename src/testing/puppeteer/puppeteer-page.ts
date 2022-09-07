@@ -119,9 +119,9 @@ export async function newE2EPage(opts: NewE2EPageOptions = {}): Promise<E2EPage>
     page.on('console', (ev) => {
       if (ev.type() === 'error') {
         diagnostics.push({
-          type: 'error',
-          message: ev.text(),
           location: ev.location().url,
+          message: ev.text(),
+          type: 'error',
         });
         if (failOnConsoleError) {
           throw new Error(serializeConsoleMessage(ev));
@@ -131,17 +131,17 @@ export async function newE2EPage(opts: NewE2EPageOptions = {}): Promise<E2EPage>
     });
     page.on('pageerror', (err: Error) => {
       diagnostics.push({
-        type: 'pageerror',
-        message: err.message,
         location: err.stack,
+        message: err.message,
+        type: 'pageerror',
       });
       throw err;
     });
     page.on('requestfailed', (req) => {
       diagnostics.push({
-        type: 'requestfailed',
-        message: req.failure().errorText,
         location: req.url(),
+        message: req.failure().errorText,
+        type: 'requestfailed',
       });
       if (failOnNetworkError) {
         throw new Error(req.failure().errorText);
@@ -241,9 +241,9 @@ async function e2eSetContent(page: E2EPageInternal, html: string, options: WaitF
   const interceptedReqCallback = (interceptedRequest: any) => {
     if (pageUrl === interceptedRequest.url()) {
       interceptedRequest.respond({
-        status: 200,
-        contentType: 'text/html',
         body: output.join('\n'),
+        contentType: 'text/html',
+        status: 200,
       });
     } else {
       interceptedRequest.continue();
@@ -288,8 +288,8 @@ async function setPageEmulate(page: Page) {
   const screenshotEmulate = JSON.parse(emulateJsonContent) as EmulateConfig;
 
   const emulateOptions = {
-    viewport: screenshotEmulate.viewport,
     userAgent: screenshotEmulate.userAgent,
+    viewport: screenshotEmulate.viewport,
   };
 
   await (page as Page).emulate(emulateOptions);

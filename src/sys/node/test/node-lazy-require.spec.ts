@@ -24,9 +24,9 @@ describe('node-lazy-require', () => {
 
       const jestTestRange = (maxVersion = '38.0.1'): LazyDependencies => ({
         jest: {
+          maxVersion,
           minVersion: '2.0.7',
           recommendedVersion: '36.0.1',
-          maxVersion,
         },
       });
 

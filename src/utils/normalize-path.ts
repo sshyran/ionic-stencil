@@ -166,10 +166,10 @@ export const normalizeFsPathQuery = (importPath: string) => {
   const format = params ? params.get('format') : null;
 
   return {
-    filePath,
     ext,
-    params,
+    filePath,
     format,
+    params,
   };
 };
 

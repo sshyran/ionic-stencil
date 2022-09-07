@@ -9,11 +9,11 @@ export let supportsShadow = true;
 export const plt: d.PlatformRuntime = {
   $flags$: 0,
   $resourcesUrl$: '',
+  ael: (el, eventName, listener, opts) => el.addEventListener(eventName, listener, opts),
+  ce: (eventName, opts) => new (win as any).CustomEvent(eventName, opts),
   jmp: (h) => h(),
   raf: (h) => requestAnimationFrame(h),
-  ael: (el, eventName, listener, opts) => el.addEventListener(eventName, listener, opts),
   rel: (el, eventName, listener, opts) => el.removeEventListener(eventName, listener, opts),
-  ce: (eventName, opts) => new (win as any).CustomEvent(eventName, opts),
 };
 
 export const setPlatformHelpers = (helpers: {

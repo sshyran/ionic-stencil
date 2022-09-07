@@ -1,8 +1,8 @@
 import type * as d from '@stencil/core/internal';
 
 export const Build: d.UserBuildConditionals = {
-  isDev: true,
   isBrowser: false,
+  isDev: true,
   isServer: true,
   isTesting: true,
 };

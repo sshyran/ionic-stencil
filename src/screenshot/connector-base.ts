@@ -5,34 +5,34 @@ import { join } from 'path';
 import { emptyDir, fileExists, mkDir, readDir, readFile, readFileBuffer, rmDir, writeFile } from './screenshot-fs';
 
 export class ScreenshotConnector implements d.ScreenshotConnector {
-  rootDir: string;
-  cacheDir: string;
-  packageDir: string;
-  screenshotDirName = 'screenshot';
-  imagesDirName = 'images';
-  buildsDirName = 'builds';
-  masterBuildFileName = 'master.json';
-  screenshotCacheFileName = 'screenshot-cache.json';
-  logger: d.Logger;
+  allowableMismatchedPixels: number;
+  allowableMismatchedRatio: number;
+  appNamespace: string;
+  buildAuthor: string;
   buildId: string;
   buildMessage: string;
-  buildAuthor: string;
-  buildUrl: string;
-  previewUrl: string;
   buildTimestamp: number;
-  appNamespace: string;
-  screenshotDir: string;
-  imagesDir: string;
+  buildUrl: string;
   buildsDir: string;
-  masterBuildFilePath: string;
-  screenshotCacheFilePath: string;
+  buildsDirName = 'builds';
+  cacheDir: string;
   currentBuildDir: string;
-  updateMaster: boolean;
-  allowableMismatchedRatio: number;
-  allowableMismatchedPixels: number;
-  pixelmatchThreshold: number;
-  waitBeforeScreenshot: number;
+  imagesDir: string;
+  imagesDirName = 'images';
+  logger: d.Logger;
+  masterBuildFileName = 'master.json';
+  masterBuildFilePath: string;
+  packageDir: string;
   pixelmatchModulePath: string;
+  pixelmatchThreshold: number;
+  previewUrl: string;
+  rootDir: string;
+  screenshotCacheFileName = 'screenshot-cache.json';
+  screenshotCacheFilePath: string;
+  screenshotDir: string;
+  screenshotDirName = 'screenshot';
+  updateMaster: boolean;
+  waitBeforeScreenshot: number;
 
   async initBuild(opts: d.ScreenshotConnectorOptions) {
     this.logger = opts.logger;
@@ -139,51 +139,51 @@ export class ScreenshotConnector implements d.ScreenshotConnector {
 
     if (!masterBuild) {
       masterBuild = {
+        appNamespace: this.appNamespace,
+        author: this.buildAuthor,
         id: this.buildId,
         message: this.buildMessage,
-        author: this.buildAuthor,
-        url: this.buildUrl,
         previewUrl: this.previewUrl,
-        appNamespace: this.appNamespace,
-        timestamp: this.buildTimestamp,
         screenshots: screenshots,
+        timestamp: this.buildTimestamp,
+        url: this.buildUrl,
       };
     }
 
     const results: d.ScreenshotBuildResults = {
       appNamespace: this.appNamespace,
-      masterBuild: masterBuild,
-      currentBuild: {
-        id: this.buildId,
-        message: this.buildMessage,
-        author: this.buildAuthor,
-        url: this.buildUrl,
-        previewUrl: this.previewUrl,
-        appNamespace: this.appNamespace,
-        timestamp: this.buildTimestamp,
-        screenshots: screenshots,
-      },
       compare: {
-        id: `${masterBuild.id}-${this.buildId}`,
         a: {
+          author: masterBuild.author,
           id: masterBuild.id,
           message: masterBuild.message,
-          author: masterBuild.author,
-          url: masterBuild.url,
           previewUrl: masterBuild.previewUrl,
+          url: masterBuild.url,
         },
+        appNamespace: this.appNamespace,
         b: {
+          author: this.buildAuthor,
           id: this.buildId,
           message: this.buildMessage,
-          author: this.buildAuthor,
-          url: this.buildUrl,
           previewUrl: this.previewUrl,
+          url: this.buildUrl,
         },
-        url: null,
-        appNamespace: this.appNamespace,
-        timestamp: this.buildTimestamp,
         diffs: [],
+        id: `${masterBuild.id}-${this.buildId}`,
+        timestamp: this.buildTimestamp,
+        url: null,
       },
+      currentBuild: {
+        appNamespace: this.appNamespace,
+        author: this.buildAuthor,
+        id: this.buildId,
+        message: this.buildMessage,
+        previewUrl: this.previewUrl,
+        screenshots: screenshots,
+        timestamp: this.buildTimestamp,
+        url: this.buildUrl,
+      },
+      masterBuild: masterBuild,
     };
 
     results.currentBuild.screenshots.forEach((screenshot) => {
@@ -255,8 +255,8 @@ export class ScreenshotConnector implements d.ScreenshotConnector {
           // add this item to the cache
           screenshotCache.items.push({
             key: diff.cacheKey,
-            ts: this.buildTimestamp,
             mp: diff.mismatchedPixels,
+            ts: this.buildTimestamp,
           });
         }
       });
@@ -295,20 +295,20 @@ export class ScreenshotConnector implements d.ScreenshotConnector {
     }
 
     const screenshotBuild: d.ScreenshotBuildData = {
-      buildId: this.buildId,
-      rootDir: this.rootDir,
-      screenshotDir: this.screenshotDir,
-      imagesDir: this.imagesDir,
-      buildsDir: this.buildsDir,
-      masterScreenshots: masterScreenshots,
-      cache: mismatchCache,
-      currentBuildDir: this.currentBuildDir,
-      updateMaster: this.updateMaster,
       allowableMismatchedPixels: this.allowableMismatchedPixels,
       allowableMismatchedRatio: this.allowableMismatchedRatio,
-      pixelmatchThreshold: this.pixelmatchThreshold,
-      timeoutBeforeScreenshot: this.waitBeforeScreenshot,
+      buildId: this.buildId,
+      buildsDir: this.buildsDir,
+      cache: mismatchCache,
+      currentBuildDir: this.currentBuildDir,
+      imagesDir: this.imagesDir,
+      masterScreenshots: masterScreenshots,
       pixelmatchModulePath: this.pixelmatchModulePath,
+      pixelmatchThreshold: this.pixelmatchThreshold,
+      rootDir: this.rootDir,
+      screenshotDir: this.screenshotDir,
+      timeoutBeforeScreenshot: this.waitBeforeScreenshot,
+      updateMaster: this.updateMaster,
     };
 
     return JSON.stringify(screenshotBuild);

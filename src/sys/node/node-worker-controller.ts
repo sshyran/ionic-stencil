@@ -124,11 +124,11 @@ export class NodeWorkerController extends EventEmitter implements d.WorkerMainCo
       // queue to be sent to a forked child process
       return new Promise<any>((resolve, reject) => {
         const task: d.CompilerWorkerTask = {
-          stencilId: this.stencilId++,
           inputArgs: args,
-          retries: 0,
-          resolve: resolve,
           reject: reject,
+          resolve: resolve,
+          retries: 0,
+          stencilId: this.stencilId++,
         };
         this.taskQueue.push(task);
 

@@ -81,8 +81,8 @@ export const jestPreprocessor = {
 
     if (shouldTransform(sourcePath, sourceText)) {
       const opts: TranspileOptions = {
-        file: sourcePath,
         currentDirectory: transformOptions.rootDir,
+        file: sourcePath,
       };
 
       const tsCompilerOptions: ts.CompilerOptions | null = getCompilerOptions(transformOptions.rootDir);

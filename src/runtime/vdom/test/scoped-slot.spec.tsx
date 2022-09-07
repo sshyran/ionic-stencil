@@ -3,7 +3,7 @@ import { newSpecPage } from '@stencil/core/testing';
 
 describe('scoped slot', () => {
   it('should relocate nested default slot nodes', async () => {
-    @Component({ tag: 'ion-test', scoped: true })
+    @Component({ scoped: true, tag: 'ion-test' })
     class CmpA {
       render() {
         return (
@@ -25,7 +25,7 @@ describe('scoped slot', () => {
   });
 
   it('should use components default slot text content', async () => {
-    @Component({ tag: 'ion-test', scoped: true })
+    @Component({ scoped: true, tag: 'ion-test' })
     class CmpA {
       render() {
         return (
@@ -49,7 +49,7 @@ describe('scoped slot', () => {
   });
 
   it('should use components default slot node content', async () => {
-    @Component({ tag: 'ion-test', scoped: true })
+    @Component({ scoped: true, tag: 'ion-test' })
     class CmpA {
       render() {
         return (
@@ -73,7 +73,7 @@ describe('scoped slot', () => {
   });
 
   it('should relocate nested named slot nodes', async () => {
-    @Component({ tag: 'ion-test', scoped: true })
+    @Component({ scoped: true, tag: 'ion-test' })
     class CmpA {
       render() {
         return (
@@ -96,7 +96,7 @@ describe('scoped slot', () => {
   });
 
   it('no content', async () => {
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       render() {
         return (
@@ -107,7 +107,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       render() {
         return <slot></slot>;
@@ -126,7 +126,7 @@ describe('scoped slot', () => {
   });
 
   it('no content, nested child slot', async () => {
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       render() {
         return (
@@ -137,7 +137,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       render() {
         return (
@@ -163,7 +163,7 @@ describe('scoped slot', () => {
   });
 
   it('should put parent content in child default slot', async () => {
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       render() {
         return (
@@ -176,7 +176,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       render() {
         return <slot></slot>;
@@ -195,7 +195,7 @@ describe('scoped slot', () => {
   });
 
   it('should relocate parent content after child content dynamically changes slot wrapper tag', async () => {
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       @Prop() innerH = (<h1>parent text</h1>);
 
@@ -204,7 +204,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       @Prop() Tag = 'section';
 
@@ -246,7 +246,7 @@ describe('scoped slot', () => {
   });
 
   it('should put parent content in child nested default slot', async () => {
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       render() {
         return (
@@ -259,7 +259,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       render() {
         return (
@@ -304,7 +304,7 @@ describe('scoped slot', () => {
   });
 
   it('should render conditional content into a nested default slot', async () => {
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       render() {
         return (
@@ -315,7 +315,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       test = 0;
 
@@ -363,7 +363,7 @@ describe('scoped slot', () => {
   });
 
   it('should update parent content in child default slot', async () => {
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       @Prop() msg = 'parent message';
       render() {
@@ -377,7 +377,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       render() {
         return (
@@ -421,7 +421,7 @@ describe('scoped slot', () => {
   });
 
   it('should update parent content inner text in child nested default slot', async () => {
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       @Prop() msg = 'parent message';
       render() {
@@ -433,7 +433,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       render() {
         return (
@@ -474,7 +474,7 @@ describe('scoped slot', () => {
   it('should allow multiple slots with same name', async () => {
     let values = 0;
 
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       render() {
         return (
@@ -486,7 +486,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       render() {
         return (
@@ -535,7 +535,7 @@ describe('scoped slot', () => {
   it('should only render nested named slots and default slot', async () => {
     let values = 0;
 
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       render() {
         return (
@@ -548,7 +548,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'ion-child', scoped: true })
+    @Component({ scoped: true, tag: 'ion-child' })
     class Child {
       render() {
         return (
@@ -613,7 +613,7 @@ describe('scoped slot', () => {
   it('should allow nested default slots', async () => {
     let values = 0;
 
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       render() {
         return (
@@ -626,7 +626,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'test-1', scoped: true })
+    @Component({ scoped: true, tag: 'test-1' })
     class Test1 {
       render() {
         return (
@@ -637,7 +637,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'test-2', scoped: true })
+    @Component({ scoped: true, tag: 'test-2' })
     class Test2 {
       render() {
         return (
@@ -694,7 +694,7 @@ describe('scoped slot', () => {
   });
 
   it('should allow nested default slots w/ default slot content', async () => {
-    @Component({ tag: 'ion-parent', scoped: true })
+    @Component({ scoped: true, tag: 'ion-parent' })
     class Parent {
       render() {
         return (
@@ -707,7 +707,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'test-1', scoped: true })
+    @Component({ scoped: true, tag: 'test-1' })
     class Test1 {
       render() {
         return (
@@ -720,7 +720,7 @@ describe('scoped slot', () => {
       }
     }
 
-    @Component({ tag: 'test-2', scoped: true })
+    @Component({ scoped: true, tag: 'test-2' })
     class Test2 {
       render() {
         return (
@@ -779,7 +779,7 @@ describe('scoped slot', () => {
   });
 
   it("should hide the slot's fallback content for a scoped component when slot content passed in", async () => {
-    @Component({ tag: 'fallback-test', scoped: true })
+    @Component({ scoped: true, tag: 'fallback-test' })
     class ScopedFallbackSlotTest {
       render() {
         return (
@@ -801,7 +801,7 @@ describe('scoped slot', () => {
   });
 
   it("should hide the slot's fallback content for a non-shadow component when slot content passed in", async () => {
-    @Component({ tag: 'fallback-test', shadow: false })
+    @Component({ shadow: false, tag: 'fallback-test' })
     class NonShadowFallbackSlotTest {
       render() {
         return (

@@ -701,8 +701,8 @@ const relocateSlotContent = (elm: d.RenderNode) => {
             } else {
               // add to our list of nodes to relocate
               relocateNodes.push({
-                $slotRefNode$: childNode,
                 $nodeToRelocate$: node,
+                $slotRefNode$: childNode,
               });
             }
 

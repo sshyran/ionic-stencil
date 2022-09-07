@@ -13,13 +13,13 @@ import { isString } from './helpers';
  */
 export const buildError = (diagnostics?: d.Diagnostic[]): d.Diagnostic => {
   const diagnostic: d.Diagnostic = {
-    level: 'error',
-    type: 'build',
+    absFilePath: null,
     header: 'Build Error',
+    level: 'error',
+    lines: [],
     messageText: 'build error',
     relFilePath: null,
-    absFilePath: null,
-    lines: [],
+    type: 'build',
   };
 
   if (diagnostics) {
@@ -41,13 +41,13 @@ export const buildError = (diagnostics?: d.Diagnostic[]): d.Diagnostic => {
  */
 export const buildWarn = (diagnostics: d.Diagnostic[]): d.Diagnostic => {
   const diagnostic: d.Diagnostic = {
-    level: 'warn',
-    type: 'build',
+    absFilePath: null,
     header: 'Build Warn',
+    level: 'warn',
+    lines: [],
     messageText: 'build warn',
     relFilePath: null,
-    absFilePath: null,
-    lines: [],
+    type: 'build',
   };
 
   diagnostics.push(diagnostic);
@@ -90,11 +90,11 @@ export const buildJsonFileError = (
 
         if (txtIndex > -1) {
           const warnLine: d.PrintLine = {
+            errorCharStart: txtIndex,
+            errorLength: jsonField.length,
             lineIndex: i,
             lineNumber: i + 1,
             text: txtLine,
-            errorCharStart: txtIndex,
-            errorLength: jsonField.length,
           };
           err.lineNumber = warnLine.lineNumber;
           err.columnNumber = txtIndex + 1;
@@ -102,22 +102,22 @@ export const buildJsonFileError = (
 
           if (i >= 0) {
             const beforeWarnLine: d.PrintLine = {
+              errorCharStart: -1,
+              errorLength: -1,
               lineIndex: warnLine.lineIndex - 1,
               lineNumber: warnLine.lineNumber - 1,
               text: lines[i - 1],
-              errorCharStart: -1,
-              errorLength: -1,
             };
             err.lines.unshift(beforeWarnLine);
           }
 
           if (i < lines.length) {
             const afterWarnLine: d.PrintLine = {
+              errorCharStart: -1,
+              errorLength: -1,
               lineIndex: warnLine.lineIndex + 1,
               lineNumber: warnLine.lineNumber + 1,
               text: lines[i + 1],
-              errorCharStart: -1,
-              errorLength: -1,
             };
             err.lines.push(afterWarnLine);
           }
@@ -140,13 +140,13 @@ export const buildJsonFileError = (
  */
 export const catchError = (diagnostics: d.Diagnostic[], err: Error | null | undefined, msg?: string): d.Diagnostic => {
   const diagnostic: d.Diagnostic = {
-    level: 'error',
-    type: 'build',
+    absFilePath: null,
     header: 'Build Error',
+    level: 'error',
+    lines: [],
     messageText: 'build error',
     relFilePath: null,
-    absFilePath: null,
-    lines: [],
+    type: 'build',
   };
 
   if (isString(msg)) {

@@ -65,18 +65,18 @@ export async function newSpecPage(opts: NewSpecPageOptions): Promise<SpecPage> {
   const doc = win.document;
 
   const page: SpecPage = {
-    win: win,
-    doc: doc,
     body: doc.body as any,
     build: BUILD,
-    styles: styles as Map<string, string>,
+    doc: doc,
+    flushLoadModule: flushLoadModule,
+    flushQueue: flushQueue,
     setContent: (html) => {
       doc.body.innerHTML = html;
       return flushAll();
     },
+    styles: styles as Map<string, string>,
     waitForChanges: flushAll,
-    flushLoadModule: flushLoadModule,
-    flushQueue: flushQueue,
+    win: win,
   };
 
   const lazyBundles: LazyBundlesRuntimeData = opts.components.map((Cstr: ComponentTestingConstructor) => {
@@ -171,10 +171,10 @@ export async function newSpecPage(opts: NewSpecPageOptions): Promise<SpecPage> {
     };
     const ref: HostRef = {
       $ancestorComponent$: undefined,
-      $flags$: 0,
-      $modeName$: undefined,
       $cmpMeta$: cmpMeta,
+      $flags$: 0,
       $hostElement$: page.body,
+      $modeName$: undefined,
     };
     renderVdom(ref, opts.template());
   } else if (typeof opts.html === 'string') {

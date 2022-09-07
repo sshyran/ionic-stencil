@@ -1,4 +1,5 @@
 export const isGlob = (str: string) => {
+  // eslint-disable-next-line sort-keys -- we don't need to sort something like this
   const chars: Record<string, string> = { '{': '}', '(': ')', '[': ']' };
   /* eslint-disable-next-line max-len */
   const regex = /\\(.)|(^!|\*|[\].+)]\?|\[[^\\\]]+\]|\{[^\\}]+\}|\(\?[:!=][^\\)]+\)|\([^|]+\|[^\\)]+\))/;

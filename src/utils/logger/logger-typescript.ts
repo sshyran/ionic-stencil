@@ -31,11 +31,11 @@ export const augmentDiagnosticWithNode = (d: d.Diagnostic, node: Node): d.Diagno
   const posStart = sourceFile.getLineAndCharacterOfPosition(start);
 
   const errorLine: d.PrintLine = {
+    errorCharStart: posStart.character,
+    errorLength: Math.max(end - start, 1),
     lineIndex: posStart.line,
     lineNumber: posStart.line + 1,
     text: srcLines[posStart.line],
-    errorCharStart: posStart.character,
-    errorLength: Math.max(end - start, 1),
   };
   // store metadata for line number and character index where the error occurred
   d.lineNumber = errorLine.lineNumber;
@@ -50,11 +50,11 @@ export const augmentDiagnosticWithNode = (d: d.Diagnostic, node: Node): d.Diagno
   // where the error was detected to provide the user with additional context
   if (errorLine.lineIndex > 0) {
     const previousLine: d.PrintLine = {
+      errorCharStart: -1,
+      errorLength: -1,
       lineIndex: errorLine.lineIndex - 1,
       lineNumber: errorLine.lineNumber - 1,
       text: srcLines[errorLine.lineIndex - 1],
-      errorCharStart: -1,
-      errorLength: -1,
     };
 
     d.lines.unshift(previousLine);
@@ -64,11 +64,11 @@ export const augmentDiagnosticWithNode = (d: d.Diagnostic, node: Node): d.Diagno
   // where the error was detected to provide the user with additional context
   if (errorLine.lineIndex + 1 < srcLines.length) {
     const nextLine: d.PrintLine = {
+      errorCharStart: -1,
+      errorLength: -1,
       lineIndex: errorLine.lineIndex + 1,
       lineNumber: errorLine.lineNumber + 1,
       text: srcLines[errorLine.lineIndex + 1],
-      errorCharStart: -1,
-      errorLength: -1,
     };
 
     d.lines.push(nextLine);
@@ -95,15 +95,15 @@ export const loadTypeScriptDiagnostics = (tsDiagnostics: readonly Diagnostic[]) 
 
 export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic) => {
   const d: d.Diagnostic = {
-    level: 'warn',
-    type: 'typescript',
-    language: 'typescript',
-    header: 'TypeScript',
+    absFilePath: null,
     code: tsDiagnostic.code.toString(),
+    header: 'TypeScript',
+    language: 'typescript',
+    level: 'warn',
+    lines: [],
     messageText: flattenDiagnosticMessageText(tsDiagnostic, tsDiagnostic.messageText),
     relFilePath: null,
-    absFilePath: null,
-    lines: [],
+    type: 'typescript',
   };
 
   if (tsDiagnostic.category === 1) {
@@ -119,11 +119,11 @@ export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic) => {
     const posData = tsDiagnostic.file.getLineAndCharacterOfPosition(tsDiagnostic.start);
 
     const errorLine: d.PrintLine = {
+      errorCharStart: posData.character,
+      errorLength: Math.max(tsDiagnostic.length, 1),
       lineIndex: posData.line,
       lineNumber: posData.line + 1,
       text: srcLines[posData.line],
-      errorCharStart: posData.character,
-      errorLength: Math.max(tsDiagnostic.length, 1),
     };
 
     d.lineNumber = errorLine.lineNumber;
@@ -138,11 +138,11 @@ export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic) => {
 
     if (errorLine.lineIndex > 0) {
       const previousLine: d.PrintLine = {
+        errorCharStart: -1,
+        errorLength: -1,
         lineIndex: errorLine.lineIndex - 1,
         lineNumber: errorLine.lineNumber - 1,
         text: srcLines[errorLine.lineIndex - 1],
-        errorCharStart: -1,
-        errorLength: -1,
       };
 
       d.lines.unshift(previousLine);
@@ -150,11 +150,11 @@ export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic) => {
 
     if (errorLine.lineIndex + 1 < srcLines.length) {
       const nextLine: d.PrintLine = {
+        errorCharStart: -1,
+        errorLength: -1,
         lineIndex: errorLine.lineIndex + 1,
         lineNumber: errorLine.lineNumber + 1,
         text: srcLines[errorLine.lineIndex + 1],
-        errorCharStart: -1,
-        errorLength: -1,
       };
 
       d.lines.push(nextLine);

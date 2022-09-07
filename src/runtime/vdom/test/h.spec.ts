@@ -167,7 +167,7 @@ describe('h()', () => {
   });
 
   it('should add class from map of classnames and booleans', () => {
-    const vnode = h('div', { class: { enabled: true, checked: false } });
+    const vnode = h('div', { class: { checked: false, enabled: true } });
     expect(vnode.$attrs$.class).toBeDefined();
     expect(vnode.$attrs$.class).toEqual('enabled');
   });
@@ -179,13 +179,14 @@ describe('h()', () => {
   });
 
   it('should add class from className map of classnames and booleans', () => {
+    // eslint-disable-next line sort-keys -- we're using clever keys here
     const vnode = h('div', { className: { save: true, the: true, clock: true, tower: true, hillvalley: false } });
     expect(vnode.$attrs$.class).toBeDefined();
     expect(vnode.$attrs$.class).toEqual('save the clock tower');
   });
 
   it('should add props', () => {
-    const vnode = h('div', { id: 'my-id', checked: false, count: 0 });
+    const vnode = h('div', { checked: false, count: 0, id: 'my-id' });
     expect(vnode.$attrs$).toBeDefined();
     expect(vnode.$attrs$.id).toBe('my-id');
     expect(vnode.$attrs$.checked).toBe(false);
@@ -353,10 +354,10 @@ describe('h()', () => {
       };
       const vnode = h(MyFunction, {});
       expect(vnode).toEqual({
-        $elm$: null,
-        $flags$: 0,
         $attrs$: { id: 'fn-cmp' },
         $children$: [newVNode(null, 'fn-cmp')],
+        $elm$: null,
+        $flags$: 0,
         $key$: null,
         $name$: null,
         $tag$: 'div',

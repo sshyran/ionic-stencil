@@ -26,9 +26,9 @@ export const registerInstance = (lazyInstance: any, hostRef: d.HostRef) => {
 
 export const registerHost = (elm: d.HostElement, cmpMeta: d.ComponentRuntimeMeta) => {
   const hostRef: d.HostRef = {
+    $cmpMeta$: cmpMeta,
     $flags$: 0,
     $hostElement$: elm,
-    $cmpMeta$: cmpMeta,
     $instanceValues$: new Map(),
     $renderCount$: 0,
   };

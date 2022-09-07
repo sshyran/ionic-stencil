@@ -16,14 +16,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: false,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: true,
+        vdomXlink: false,
       });
     });
 
@@ -39,14 +39,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: false,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: true,
+        vdomXlink: false,
       });
     });
 
@@ -62,14 +62,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: false,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: true,
+        vdomXlink: false,
       });
     });
 
@@ -85,14 +85,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: false,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: true,
+        vdomXlink: false,
       });
     });
 
@@ -107,14 +107,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: true,
-        vdomXlink: false,
         vdomClass: true,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: false,
+        vdomXlink: false,
       });
     });
 
@@ -129,14 +129,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: true,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: true,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: true,
         vdomText: false,
+        vdomXlink: false,
       });
     });
 
@@ -151,14 +151,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: true,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: true,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: false,
+        vdomKey: true,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: false,
+        vdomXlink: false,
       });
     });
 
@@ -179,14 +179,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: true,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: true,
-        vdomListener: false,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: true,
+        vdomStyle: false,
         vdomText: false,
+        vdomXlink: false,
       });
     });
 
@@ -207,14 +207,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: true,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: true,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: true,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: false,
+        vdomXlink: false,
       });
     });
 
@@ -235,14 +235,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: true,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: true,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: true,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: false,
+        vdomXlink: false,
       });
     });
 
@@ -260,14 +260,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: false,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: true,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: false,
+        vdomXlink: false,
       });
     });
 
@@ -287,14 +287,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: false,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: true,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: false,
+        vdomXlink: false,
       });
     });
 
@@ -310,14 +310,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: true,
-        vdomXlink: true,
         vdomClass: true,
-        vdomStyle: true,
-        vdomKey: true,
-        vdomRef: true,
-        vdomListener: true,
         vdomFunctional: false,
+        vdomKey: true,
+        vdomListener: true,
+        vdomRef: true,
+        vdomStyle: true,
         vdomText: false,
+        vdomXlink: true,
       });
     });
 
@@ -334,14 +334,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: true,
-        vdomXlink: false,
         vdomClass: false,
-        vdomStyle: false,
-        vdomKey: false,
-        vdomRef: false,
-        vdomListener: false,
         vdomFunctional: false,
+        vdomKey: false,
+        vdomListener: false,
+        vdomRef: false,
+        vdomStyle: false,
         vdomText: false,
+        vdomXlink: false,
       });
     });
 
@@ -374,14 +374,14 @@ describe('render-vdom', () => {
       const { build } = await newSpecPage({ components: [CmpA], strictBuild: true });
       expect(build).toMatchObject({
         vdomAttribute: true,
-        vdomXlink: false,
         vdomClass: true,
-        vdomStyle: false,
-        vdomKey: true,
-        vdomRef: true,
-        vdomListener: true,
         vdomFunctional: true,
+        vdomKey: true,
+        vdomListener: true,
+        vdomRef: true,
+        vdomStyle: false,
         vdomText: true,
+        vdomXlink: false,
       });
     });
   });

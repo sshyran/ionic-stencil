@@ -91,8 +91,8 @@ function setMockedResponse(response: MockResponse, input: MockRequestInfo, rejec
   response.url = u.href;
 
   const mockedResponseData: MockedResponseData = {
-    response,
     reject,
+    response,
   };
 
   mockedResponses.set(response.url, mockedResponseData);

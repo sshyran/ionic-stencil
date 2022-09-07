@@ -5,12 +5,12 @@ export function setScreenshotEmulateData(userEmulateConfig: EmulateConfig, env: 
   const screenshotEmulate: EmulateConfig = {
     userAgent: 'default',
     viewport: {
-      width: 800,
-      height: 600,
       deviceScaleFactor: 1,
-      isMobile: false,
       hasTouch: false,
+      height: 600,
       isLandscape: false,
+      isMobile: false,
+      width: 800,
     },
   };
 

@@ -9,11 +9,11 @@ export class ScreenshotLocalConnector extends ScreenshotConnector {
   override async publishBuild(results: d.ScreenshotBuildResults) {
     if (this.updateMaster || !results.masterBuild) {
       results.masterBuild = {
+        appNamespace: this.appNamespace,
         id: 'master',
         message: 'Master',
-        appNamespace: this.appNamespace,
-        timestamp: Date.now(),
         screenshots: [],
+        timestamp: Date.now(),
       };
     }
 

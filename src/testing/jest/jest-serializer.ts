@@ -2,9 +2,9 @@ import { MockNode, serializeNodeToHtml } from '@stencil/core/mock-doc';
 
 const print = (val: HTMLElement | MockNode): string => {
   return serializeNodeToHtml(val, {
-    serializeShadowRoot: true,
-    prettyHtml: true,
     outerHtml: true,
+    prettyHtml: true,
+    serializeShadowRoot: true,
   });
 };
 

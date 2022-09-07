@@ -27,17 +27,17 @@ export function compareHtml(
   if ((input as HTMLElement).nodeType === NODE_TYPES.ELEMENT_NODE) {
     const options = getSpecOptions(input as any);
     serializeA = serializeNodeToHtml(input as any, {
-      prettyHtml: true,
-      outerHtml: true,
-      removeHtmlComments: options.includeAnnotations === false,
       excludeTags: ['body'],
+      outerHtml: true,
+      prettyHtml: true,
+      removeHtmlComments: options.includeAnnotations === false,
       serializeShadowRoot,
     });
   } else if ((input as HTMLElement).nodeType === NODE_TYPES.DOCUMENT_FRAGMENT_NODE) {
     serializeA = serializeNodeToHtml(input as any, {
-      prettyHtml: true,
-      excludeTags: ['style'],
       excludeTagContent: ['style'],
+      excludeTags: ['style'],
+      prettyHtml: true,
       serializeShadowRoot,
     });
   } else if (typeof input === 'string') {
@@ -53,8 +53,8 @@ export function compareHtml(
   const parseB = parseHtmlToFragment(shouldEqual);
 
   const serializeB = serializeNodeToHtml(parseB, {
-    prettyHtml: true,
     excludeTags: ['body'],
+    prettyHtml: true,
   });
 
   if (serializeA !== serializeB) {

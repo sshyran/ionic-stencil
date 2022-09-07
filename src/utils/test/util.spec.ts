@@ -164,8 +164,8 @@ describe('util', () => {
       });
 
       expect(diagnostic).toEqual<util.ParsePackageJsonResult>({
-        diagnostic: expectedDiagnostic,
         data: null,
+        diagnostic: expectedDiagnostic,
         filePath: mockPackageJsonPath,
       });
     });
@@ -182,8 +182,8 @@ describe('util', () => {
       });
 
       expect(diagnostic).toEqual<util.ParsePackageJsonResult>({
-        diagnostic: expectedDiagnostic,
         data: null,
+        diagnostic: expectedDiagnostic,
         filePath: undefined,
       });
     });
@@ -192,10 +192,10 @@ describe('util', () => {
       const diagnostic = util.parsePackageJson('{ "someJson": "value"}', mockPackageJsonPath);
 
       expect(diagnostic).toEqual<util.ParsePackageJsonResult>({
-        diagnostic: null,
         data: {
           someJson: 'value',
         },
+        diagnostic: null,
         filePath: mockPackageJsonPath,
       });
     });

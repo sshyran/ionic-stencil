@@ -84,18 +84,18 @@ export function createNodeLoggerSys(prcs: NodeJS.Process): TerminalLoggerSys {
     // hide cursor
     prcs.stdout.write('\x1B[?25l');
     return {
-      update,
       stop,
+      update,
     };
   };
 
   return {
+    createLineUpdater,
     cwd,
     emoji,
     getColumns,
     memoryUsage,
     relativePath,
     writeLogs,
-    createLineUpdater,
   };
 }

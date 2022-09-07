@@ -9,10 +9,10 @@ export const typescriptVersion = '__VERSION:TYPESCRIPT__';
 export const vermoji = '__VERMOJI__';
 export const version = '__VERSION:STENCIL__';
 export const versions = {
-  stencil: version,
   parse5: parse5Version,
   rollup: rollupVersion,
   sizzle: sizzleVersion,
+  stencil: version,
   terser: terserVersion,
   typescript: typescriptVersion,
 };

@@ -15,20 +15,20 @@ export async function runJestScreenshot(config: d.ValidatedConfig, env: d.E2EPro
 
   const initTimespan = config.logger.createTimeSpan(`screenshot, initBuild started`, true);
   await connector.initBuild({
+    allowableMismatchedPixels: config.testing.allowableMismatchedPixels,
+    allowableMismatchedRatio: config.testing.allowableMismatchedRatio,
+    appNamespace: config.namespace,
     buildId: createBuildId(),
     buildMessage: createBuildMessage(),
     buildTimestamp: Date.now(),
-    appNamespace: config.namespace,
-    rootDir: config.rootDir,
     cacheDir: config.cacheDir,
-    packageDir: join(config.sys.getCompilerExecutingPath(), '..', '..'),
-    updateMaster: config.flags.updateScreenshot,
     logger: config.logger,
-    allowableMismatchedPixels: config.testing.allowableMismatchedPixels,
-    allowableMismatchedRatio: config.testing.allowableMismatchedRatio,
-    pixelmatchThreshold: config.testing.pixelmatchThreshold,
-    waitBeforeScreenshot: config.testing.waitBeforeScreenshot,
+    packageDir: join(config.sys.getCompilerExecutingPath(), '..', '..'),
     pixelmatchModulePath: pixelmatchModulePath,
+    pixelmatchThreshold: config.testing.pixelmatchThreshold,
+    rootDir: config.rootDir,
+    updateMaster: config.flags.updateScreenshot,
+    waitBeforeScreenshot: config.testing.waitBeforeScreenshot,
   });
 
   if (!config.flags.updateScreenshot) {

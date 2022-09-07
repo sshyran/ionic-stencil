@@ -58,7 +58,11 @@ describe('attributes', () => {
 
   describe('boolean attribute', () => {
     it('is present if the value is truthy', () => {
-      const vnode1 = h('div', { required: true, readonly: 1, noresize: 'truthy' });
+      const vnode1 = h('div', {
+        noresize: 'truthy',
+        readonly: 1,
+        required: true,
+      });
       patch(vnode0, vnode1);
       expect(hostElm.hasAttribute('required')).toEqual(true);
       expect(hostElm.getAttribute('required')).toEqual('');
@@ -69,7 +73,11 @@ describe('attributes', () => {
     });
 
     it('is omitted if the value is falsy', () => {
-      const vnode1 = h('div', { required: false, readonly: 'false', noresize: null });
+      const vnode1 = h('div', {
+        noresize: null,
+        readonly: 'false',
+        required: false,
+      });
       patch(vnode0, vnode1);
       expect(hostElm.getAttribute('required')).toEqual(null);
       expect(hostElm.getAttribute('readonly')).toEqual('false');

@@ -81,8 +81,8 @@ export function mockConfig(overrides: Partial<UnvalidatedConfig> = {}): Unvalida
     },
     outputTargets: null,
     rollupPlugins: {
-      before: [],
       after: [],
+      before: [],
     },
     rootDir,
     sourceMap: true,
@@ -120,7 +120,6 @@ export function mockCompilerCtx(config?: Config) {
     config = mockConfig();
   }
   const compilerCtx: CompilerCtx = {
-    version: 1,
     activeBuildId: 0,
     activeDirsAdded: [],
     activeDirsDeleted: [],
@@ -129,12 +128,12 @@ export function mockCompilerCtx(config?: Config) {
     activeFilesUpdated: [],
     addWatchDir: noop,
     addWatchFile: noop,
+    cache: null,
     cachedGlobalStyle: null,
     changedFiles: new Set(),
     changedModules: new Set(),
     collections: [],
     compilerOptions: null,
-    cache: null,
     cssModuleImports: new Map(),
     events: buildEvents(),
     fs: null,
@@ -150,6 +149,7 @@ export function mockCompilerCtx(config?: Config) {
     rollupCacheLazy: null,
     rollupCacheNative: null,
     styleModeNames: new Set(),
+    version: 1,
     worker: createWorkerContext(config.sys),
   };
 
@@ -237,26 +237,26 @@ export function mockWindow(html: string = null) {
  */
 export const mockModule = (mod: Partial<Module> = {}): Module => ({
   cmps: [],
-  coreRuntimeApis: [],
   collectionName: '',
+  coreRuntimeApis: [],
   dtsFilePath: '',
   excludeFromCollection: false,
   externalImports: [],
   htmlAttrNames: [],
-  htmlTagNames: [],
   htmlParts: [],
+  htmlTagNames: [],
   isCollectionDependency: false,
   isLegacy: false,
   jsFilePath: '',
   localImports: [],
-  originalImports: [],
   originalCollectionComponentPath: '',
+  originalImports: [],
   potentialCmpRefs: [],
   sourceFilePath: '',
+  sourceMapFileText: '',
+  sourceMapPath: '',
   staticSourceFile: '',
   staticSourceFileText: '',
-  sourceMapPath: '',
-  sourceMapFileText: '',
 
   // build features
   hasVdomAttribute: false,

@@ -65,13 +65,13 @@ export function initPageScreenshot(page: pd.E2EPageInternal) {
     // screen shot not enabled, so just skip over all the logic
     page.compareScreenshot = async () => {
       const diff: ScreenshotDiff = {
-        mismatchedPixels: 0,
         allowableMismatchedPixels: 1,
         allowableMismatchedRatio: 1,
         desc: '',
-        width: 1,
-        height: 1,
         deviceScaleFactor: 1,
+        height: 1,
+        mismatchedPixels: 0,
+        width: 1,
       };
       return diff;
     };
@@ -138,18 +138,18 @@ export async function pageCompareScreenshot(
 
 function createPuppeteerScreenshopOptions(opts: ScreenshotOptions) {
   const puppeteerOpts: puppeteer.ScreenshotOptions = {
-    type: 'png',
+    encoding: 'binary',
     fullPage: opts.fullPage,
     omitBackground: opts.omitBackground,
-    encoding: 'binary',
+    type: 'png',
   };
 
   if (opts.clip) {
     puppeteerOpts.clip = {
+      height: opts.clip.height,
+      width: opts.clip.width,
       x: opts.clip.x,
       y: opts.clip.y,
-      width: opts.clip.width,
-      height: opts.clip.height,
     };
   }
 

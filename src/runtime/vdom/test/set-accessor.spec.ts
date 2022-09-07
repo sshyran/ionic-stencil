@@ -784,8 +784,8 @@ describe('setAccessor for standard html elements', () => {
         elm,
         'style',
         {
-          'font-size': '12px',
           color: 'blue',
+          'font-size': '12px',
         },
         {
           'font-size': '20px',
@@ -824,8 +824,8 @@ describe('setAccessor for standard html elements', () => {
       setAccessor(
         elm,
         'style',
-        { color: 'blue', padding: '20px', marginRight: '88px' },
-        { color: 'blue', padding: '30px', marginRight: '55px' },
+        { color: 'blue', marginRight: '88px', padding: '20px' },
+        { color: 'blue', marginRight: '55px', padding: '30px' },
         false,
         0
       );
@@ -842,10 +842,10 @@ describe('setAccessor for standard html elements', () => {
 
       expect(elm.style.cssText).toEqual('color: black; padding: 20px; margin: 20px; font-size: 88px;');
 
-      setAccessor(elm, 'style', { color: 'black', padding: '20px', fontSize: '88px' }, undefined, false, 0);
+      setAccessor(elm, 'style', { color: 'black', fontSize: '88px', padding: '20px' }, undefined, false, 0);
       expect(elm.style.cssText).toEqual('margin: 20px;');
 
-      setAccessor(elm, 'style', { margin: '20px' }, { margin: '30px', color: 'orange' }, false, 0);
+      setAccessor(elm, 'style', { margin: '20px' }, { color: 'orange', margin: '30px' }, false, 0);
       expect(elm.style.cssText).toEqual('margin: 30px; color: orange;');
     });
   });

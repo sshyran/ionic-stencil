@@ -4,8 +4,8 @@ import { newSpecPage } from '@stencil/core/testing';
 describe('hydrate, shadow parent', () => {
   it('slot depth 1, text w/out vdom', async () => {
     @Component({
-      tag: 'cmp-a',
       shadow: true,
+      tag: 'cmp-a',
     })
     class CmpA {
       render() {
@@ -62,8 +62,8 @@ describe('hydrate, shadow parent', () => {
 
   it('slot, text w/out vdom', async () => {
     @Component({
-      tag: 'cmp-a',
       shadow: true,
+      tag: 'cmp-a',
     })
     class CmpA {
       render() {
@@ -122,8 +122,8 @@ describe('hydrate, shadow parent', () => {
 
   it('no slot, child shadow text', async () => {
     @Component({
-      tag: 'cmp-a',
       shadow: true,
+      tag: 'cmp-a',
     })
     class CmpA {
       render() {
@@ -166,8 +166,8 @@ describe('hydrate, shadow parent', () => {
 
   it('named slot and slot depth 1', async () => {
     @Component({
-      tag: 'cmp-a',
       shadow: true,
+      tag: 'cmp-a',
     })
     class CmpA {
       render() {
@@ -454,7 +454,7 @@ describe('hydrate, shadow parent', () => {
   });
 
   it('nested cmp-b, parent slot', async () => {
-    @Component({ tag: 'cmp-a', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-a' })
     class CmpA {
       render() {
         return <slot></slot>;

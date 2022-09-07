@@ -30,8 +30,8 @@ export class NodeResolveModule {
 
     let dir = normalizePath(
       Module._resolveFilename(moduleId, {
-        id: fromFile,
         filename: fromFile,
+        id: fromFile,
         paths: Module._nodeModulePaths(fromDir),
       })
     );

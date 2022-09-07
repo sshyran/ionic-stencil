@@ -8,13 +8,13 @@ describe('message-utils', () => {
         const diagnostic = catchError([], null);
 
         expect(diagnostic).toEqual<d.Diagnostic>({
-          level: 'error',
-          type: 'build',
+          absFilePath: null,
           header: 'Build Error',
+          level: 'error',
+          lines: [],
           messageText: 'build error',
           relFilePath: null,
-          absFilePath: null,
-          lines: [],
+          type: 'build',
         });
       });
 
@@ -42,13 +42,13 @@ describe('message-utils', () => {
           const diagnostic = catchError([], err);
 
           expect(diagnostic).toEqual<d.Diagnostic>({
-            level: 'error',
-            type: 'build',
+            absFilePath: null,
             header: 'Build Error',
+            level: 'error',
+            lines: [],
             messageText: stackTrace,
             relFilePath: null,
-            absFilePath: null,
-            lines: [],
+            type: 'build',
           });
         });
 
@@ -72,13 +72,13 @@ describe('message-utils', () => {
             const diagnostic = catchError([], err);
 
             expect(diagnostic).toEqual<d.Diagnostic>({
-              level: 'error',
-              type: 'build',
+              absFilePath: null,
               header: 'Build Error',
+              level: 'error',
+              lines: [],
               messageText: taskCanceledMessage,
               relFilePath: null,
-              absFilePath: null,
-              lines: [],
+              type: 'build',
             });
           });
 
@@ -106,13 +106,13 @@ describe('message-utils', () => {
           const diagnostic = catchError([], err);
 
           expect(diagnostic).toEqual<d.Diagnostic>({
-            level: 'error',
-            type: 'build',
+            absFilePath: null,
             header: 'Build Error',
+            level: 'error',
+            lines: [],
             messageText: message,
             relFilePath: null,
-            absFilePath: null,
-            lines: [],
+            type: 'build',
           });
         });
 
@@ -130,13 +130,13 @@ describe('message-utils', () => {
           const diagnostic = catchError([], err);
 
           expect(diagnostic).toEqual<d.Diagnostic>({
-            level: 'error',
-            type: 'build',
+            absFilePath: null,
             header: 'Build Error',
+            level: 'error',
+            lines: [],
             messageText: 'UNKNOWN ERROR',
             relFilePath: null,
-            absFilePath: null,
-            lines: [],
+            type: 'build',
           });
         });
 
@@ -151,13 +151,13 @@ describe('message-utils', () => {
             const diagnostic = catchError([], err);
 
             expect(diagnostic).toEqual<d.Diagnostic>({
-              level: 'error',
-              type: 'build',
+              absFilePath: null,
               header: 'Build Error',
+              level: 'error',
+              lines: [],
               messageText: taskCanceledMessage,
               relFilePath: null,
-              absFilePath: null,
-              lines: [],
+              type: 'build',
             });
           });
 
@@ -184,13 +184,13 @@ describe('message-utils', () => {
           const diagnostic = catchError([], err);
 
           expect(diagnostic).toEqual<d.Diagnostic>({
-            level: 'error',
-            type: 'build',
+            absFilePath: null,
             header: 'Build Error',
+            level: 'error',
+            lines: [],
             messageText: 'Error',
             relFilePath: null,
-            absFilePath: null,
-            lines: [],
+            type: 'build',
           });
         });
 
@@ -212,13 +212,13 @@ describe('message-utils', () => {
         const diagnostic = catchError([], null, message);
 
         expect(diagnostic).toEqual<d.Diagnostic>({
-          level: 'error',
-          type: 'build',
+          absFilePath: null,
           header: 'Build Error',
+          level: 'error',
+          lines: [],
           messageText: message,
           relFilePath: null,
-          absFilePath: null,
-          lines: [],
+          type: 'build',
         });
       });
 
@@ -235,13 +235,13 @@ describe('message-utils', () => {
         const diagnostic = catchError([], null, '');
 
         expect(diagnostic).toEqual<d.Diagnostic>({
-          level: 'error',
-          type: 'build',
+          absFilePath: null,
           header: 'Build Error',
+          level: 'error',
+          lines: [],
           messageText: 'UNKNOWN ERROR',
           relFilePath: null,
-          absFilePath: null,
-          lines: [],
+          type: 'build',
         });
       });
 
@@ -252,13 +252,13 @@ describe('message-utils', () => {
           const diagnostic = catchError([], null, taskCanceledMessage);
 
           expect(diagnostic).toEqual<d.Diagnostic>({
-            level: 'error',
-            type: 'build',
+            absFilePath: null,
             header: 'Build Error',
+            level: 'error',
+            lines: [],
             messageText: taskCanceledMessage,
             relFilePath: null,
-            absFilePath: null,
-            lines: [],
+            type: 'build',
           });
         });
 

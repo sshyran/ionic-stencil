@@ -23,9 +23,9 @@ export class NodeWorkerMain extends EventEmitter {
     const filteredArgs = process.execArgv.filter((v) => !/^--(debug|inspect)/.test(v));
 
     const options: cp.ForkOptions = {
-      execArgv: filteredArgs,
-      env: process.env,
       cwd: process.cwd(),
+      env: process.env,
+      execArgv: filteredArgs,
       silent: true,
     };
 
@@ -58,8 +58,8 @@ export class NodeWorkerMain extends EventEmitter {
     this.tasks.set(task.stencilId, task);
 
     this.sendToWorker({
-      stencilId: task.stencilId,
       args: task.inputArgs,
+      stencilId: task.stencilId,
     });
   }
 
