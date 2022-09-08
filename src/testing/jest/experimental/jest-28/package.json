@@ -4,6 +4,7 @@
   "description": "an experimental adapter for stencil and jest 28",
   "main": "index.js",
   "files": [
+    "jest-preprocessor.js",
     "jest-preset.js"
   ],
   "scripts": {
