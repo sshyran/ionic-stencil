@@ -1,2 +1,2 @@
 // @ts-check
-export * from './matchers'
+export {expectExtend} from './matchers'

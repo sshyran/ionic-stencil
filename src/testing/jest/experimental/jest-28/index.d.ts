@@ -1,1 +1,1 @@
-export * from './matchers';
+export { expectExtend } from './matchers';
