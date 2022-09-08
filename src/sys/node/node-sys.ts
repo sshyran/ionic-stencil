@@ -588,9 +588,10 @@ export function createNodeSys(c: { process?: any } = {}) {
   const nodeResolve = new NodeResolveModule();
 
   sys.lazyRequire = new NodeLazyRequire(nodeResolve, {
-    '@types/jest': { minVersion: '24.9.1', recommendedVersion: '27.0.3', maxVersion: '27.0.0' },
-    jest: { minVersion: '24.9.1', recommendedVersion: '27.0.3', maxVersion: '27.0.0' },
-    'jest-cli': { minVersion: '24.9.0', recommendedVersion: '27.4.5', maxVersion: '27.0.0' },
+    // TODO: I don't have config, there's a hacky way to check it but this is easier for prototyping
+    // '@types/jest': { minVersion: '24.9.1', recommendedVersion: '27.0.3', maxVersion: '27.0.0' },
+    // jest: { minVersion: '24.9.1', recommendedVersion: '27.0.3', maxVersion: '27.0.0' },
+    // 'jest-cli': { minVersion: '24.9.0', recommendedVersion: '27.4.5', maxVersion: '27.0.0' },
     pixelmatch: { minVersion: '4.0.2', recommendedVersion: '4.0.2' },
     puppeteer: { minVersion: '1.19.0', recommendedVersion: '10.0.0' },
     'puppeteer-core': { minVersion: '1.19.0', recommendedVersion: '5.2.1' },
