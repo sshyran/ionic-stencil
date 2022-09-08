@@ -92,10 +92,11 @@ export const validateTesting = (config: d.ValidatedConfig, diagnostics: d.Diagno
     testing.setupFilesAfterEnv = [];
   }
 
-  // TODO(This is needed for something)...
-  testing.setupFilesAfterEnv.unshift(
-    join(config.sys!.getCompilerExecutingPath(), '..', '..', 'testing', 'jest-setuptestframework.js')
-  );
+  if (!_usingExperimentalJestSupport) {
+    testing.setupFilesAfterEnv.unshift(
+      join(config.sys!.getCompilerExecutingPath(), '..', '..', 'testing', 'jest-setuptestframework.js')
+    );
+  }
 
   if (isString(testing.testEnvironment)) {
     if (!isAbsolute(testing.testEnvironment) && isLocalModule(testing.testEnvironment)) {

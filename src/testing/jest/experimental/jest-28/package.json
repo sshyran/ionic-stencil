@@ -6,6 +6,7 @@
   "files": [
     "jest-preprocessor.js",
     "jest-preset.js",
+    "matchers/*.js",
     "*.d.ts"
   ],
   "scripts": {

@@ -15,6 +15,7 @@ import {
 declare const global: d.JestEnvironmentGlobal;
 
 export function jestSetupTestFramework() {
+  // TODO: Oh my
   global.Context = {};
   global.resourcesUrl = '/build';
 
