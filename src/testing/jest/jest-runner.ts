@@ -60,6 +60,8 @@ export function createTestRunner(): any {
       tests = tests.filter((t) => includeTestFile(t.path, env));
 
       if (env.__STENCIL_SCREENSHOT__ === 'true') {
+        console.log(`e2e`)
+
         // we're doing e2e screenshots, so let's loop through
         // each of the emulate configs for each test
 
@@ -78,6 +80,7 @@ export function createTestRunner(): any {
           await super.runTests(tests, watcher, onStart, onResult, onFailure, options);
         }
       } else {
+        console.log(`unit`)
         // not doing e2e screenshot tests
         // so just run each test once
         await super.runTests(tests, watcher, onStart, onResult, onFailure, options);

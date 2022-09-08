@@ -4,7 +4,7 @@
  * following compilation.
  */
 const path = require('path');
-// const testingDir = __dirname;
+const testingDir = __dirname;
 // const rootDir = path.join(testingDir, '..');
 // const internalDir = path.join(rootDir, 'internal');
 
@@ -31,7 +31,10 @@ module.exports = {
   testPathIgnorePatterns: ['/.cache', '/.stencil', '/.vscode', '/dist', '/node_modules', '/www'],
   testRegex: '(/__tests__/.*|\\.?(test|spec))\\.' + moduleExtensionRegexp + '$',
   transform: {
-    '^.+\\.(ts|tsx|jsx|css)$': path.join('jest-preprocessor.js'),
+    '^.+\\.(ts|tsx|jsx|css)$': path.join(testingDir, 'jest-preprocessor.js'),
   },
   watchPathIgnorePatterns: ['^.+\\.d\\.ts$'],
 };
+
+// export const stringPreset = JSON.stringify(preset);
+// export const stringPreset2 = preset.toString();

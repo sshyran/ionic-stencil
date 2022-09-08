@@ -5,10 +5,11 @@
   "main": "index.js",
   "files": [
     "jest-preprocessor.js",
-    "jest-preset.js"
+    "jest-preset.js",
+    "*.d.ts"
   ],
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc -p . && npm pack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
