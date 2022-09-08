@@ -41,7 +41,7 @@ module.exports = {
     sourceText: string,
     sourcePath: string,
     jestConfig: any, //Jest27TransformOptions,
-  ): string {
+  ): { code: string } { // TODO: Get this type
 
     console.log(`HELLO WORLD`)
     // TODO Naming
@@ -74,10 +74,10 @@ module.exports = {
         throw new Error(msg);
       }
 
-      return results.code;
+      return { code: results.code };
     }
 
-    return sourceText;
+    return {code: sourceText};
   },
 
   /**
