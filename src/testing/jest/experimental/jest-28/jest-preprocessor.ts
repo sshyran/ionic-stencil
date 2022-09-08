@@ -1,7 +1,7 @@
-// import type { TranspileOptions, Diagnostic } from '@stencil/core/internal';
+import type { TranspileOptions, Diagnostic } from '@stencil/core/internal';
 // import { loadTypeScriptDiagnostic, normalizePath } from '@utils';
 // import { transpile } from '../test-transpile';
-// import { ts } from '@stencil/core/compiler';
+import {transpile} from '@stencil/core/testing';
 // TODO Maybe a transform for this...
 // import {} from '@stencil/core/compiler';
 
@@ -39,42 +39,45 @@ module.exports = {
    */
   process(
     sourceText: string,
-    _sourcePath: string,
-    _jestConfig: any, //Jest27TransformOptions,
+    sourcePath: string,
+    jestConfig: any, //Jest27TransformOptions,
   ): string {
 
+    console.log(`HELLO WORLD`)
     // TODO Naming
-    // const transformOptions = jestConfig.config;
-    //
-    // if (shouldTransform(sourcePath, sourceText)) {
-    //   const opts: TranspileOptions = {
-    //     file: sourcePath,
-    //     currentDirectory: transformOptions.rootDir,
-    //   };
-    //
-    //   const tsCompilerOptions: ts.CompilerOptions | null = getCompilerOptions(transformOptions.rootDir);
-    //   if (tsCompilerOptions) {
-    //     if (tsCompilerOptions.baseUrl) {
-    //       opts.baseUrl = tsCompilerOptions.baseUrl;
-    //     }
-    //     if (tsCompilerOptions.paths) {
-    //       opts.paths = tsCompilerOptions.paths;
-    //     }
-    //   }
-    //
-    //   const results = transpile(sourceText, opts);
-    //
-    //   const hasErrors = results.diagnostics.some((diagnostic) => diagnostic.level === 'error');
-    //
-    //   if (results.diagnostics && hasErrors) {
-    //     const msg = results.diagnostics.map(formatDiagnostic).join('\n\n');
-    //     throw new Error(msg);
-    //   }
-    //
-    //   return results.code;
-    // }
+    const transformOptions = jestConfig.config;
 
-    return '() => 32';
+    console.log(`tranform ${sourcePath}?`);
+    if (shouldTransform(sourcePath, sourceText)) {
+      console.log(`gonna transform ${sourcePath}`)
+      const opts: TranspileOptions = {
+        file: sourcePath,
+        currentDirectory: transformOptions.rootDir,
+      };
+
+      // const tsCompilerOptions: ts.CompilerOptions | null = getCompilerOptions(transformOptions.rootDir);
+      // if (tsCompilerOptions) {
+      //   if (tsCompilerOptions.baseUrl) {
+      //     opts.baseUrl = tsCompilerOptions.baseUrl;
+      //   }
+      //   if (tsCompilerOptions.paths) {
+      //     opts.paths = tsCompilerOptions.paths;
+      //   }
+      // }
+
+      const results = transpile(sourceText, opts);
+
+      const hasErrors = results.diagnostics.some((diagnostic) => diagnostic.level === 'error');
+
+      if (results.diagnostics && hasErrors) {
+        const msg = results.diagnostics.map(formatDiagnostic).join('\n\n');
+        throw new Error(msg);
+      }
+
+      return results.code;
+    }
+
+    return sourceText;
   },
 
   /**
@@ -121,24 +124,24 @@ module.exports = {
   },
 };
 
-// function formatDiagnostic(diagnostic: Diagnostic) {
-//   let m = '';
-//
-//   if (diagnostic.relFilePath) {
-//     m += diagnostic.relFilePath;
-//     if (typeof diagnostic.lineNumber === 'number') {
-//       m += ':' + diagnostic.lineNumber + 1;
-//       if (typeof diagnostic.columnNumber === 'number') {
-//         m += ':' + diagnostic.columnNumber;
-//       }
-//     }
-//     m += '\n';
-//   }
-//
-//   m += diagnostic.messageText;
-//
-//   return m;
-// }
+function formatDiagnostic(diagnostic: Diagnostic) {
+  let m = '';
+
+  if (diagnostic.relFilePath) {
+    m += diagnostic.relFilePath;
+    if (typeof diagnostic.lineNumber === 'number') {
+      m += ':' + diagnostic.lineNumber + 1;
+      if (typeof diagnostic.columnNumber === 'number') {
+        m += ':' + diagnostic.columnNumber;
+      }
+    }
+    m += '\n';
+  }
+
+  m += diagnostic.messageText;
+
+  return m;
+}
 //
 // /**
 //  * Read the TypeScript compiler configuration file from disk
@@ -179,36 +182,36 @@ module.exports = {
 //   return _tsCompilerOptions;
 // }
 //
-// /**
-//  * Determines if a file should be transformed prior to being consumed by Jest, based on the file name and its contents
-//  * @param filePath the path of the file
-//  * @param sourceText the contents of the file
-//  * @returns `true` if the file should be transformed, `false` otherwise
-//  */
-// export function shouldTransform(filePath: string, sourceText: string): boolean {
-//   const ext = (filePath.split('.').pop() ?? '').toLowerCase().split('?')[0];
-//
-//   if (ext === 'ts' || ext === 'tsx' || ext === 'jsx') {
-//     // typescript extensions (to include .d.ts)
-//     return true;
-//   }
-//   if (ext === 'mjs') {
-//     // es module extensions
-//     return true;
-//   }
-//   if (ext === 'js') {
-//     // there may be false positives here
-//     // but worst case scenario a commonjs file is transpiled to commonjs
-//     if (sourceText.includes('import ') || sourceText.includes('import.') || sourceText.includes('import(')) {
-//       return true;
-//     }
-//     if (sourceText.includes('export ')) {
-//       return true;
-//     }
-//   }
-//   if (ext === 'css') {
-//     // convert a standard css file into an nodejs ready file
-//     return true;
-//   }
-//   return false;
-// }
+/**
+ * Determines if a file should be transformed prior to being consumed by Jest, based on the file name and its contents
+ * @param filePath the path of the file
+ * @param sourceText the contents of the file
+ * @returns `true` if the file should be transformed, `false` otherwise
+ */
+export function shouldTransform(filePath: string, sourceText: string): boolean {
+  const ext = (filePath.split('.').pop() ?? '').toLowerCase().split('?')[0];
+
+  if (ext === 'ts' || ext === 'tsx' || ext === 'jsx') {
+    // typescript extensions (to include .d.ts)
+    return true;
+  }
+  if (ext === 'mjs') {
+    // es module extensions
+    return true;
+  }
+  if (ext === 'js') {
+    // there may be false positives here
+    // but worst case scenario a commonjs file is transpiled to commonjs
+    if (sourceText.includes('import ') || sourceText.includes('import.') || sourceText.includes('import(')) {
+      return true;
+    }
+    if (sourceText.includes('export ')) {
+      return true;
+    }
+  }
+  if (ext === 'css') {
+    // convert a standard css file into an nodejs ready file
+    return true;
+  }
+  return false;
+}

@@ -17,6 +17,7 @@ export function transpile(input: string, opts: TranspileOptions = {}): Transpile
     target: 'es2015', // default to es2015
   };
 
+  console.log(`transpiling with ${JSON.stringify(opts, null, 4)}`)
   try {
     const v = process.versions.node.split('.');
     if (parseInt(v[0], 10) >= 10) {
