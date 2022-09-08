@@ -7,6 +7,8 @@ import { isOutputTargetDist, isOutputTargetWww } from '../output-targets/output-
 export const validateTesting = (config: d.ValidatedConfig, diagnostics: d.Diagnostic[]) => {
   const testing = (config.testing = Object.assign({}, config.testing || {}));
 
+  // TODO: Lots of reorg to do here
+  const usingExperimentalJestSupport = !!(testing.experimentalJestArchitecture);
   if (!config.flags.e2e && !config.flags.spec) {
     return;
   }

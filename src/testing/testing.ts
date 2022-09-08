@@ -43,7 +43,8 @@ export const createTesting = async (config: ValidatedConfig): Promise<Testing> =
 
       env = process.env;
 
-      if (opts.e2e) {
+      // TODO() Maybe warn here?
+      if (opts.e2e && !opts.isExperimentalJestSupport) {
         msg.push('e2e');
         env.__STENCIL_E2E_TESTS__ = 'true';
       }
@@ -55,7 +56,7 @@ export const createTesting = async (config: ValidatedConfig): Promise<Testing> =
 
       config.logger.info(config.logger.magenta(`testing ${msg.join(' and ')} files${config.watch ? ' (watch)' : ''}`));
 
-      doScreenshots = !!(opts.e2e && opts.screenshot);
+      doScreenshots = !!(opts.e2e && opts.screenshot && !opts.isExperimentalJestSupport);
       if (doScreenshots) {
         env.__STENCIL_SCREENSHOT__ = 'true';
 
@@ -66,7 +67,8 @@ export const createTesting = async (config: ValidatedConfig): Promise<Testing> =
         }
       }
 
-      if (opts.e2e) {
+      // TODO(): so many places to update....
+      if (opts.e2e && !opts.isExperimentalJestSupport) {
         // e2e tests only
         // do a build, start a dev server
         // and spin up a puppeteer browser
@@ -138,7 +140,7 @@ export const createTesting = async (config: ValidatedConfig): Promise<Testing> =
       if (doScreenshots) {
         passed = await runJestScreenshot(config, env);
       } else {
-        passed = await runJest(config, env);
+        passed = await runJest(config, env, opts.isExperimentalJestSupport);
       }
       config.logger.info('');
       if (compilerWatcher) {

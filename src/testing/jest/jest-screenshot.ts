@@ -45,7 +45,7 @@ export async function runJestScreenshot(config: d.ValidatedConfig, env: d.E2EPro
 
   const testsTimespan = config.logger.createTimeSpan(`screenshot, tests started`, true);
 
-  const passed = await runJest(config, env);
+  const passed = await runJest(config, env, false);
 
   testsTimespan.finish(`screenshot, tests finished, passed: ${passed}`);
 

@@ -1505,6 +1505,7 @@ export interface TestingRunOptions {
   screenshot?: boolean;
   spec?: boolean;
   updateScreenshot?: boolean;
+  isExperimentalJestSupport?: boolean;
 }
 
 export interface JestConfig {
@@ -1638,6 +1639,7 @@ export interface JestConfig {
 }
 
 export interface TestingConfig extends JestConfig {
+  experimentalJestArchitecture?: boolean;
   /**
    * The `allowableMismatchedPixels` value is used to determine an acceptable
    * number of pixels that can be mismatched before the image is considered
