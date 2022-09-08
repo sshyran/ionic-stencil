@@ -8,7 +8,7 @@ export const validateTesting = (config: d.ValidatedConfig, diagnostics: d.Diagno
   const testing = (config.testing = Object.assign({}, config.testing || {}));
 
   // TODO: Lots of reorg to do here
-  const usingExperimentalJestSupport = !!(testing.experimentalJestArchitecture);
+  // const _usingExperimentalJestSupport = !!(testing.experimentalJestArchitecture);
   if (!config.flags.e2e && !config.flags.spec) {
     return;
   }
