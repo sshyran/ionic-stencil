@@ -8,7 +8,8 @@ export const validateTesting = (config: d.ValidatedConfig, diagnostics: d.Diagno
   const testing = (config.testing = Object.assign({}, config.testing || {}));
 
   // TODO: Lots of reorg to do here
-  // const _usingExperimentalJestSupport = !!(testing.experimentalJestArchitecture);
+  const _usingExperimentalJestSupport = !!(testing.experimentalJestArchitecture);
+  console.log(`Experimental Arch ${_usingExperimentalJestSupport}`)
   if (!config.flags.e2e && !config.flags.spec) {
     return;
   }
@@ -91,6 +92,7 @@ export const validateTesting = (config: d.ValidatedConfig, diagnostics: d.Diagno
     testing.setupFilesAfterEnv = [];
   }
 
+  // TODO(This is needed for something)...
   testing.setupFilesAfterEnv.unshift(
     join(config.sys!.getCompilerExecutingPath(), '..', '..', 'testing', 'jest-setuptestframework.js')
   );
@@ -147,7 +149,7 @@ export const validateTesting = (config: d.ValidatedConfig, diagnostics: d.Diagno
     delete testing.testMatch;
   }
 
-  if (typeof testing.runner !== 'string') {
+  if (!_usingExperimentalJestSupport && typeof testing.runner !== 'string') {
     testing.runner = join(config.sys!.getCompilerExecutingPath(), '..', '..', 'testing', 'jest-runner.js');
   }
 
@@ -175,6 +177,8 @@ export const validateTesting = (config: d.ValidatedConfig, diagnostics: d.Diagno
       },
     ];
   }
+  console.log(`TEST CONFIG
+${JSON.stringify(testing,null,4)}`)
 };
 
 const addTestingConfigOption = (setArray: string[], option: string) => {

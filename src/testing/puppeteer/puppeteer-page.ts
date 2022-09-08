@@ -18,7 +18,10 @@ declare const global: JestEnvironmentGlobal;
 const env: E2EProcessEnv = process.env;
 export async function newE2EPage(opts: NewE2EPageOptions = {}): Promise<E2EPage> {
   if (!global.__NEW_TEST_PAGE__) {
-    throw new Error(`newE2EPage() is only available from E2E tests, and ran with the --e2e cmd line flag.`);
+    // TODO: Be more graceful here
+    // @ts-ignore
+    return Promise.reject();
+    // throw new Error(`newE2EPage() is only available from E2E tests, and ran with the --e2e cmd line flag.`);
   }
 
   const page: E2EPageInternal = await global.__NEW_TEST_PAGE__();
