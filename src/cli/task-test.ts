@@ -1,5 +1,8 @@
 import type { ValidatedConfig, TestingRunOptions } from '../declarations';
 import { IS_NODE_ENV } from '../compiler/sys/environment';
+// this inherits from elsewhere and won't make sense if split out. just shush it for now
+// eslint-disable-next-line jest/no-jest-import
+import {getVersion} from 'jest';
 
 /**
  * Entrypoint for any Stencil tests
@@ -11,8 +14,8 @@ export const taskTest = async (config: ValidatedConfig): Promise<void> => {
     return config.sys.exit(1);
   }
 
-  // TODO(NOW): need a way to determine the version
-  const jestVersion = 28;
+  // TODO(NOW): need a way to determine the version that's safe - coerce this w `semver`
+  const jestVersion = Number(getVersion().split('.')[0]);
   // TODO(NOW): new name
   const isExperimentalJestSupport = jestVersion >= 28;
 
