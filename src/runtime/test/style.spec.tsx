@@ -4,8 +4,8 @@ import { newSpecPage } from '@stencil/core/testing';
 describe('style', () => {
   it('get style string', async () => {
     @Component({
-      tag: 'cmp-a',
       styles: `div { color: red; }`,
+      tag: 'cmp-a',
     })
     class CmpA {
       render() {
@@ -15,8 +15,8 @@ describe('style', () => {
 
     const { root, styles } = await newSpecPage({
       components: [CmpA],
-      includeAnnotations: true,
       html: `<cmp-a></cmp-a>`,
+      includeAnnotations: true,
     });
 
     expect(root).toHaveClass('hydrated');
@@ -27,11 +27,11 @@ describe('style', () => {
     it('md mode', async () => {
       setMode(() => 'md');
       @Component({
-        tag: 'cmp-a',
         styles: {
           ios: `:host { color: black }`,
           md: `:host { color: red }`,
         },
+        tag: 'cmp-a',
       })
       class CmpA {
         render() {
@@ -51,11 +51,11 @@ describe('style', () => {
     it('ios mode', async () => {
       setMode(() => 'ios');
       @Component({
-        tag: 'cmp-a',
         styles: {
           ios: `:host { color: black };`,
           md: `:host { color: red };`,
         },
+        tag: 'cmp-a',
       })
       class CmpA {
         render() {

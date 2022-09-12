@@ -4,9 +4,9 @@ import { newSpecPage } from '@stencil/core/testing';
 describe('scoped', () => {
   it('should add scoped classes', async () => {
     @Component({
-      tag: 'cmp-a',
-      styles: ':host { color: inherit }',
       scoped: true,
+      styles: ':host { color: inherit }',
+      tag: 'cmp-a',
     })
     class CmpA {
       render() {
@@ -19,9 +19,9 @@ describe('scoped', () => {
     }
 
     @Component({
-      tag: 'cmp-b',
-      styles: ':host { color: inherit }',
       scoped: true,
+      styles: ':host { color: inherit }',
+      tag: 'cmp-b',
     })
     class CmpB {
       render() {
@@ -34,8 +34,8 @@ describe('scoped', () => {
     }
     const page = await newSpecPage({
       components: [CmpA, CmpB],
-      includeAnnotations: true,
       html: `<cmp-a></cmp-a>`,
+      includeAnnotations: true,
     });
 
     expect(page.root).toEqualHtml(`

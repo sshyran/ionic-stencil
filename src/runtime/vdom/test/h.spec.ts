@@ -179,7 +179,7 @@ describe('h()', () => {
   });
 
   it('should add class from className map of classnames and booleans', () => {
-    // eslint-disable-next line sort-keys -- we're using clever keys here
+    // eslint-disable-next-line sort-keys -- we're using clever keys here
     const vnode = h('div', { className: { save: true, the: true, clock: true, tower: true, hillvalley: false } });
     expect(vnode.$attrs$.class).toBeDefined();
     expect(vnode.$attrs$.class).toEqual('save the clock tower');
@@ -194,7 +194,7 @@ describe('h()', () => {
   });
 
   it('should add attrs', () => {
-    const vnode = h('div', { id: 'my-id', checked: false, count: 0 });
+    const vnode = h('div', { checked: false, count: 0, id: 'my-id', });
     expect(vnode.$attrs$).toBeDefined();
     expect(vnode.$attrs$.id).toBe('my-id');
     expect(vnode.$attrs$.checked).toBe(false);
@@ -386,10 +386,10 @@ describe('h()', () => {
           },
           vchildren: [
             {
-              $elm$: null,
-              $flags$: 0,
               $attrs$: null,
               $children$: null,
+              $elm$: null,
+              $flags$: 0,
               $key$: null,
               $name$: null,
               $tag$: 'span',
@@ -427,25 +427,25 @@ describe('h()', () => {
       const vnode = h(FunctionalCmp, null, h('div', { id: 'blue' }, 'innerText'), h('span', null));
       expect(vnode).toEqual([
         {
-          $elm$: null,
-          $flags$: 0,
           $attrs$: {
             class: 'my-class',
             id: 'blue',
           },
           $children$: [newVNode(null, 'innerText')],
+          $elm$: null,
+          $flags$: 0,
           $key$: null,
           $name$: null,
           $tag$: 'div',
           $text$: null,
         },
         {
-          $elm$: null,
-          $flags$: 0,
           $attrs$: {
             class: 'my-class',
           },
           $children$: null,
+          $elm$: null,
+          $flags$: 0,
           $key$: null,
           $name$: null,
           $tag$: 'span',
@@ -470,35 +470,35 @@ describe('h()', () => {
 
       expect(vnode).toEqual([
         {
-          $flags$: 0,
-          $tag$: 'article',
-          $text$: null,
-          $elm$: null,
+          $attrs$: { id: 'blue' },
           $children$: [
             {
-              $flags$: 0,
-              $tag$: 'p',
-              $text$: null,
-              $elm$: null,
-              $children$: [newVNode(null, 'innerText')],
               $attrs$: null,
+              $children$: [newVNode(null, 'innerText')],
+              $elm$: null,
+              $flags$: 0,
               $key$: null,
               $name$: null,
+              $tag$: 'p',
+              $text$: null,
             },
           ],
-          $attrs$: { id: 'blue' },
+          $elm$: null,
+          $flags$: 0,
           $key$: null,
           $name$: null,
+          $tag$: 'article',
+          $text$: null,
         },
         {
-          $flags$: 0,
-          $tag$: 'span',
-          $text$: null,
-          $elm$: null,
-          $children$: null,
           $attrs$: null,
+          $children$: null,
+          $elm$: null,
+          $flags$: 0,
           $key$: null,
           $name$: null,
+          $tag$: 'span',
+          $text$: null,
         },
       ]);
     });

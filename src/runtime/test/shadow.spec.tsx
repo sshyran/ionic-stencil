@@ -2,9 +2,9 @@ import { Component, h } from '@stencil/core';
 import { newSpecPage } from '@stencil/core/testing';
 
 @Component({
-  tag: 'cmp-a',
-  styles: ':host { color: black }',
   shadow: true,
+  styles: ':host { color: black }',
+  tag: 'cmp-a',
 })
 class CmpA {
   render() {
@@ -26,13 +26,13 @@ describe('shadow', () => {
   it('render with shadow-dom enabled', async () => {
     const page = await newSpecPage({
       components: [CmpA],
-      includeAnnotations: true,
       html: `
       <cmp-a>
         <span slot="end">End</span>
         Text
         <span slot="start">Start</span>
       </cmp-a>`,
+      includeAnnotations: true,
     });
 
     expect(page.root).toEqualHtml(`
@@ -73,14 +73,14 @@ describe('shadow', () => {
   it('render scoped html with shadow-dom disabled', async () => {
     const page = await newSpecPage({
       components: [CmpA],
-      supportsShadowDom: false,
-      includeAnnotations: true,
       html: `
       <cmp-a>
         <span slot="end">End</span>
         Text
         <span slot="start">Start</span>
       </cmp-a>`,
+      includeAnnotations: true,
+      supportsShadowDom: false,
     });
 
     const expected = `
@@ -107,13 +107,13 @@ describe('shadow', () => {
   it('render scoped html with shadow-dom disabled without annotations', async () => {
     const page = await newSpecPage({
       components: [CmpA],
-      supportsShadowDom: false,
       html: `
       <cmp-a>
         <span slot="end">End</span>
         Text
         <span slot="start">Start</span>
       </cmp-a>`,
+      supportsShadowDom: false,
     });
 
     const expected = `

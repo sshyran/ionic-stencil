@@ -543,8 +543,8 @@ describe('render-vdom', () => {
 
     const { root } = await newSpecPage({
       components: [CmpA],
-      includeAnnotations: true,
       html: `<cmp-a>Hello</cmp-a>`,
+      includeAnnotations: true,
     });
 
     expect(root).toEqualHtml(`
@@ -838,9 +838,9 @@ describe('render-vdom', () => {
   describe('svg', () => {
     it('should not override classes', async () => {
       @Component({
-        tag: 'cmp-a',
-        styles: ':host{}',
         scoped: true,
+        styles: ':host{}',
+        tag: 'cmp-a',
       })
       class CmpA {
         @Prop() addClass = false;

@@ -105,11 +105,11 @@ Empty objects can also be the cause, look for JSX comments that became objects.`
 
 export const newVNode = (tag: string, text: string) => {
   const vnode: d.VNode = {
+    $children$: null,
+    $elm$: null,
     $flags$: 0,
     $tag$: tag,
     $text$: text,
-    $elm$: null,
-    $children$: null,
   };
   if (BUILD.vdomAttribute) {
     vnode.$attrs$ = null;
