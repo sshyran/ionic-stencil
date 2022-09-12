@@ -194,7 +194,7 @@ describe('h()', () => {
   });
 
   it('should add attrs', () => {
-    const vnode = h('div', { checked: false, count: 0, id: 'my-id', });
+    const vnode = h('div', { checked: false, count: 0, id: 'my-id' });
     expect(vnode.$attrs$).toBeDefined();
     expect(vnode.$attrs$.id).toBe('my-id');
     expect(vnode.$attrs$.checked).toBe(false);

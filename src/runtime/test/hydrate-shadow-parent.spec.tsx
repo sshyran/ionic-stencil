@@ -221,7 +221,7 @@ describe('hydrate, shadow parent', () => {
   });
 
   it('nested cmp-b, parent text light-dom slot', async () => {
-    @Component({ tag: 'cmp-a', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-a' })
     class CmpA {
       render() {
         return (
@@ -285,7 +285,7 @@ describe('hydrate, shadow parent', () => {
   });
 
   it('nested text, complicated slots', async () => {
-    @Component({ tag: 'cmp-a', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-a' })
     class CmpA {
       render() {
         return (
@@ -364,7 +364,7 @@ describe('hydrate, shadow parent', () => {
   });
 
   it('root level component, nested shadow slot', async () => {
-    @Component({ tag: 'ion-tab-button', shadow: true })
+    @Component({ shadow: true, tag: 'ion-tab-button' })
     class TabButton {
       render() {
         return (
@@ -377,7 +377,7 @@ describe('hydrate, shadow parent', () => {
         );
       }
     }
-    @Component({ tag: 'ion-badge', shadow: true })
+    @Component({ shadow: true, tag: 'ion-badge' })
     class Badge {
       render() {
         return (
@@ -387,7 +387,7 @@ describe('hydrate, shadow parent', () => {
         );
       }
     }
-    @Component({ tag: 'ion-ripple-effect', shadow: true })
+    @Component({ shadow: true, tag: 'ion-ripple-effect' })
     class RippleEffect {
       render() {
         return <Host></Host>;

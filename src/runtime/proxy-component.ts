@@ -23,6 +23,8 @@ export const proxyComponent = (Cstr: d.ComponentConstructor, cmpMeta: d.Componen
       ) {
         // proxyComponent - prop
         Object.defineProperty(prototype, memberName, {
+          configurable: true,
+          enumerable: true,
           get(this: d.RuntimeRef) {
             // proxyComponent, get value
             return getValue(this, memberName);
@@ -49,8 +51,6 @@ export const proxyComponent = (Cstr: d.ComponentConstructor, cmpMeta: d.Componen
             // proxyComponent, set value
             setValue(this, memberName, newValue, cmpMeta);
           },
-          configurable: true,
-          enumerable: true,
         });
       } else if (
         BUILD.lazyLoad &&

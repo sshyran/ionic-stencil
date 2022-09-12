@@ -3,9 +3,9 @@ import { Component, Event, EventEmitter, h, Listen, Method, Prop, State, Watch }
 import { format } from './utils';
 
 @Component({
-  tag: 'cmp-a',
-  styleUrl: 'cmp-a.css',
   shadow: true,
+  styleUrl: 'cmp-a.css',
+  tag: 'cmp-a',
 })
 export class CmpA {
   // ************************

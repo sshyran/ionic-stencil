@@ -127,10 +127,10 @@ describe('event', () => {
     @Component({ tag: 'cmp-a' })
     class CmpA {
       @Event({
-        eventName: 'ionStyle',
         bubbles: false,
-        composed: false,
         cancelable: false,
+        composed: false,
+        eventName: 'ionStyle',
       })
       style: EventEmitter;
 

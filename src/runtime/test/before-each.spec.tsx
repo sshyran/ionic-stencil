@@ -9,8 +9,8 @@ describe('newSpecPage, spec testing', () => {
   beforeEach(async () => {
     page = await newSpecPage({
       components: [CmpA],
-      includeAnnotations: true,
       html: '<cmp-a></cmp-a>',
+      includeAnnotations: true,
     });
     root = page.root;
   });

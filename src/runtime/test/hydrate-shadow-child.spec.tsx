@@ -3,7 +3,7 @@ import { newSpecPage } from '@stencil/core/testing';
 
 describe('hydrate, shadow child', () => {
   it('no slot', async () => {
-    @Component({ tag: 'cmp-a', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-a' })
     class CmpA {
       render() {
         return (
@@ -59,7 +59,7 @@ describe('hydrate, shadow child', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b', })
     class CmpB {
       render() {
         return (
@@ -120,7 +120,7 @@ describe('hydrate, shadow child', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b', })
     class CmpB {
       render() {
         return (
@@ -179,7 +179,7 @@ describe('hydrate, shadow child', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b', })
     class CmpB {
       render() {
         return (
@@ -239,7 +239,7 @@ describe('hydrate, shadow child', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b', })
     class CmpB {
       render() {
         return (
@@ -303,7 +303,7 @@ describe('hydrate, shadow child', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b', })
     class CmpB {
       render() {
         return (
@@ -368,7 +368,7 @@ describe('hydrate, shadow child', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b', })
     class CmpB {
       render() {
         return (
@@ -431,7 +431,7 @@ describe('hydrate, shadow child', () => {
         return <Host></Host>;
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b', })
     class CmpB {
       render() {
         return (
@@ -443,7 +443,7 @@ describe('hydrate, shadow child', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-c', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-c', })
     class CmpC {
       render() {
         return (
@@ -522,8 +522,8 @@ describe('hydrate, shadow child', () => {
 
   it('test shadow root innerHTML', async () => {
     @Component({
-      tag: 'cmp-a',
       shadow: true,
+      tag: 'cmp-a',
     })
     class CmpA {
       render() {

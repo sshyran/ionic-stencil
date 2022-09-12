@@ -3,7 +3,7 @@ import { newSpecPage } from '@stencil/core/testing';
 
 describe('hydrate, shadow in shadow', () => {
   it('nested cmp-b w/ shadow/slot, root level text', async () => {
-    @Component({ tag: 'cmp-a', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-a' })
     class CmpA {
       render() {
         return (
@@ -15,7 +15,7 @@ describe('hydrate, shadow in shadow', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b' })
     class CmpB {
       render() {
         return (
@@ -77,7 +77,7 @@ describe('hydrate, shadow in shadow', () => {
   });
 
   it('nested cmp-b w/ shadow, text slot', async () => {
-    @Component({ tag: 'cmp-a', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-a' })
     class CmpA {
       render() {
         return (
@@ -87,7 +87,7 @@ describe('hydrate, shadow in shadow', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b' })
     class CmpB {
       render() {
         return (
@@ -149,7 +149,7 @@ describe('hydrate, shadow in shadow', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b' })
     class CmpB {
       render() {
         return (
@@ -208,7 +208,7 @@ describe('hydrate, shadow in shadow', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b' })
     class CmpB {
       render() {
         return (
@@ -268,7 +268,7 @@ describe('hydrate, shadow in shadow', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b' })
     class CmpB {
       render() {
         return (
@@ -332,7 +332,7 @@ describe('hydrate, shadow in shadow', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b' })
     class CmpB {
       render() {
         return (
@@ -397,7 +397,7 @@ describe('hydrate, shadow in shadow', () => {
         );
       }
     }
-    @Component({ tag: 'cmp-b', shadow: true })
+    @Component({ shadow: true, tag: 'cmp-b' })
     class CmpB {
       render() {
         return (

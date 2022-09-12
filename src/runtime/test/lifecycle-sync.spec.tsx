@@ -63,8 +63,8 @@ describe('lifecycle sync', () => {
 
     const { root } = await newSpecPage({
       components: [CmpA, CmpB],
-      includeAnnotations: true,
       html: `<cmp-b><cmp-a></cmp-a></cmp-b>`,
+      includeAnnotations: true,
     });
     expect(root).toEqualHtml(`
       <cmp-b class="hydrated">

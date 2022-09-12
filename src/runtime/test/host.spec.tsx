@@ -9,10 +9,10 @@ describe('hostData', () => {
 
       hostData() {
         return {
-          value: 'somevalue',
-          role: 'alert',
           'aria-hidden': this.hidden ? 'true' : null,
           hidden: this.hidden,
+          role: 'alert',
+          value: 'somevalue',
         };
       }
     }

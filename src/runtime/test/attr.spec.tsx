@@ -260,7 +260,7 @@ describe('attribute', () => {
         @Prop({ reflect: true }) otherBool = true;
         @Prop({ reflect: true }) disabled = false;
 
-        @Prop({ reflect: true, mutable: true }) dynamicStr: string;
+        @Prop({ mutable: true, reflect: true, }) dynamicStr: string;
         @Prop({ reflect: true }) dynamicNu: number;
 
         componentWillLoad() {
@@ -293,7 +293,7 @@ describe('attribute', () => {
     });
 
     it('should reflect properties as attributes with strict build', async () => {
-      @Component({ tag: 'cmp-a', shadow: true })
+      @Component({ shadow: true, tag: 'cmp-a', })
       class CmpA {
         @Prop({ reflect: true }) foo = 'bar';
 
@@ -320,7 +320,7 @@ describe('attribute', () => {
     });
 
     it('should reflect draggable', async () => {
-      @Component({ tag: 'cmp-draggable', shadow: true })
+      @Component({ shadow: true, tag: 'cmp-draggable', })
       class CmpABC {
         @Prop() foo = false;
 

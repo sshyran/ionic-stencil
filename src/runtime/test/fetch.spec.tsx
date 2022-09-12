@@ -127,11 +127,11 @@ describe('fetch', () => {
 
   it('MockRequest text', async () => {
     const res = new MockResponse('10:04', {
-      url: '/hillvalley.txt',
       headers: new MockHeaders([
         ['Content-Type', 'text/plain'],
         ['Access-Control-Allow-Origin', '*'],
       ]),
+      url: '/hillvalley.txt',
     });
     mockFetch.response(res);
 
