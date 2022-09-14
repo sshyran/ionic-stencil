@@ -15,6 +15,7 @@ export const registerStyle = (scopeId: string, cssText: string, allowCS: boolean
     if (typeof style === 'string') {
       style = cssText;
     } else {
+      console.log(`Calling Stencil replaceSync`)
       style.replaceSync(cssText);
     }
   } else {

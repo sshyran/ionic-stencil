@@ -1,5 +1,5 @@
 import color from 'ansi-colors';
-import execa from 'execa';
+import {execa} from 'execa';
 import Listr, { ListrTask } from 'listr';
 import { BuildOptions } from './utils/options';
 import {

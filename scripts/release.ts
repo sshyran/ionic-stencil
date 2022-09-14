@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import color from 'ansi-colors';
-import execa from 'execa';
+import {execa} from 'execa';
 import inquirer from 'inquirer';
 import { getOptions, BuildOptions } from './utils/options';
 import { runReleaseTasks } from './release-tasks';

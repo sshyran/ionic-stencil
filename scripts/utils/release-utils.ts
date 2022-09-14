@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import execa from 'execa';
+import {execa} from 'execa';
 import color from 'ansi-colors';
 import semver from 'semver';
 import open from 'open';
