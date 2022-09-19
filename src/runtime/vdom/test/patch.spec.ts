@@ -3,7 +3,7 @@ import { SVG_NS } from '@utils';
 
 import type * as d from '../../../declarations';
 import { h, newVNode } from '../h';
-import { patch, commitDOMModifications } from '../vdom-render';
+import { commitDOMModifications,patch } from '../vdom-render';
 import { toVNode } from './to-vnode';
 
 describe('renderer', () => {

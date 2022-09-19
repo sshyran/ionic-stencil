@@ -214,12 +214,12 @@ const addVnodes = (
   for (; startIdx <= endIdx; ++startIdx) {
     if (vnodes[startIdx]) {
       // scoping?
-      let nodeOfInterest = vnodes[startIdx];
-      let startIdxSaved = startIdx;
-      let parentElmScoped = parentElm;
-      let beforeScoped = before;
-      let parentVNodeScoped = parentVNode;
-      let containerElmScoped = containerElm;
+      const nodeOfInterest = vnodes[startIdx];
+      const startIdxSaved = startIdx;
+      const parentElmScoped = parentElm;
+      const beforeScoped = before;
+      const parentVNodeScoped = parentVNode;
+      const containerElmScoped = containerElm;
       queue.insertions.push(() => {
         childNode = createElm(null, parentVNodeScoped, startIdxSaved, parentElmScoped);
         if (childNode) {
@@ -240,9 +240,9 @@ const removeVnodes = (
 ) => {
   for (; startIdx <= endIdx; ++startIdx) {
     if ((vnode = vnodes[startIdx])) {
-      let elm = vnode.$elm$;
+      const elm = vnode.$elm$;
 
-      let nodeOfInterest = vnode;
+      const nodeOfInterest = vnode;
       // we update the refs (calling it with `null` in this case) when we
       // queue the deletion operation because we want this to happen before we add
       // new elements to the DOM which may cause the same `ref` to fire
@@ -339,6 +339,7 @@ const removeVnodes = (
  * @param oldCh the old children of the parent node
  * @param newVNode the new VNode which will replace the parent
  * @param newCh the new children of the parent node
+ * @param queue
  */
 const updateChildren = (
   parentElm: d.RenderNode,
@@ -478,10 +479,10 @@ const updateChildren = (
 
         if (elmToMove.$tag$ !== newStartVnode.$tag$) {
           // the tag doesn't match so we'll need a new DOM element
-          let newStartIdxScoped = newStartIdx;
-          let idxInOldScoped = idxInOld;
-          let parentElmScoped = parentElm;
-          let oldStartVnodeScoped = oldStartVnode;
+          const newStartIdxScoped = newStartIdx;
+          const idxInOldScoped = idxInOld;
+          const parentElmScoped = parentElm;
+          const oldStartVnodeScoped = oldStartVnode;
           console.log('updateChildren::inserting node::parentElmScoped:');
           queue.insertions.push(() => {
             node = createElm(oldCh && oldCh[newStartIdxScoped], newVNode, idxInOldScoped, parentElmScoped);
@@ -502,7 +503,7 @@ const updateChildren = (
           // invalidate the matching old node so that we won't try to update it
           // again later on
           oldCh[idxInOld] = undefined;
-          let node = elmToMove.$elm$;
+          const node = elmToMove.$elm$;
 
           if (node) {
             // if we created a new node then handle inserting it to the DOM
@@ -520,13 +521,13 @@ const updateChildren = (
         // the key of the first new child OR the build is not using `key`
         // attributes at all. In either case we need to create a new element
         // for the new node.
-        let newStartIdxScoped = newStartIdx;
-        let oldStartVnodeScoped = oldStartVnode;
-        let parentElmScoped = parentElm;
-        let elmo = oldStartVnodeScoped.$elm$;
+        const newStartIdxScoped = newStartIdx;
+        const oldStartVnodeScoped = oldStartVnode;
+        const parentElmScoped = parentElm;
+        const elmo = oldStartVnodeScoped.$elm$;
         console.log('updateChildren::inserting node (2nd position)::parentElmScoped:', parentElmScoped);
         queue.insertions.push(() => {
-          let node = createElm(oldCh && oldCh[newStartIdxScoped], newVNode, newStartIdxScoped, parentElmScoped);
+          const node = createElm(oldCh && oldCh[newStartIdxScoped], newVNode, newStartIdxScoped, parentElmScoped);
           if (node) {
             // if we created a new node then handle inserting it to the DOM
             if (BUILD.slotRelocation) {
