@@ -27,8 +27,6 @@ import { isComplexType, MEMBER_FLAGS } from '@utils';
 export const parsePropertyValue = (propValue: any, propType: number): any => {
   // ensure this value is of the correct prop type
 
-  console.log(`parsePropertyValue::propValue: ${propValue}`)
-  console.log(`parsePropertyValue::propType: ${propType}`)
   if (propValue != null && !isComplexType(propValue)) {
     if (BUILD.propBoolean && propType & MEMBER_FLAGS.Boolean) {
       // per the HTML spec, any string value means it is a boolean true value

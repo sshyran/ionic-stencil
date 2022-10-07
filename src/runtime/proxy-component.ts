@@ -61,7 +61,6 @@ export const proxyComponent = (
               }
             }
             // proxyComponent, set value
-            console.log(`onMember ${memberName}, set val ${newValue}`)
             setValue(this, memberName, newValue, cmpMeta);
           },
           configurable: true,
@@ -87,7 +86,6 @@ export const proxyComponent = (
       const attrNameToPropName = new Map();
 
       prototype.attributeChangedCallback = function (attrName: string, _oldValue: string, newValue: string) {
-        console.trace(`proxy-component::attributeChangedCallback(${attrName},${_oldValue},${newValue})`)
         plt.jmp(() => {
           const propName = attrNameToPropName.get(attrName);
 
@@ -138,8 +136,6 @@ export const proxyComponent = (
             return;
           }
 
-          console.log(`proxy-component::attributeChangedCallback:newValue ${newValue}`)
-          console.log(`proxy-component::attributeChangedCallback:calcVal ${newValue === null && typeof this[propName] === 'boolean' ? false : newValue}`)
           this[propName] = newValue === null && typeof this[propName] === 'boolean' ? false : newValue;
         });
       };

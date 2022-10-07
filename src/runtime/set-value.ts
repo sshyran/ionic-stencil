@@ -10,24 +10,17 @@ export const getValue = (ref: d.RuntimeRef, propName: string) => getHostRef(ref)
 
 export const setValue = (ref: d.RuntimeRef, propName: string, newVal: any, cmpMeta: d.ComponentRuntimeMeta) => {
   // check our new property value against our internal value
-  console.trace(`setValue TRACE`)
   const hostRef = getHostRef(ref);
   const elm = BUILD.lazyLoad ? hostRef.$hostElement$ : (ref as d.HostElement);
   const oldVal = hostRef.$instanceValues$.get(propName);
   const flags = hostRef.$flags$;
   const instance = BUILD.lazyLoad ? hostRef.$lazyInstance$ : (elm as any);
-  console.log(`set-value::setValue-og oldVal: ${oldVal}`)
-  console.log(`set-value::setValue-og newval: ${newVal}`)
-  console.log(`set-value::setValue-og type: ${cmpMeta.$members$[propName][0]}`)
   newVal = parsePropertyValue(newVal, cmpMeta.$members$[propName][0]);
-  console.log(`set-value::setValue-new newval: ${newVal}`)
 
   // explicitly check for NaN on both sides, as `NaN === NaN` is always false
   const areBothNaN = Number.isNaN(oldVal) && Number.isNaN(newVal);
   const didValueChange = newVal !== oldVal && !areBothNaN;
-  console.log(`set-value::didValueChange: ${didValueChange}`)
   if ((!BUILD.lazyLoad || !(flags & HOST_FLAGS.isConstructingInstance) || oldVal === undefined) && didValueChange) {
-    console.log(`set-value::gnarly-if`)
     // gadzooks! the property's value has changed!!
     // set our new value!
     hostRef.$instanceValues$.set(propName, newVal);
