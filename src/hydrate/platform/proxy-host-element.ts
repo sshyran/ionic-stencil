@@ -28,12 +28,15 @@ export function proxyHostElement(elm: d.HostElement, cmpMeta: d.ComponentRuntime
         const attrValue = elm.getAttribute(attributeName);
 
         if (attrValue != null) {
+          console.log(`proxy-host-element::attrValue!=null: ${attrValue}`)
           const parsedAttrValue = parsePropertyValue(attrValue, memberFlags);
           hostRef.$instanceValues$.set(memberName, parsedAttrValue);
         }
 
         const ownValue = (elm as any)[memberName];
+        console.log(`proxy-host-element::ownValue: ${ownValue}`)
         if (ownValue !== undefined) {
+          console.log(`proxy-host-element::ownValue!==undefined: ${ownValue}`)
           // we've got an actual value already set on the host element
           // let's add that to our instance values and pull it off the element
           // so the getter/setter kicks in instead, but still getting this value

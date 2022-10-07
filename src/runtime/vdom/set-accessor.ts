@@ -21,6 +21,7 @@ export const setAccessor = (
   isSvg: boolean,
   flags: number
 ) => {
+  console.log(`set-accessor called!\noldValue:${oldValue}\nnewValue:${newValue}\nflags:${flags}`);
   if (oldValue !== newValue) {
     let isProp = isMemberInElement(elm, memberName);
     let ln = memberName.toLowerCase();
@@ -115,6 +116,7 @@ export const setAccessor = (
               (elm as any)[memberName] = n;
             }
           } else {
+            console.log(`set-accessor::setAccessor ${memberName} ${newValue}`);
             (elm as any)[memberName] = newValue;
           }
         } catch (e) {}
@@ -134,19 +136,27 @@ export const setAccessor = (
           xlink = true;
         }
       }
+      // here it is. this is the problem
+      console.log(`set-accessor::setAccessor::potentiallyIt - ${memberName}, ${oldValue}, ${newValue}`)
+      console.log(`set-accessor::setAccessor::elif is - ${(!isProp || flags & VNODE_FLAGS.isHost || isSvg) && !isComplex}`)
+      console.log(`set-accessor::setAccessor::bc - !isProp:${!isProp}, bitand: ${flags & VNODE_FLAGS.isHost} isSvg: ${isSvg}, !isComplex${!isComplex}`)
       if (newValue == null || newValue === false) {
         if (newValue !== false || elm.getAttribute(memberName) === '') {
           if (BUILD.vdomXlink && xlink) {
+            console.log(`set-accessor::setAccessor::remove1 ${memberName}`)
             elm.removeAttributeNS(XLINK_NS, memberName);
           } else {
+            console.log(`set-accessor::setAccessor::remove2 ${memberName}`)
             elm.removeAttribute(memberName);
           }
         }
       } else if ((!isProp || flags & VNODE_FLAGS.isHost || isSvg) && !isComplex) {
         newValue = newValue === true ? '' : newValue;
         if (BUILD.vdomXlink && xlink) {
+          console.log(`set-accessor::setAccessor::set1 ${memberName} ${newValue}`)
           elm.setAttributeNS(XLINK_NS, memberName, newValue);
         } else {
+          console.log(`set-accessor::setAccessor::set2 ${memberName} ${newValue}`)
           elm.setAttribute(memberName, newValue);
         }
       }
