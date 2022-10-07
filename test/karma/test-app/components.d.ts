@@ -37,6 +37,10 @@ export namespace Components {
         "str1"?: string;
         "str2"?: SomeTypes.String;
     }
+    interface AttributeDelete {
+        "boolState"?: boolean;
+        "noreflect"?: boolean;
+    }
     interface AttributeHost {
     }
     interface AttributeHtmlRoot {
@@ -393,6 +397,12 @@ declare global {
     var HTMLAttributeComplexElement: {
         prototype: HTMLAttributeComplexElement;
         new (): HTMLAttributeComplexElement;
+    };
+    interface HTMLAttributeDeleteElement extends Components.AttributeDelete, HTMLStencilElement {
+    }
+    var HTMLAttributeDeleteElement: {
+        prototype: HTMLAttributeDeleteElement;
+        new (): HTMLAttributeDeleteElement;
     };
     interface HTMLAttributeHostElement extends Components.AttributeHost, HTMLStencilElement {
     }
@@ -1139,6 +1149,7 @@ declare global {
         "attribute-boolean": HTMLAttributeBooleanElement;
         "attribute-boolean-root": HTMLAttributeBooleanRootElement;
         "attribute-complex": HTMLAttributeComplexElement;
+        "attribute-delete": HTMLAttributeDeleteElement;
         "attribute-host": HTMLAttributeHostElement;
         "attribute-html-root": HTMLAttributeHtmlRootElement;
         "bad-shared-jsx": HTMLBadSharedJsxElement;
@@ -1291,6 +1302,10 @@ declare namespace LocalJSX {
         "str0"?: string;
         "str1"?: string;
         "str2"?: SomeTypes.String;
+    }
+    interface AttributeDelete {
+        "boolState"?: boolean;
+        "noreflect"?: boolean;
     }
     interface AttributeHost {
     }
@@ -1599,6 +1614,7 @@ declare namespace LocalJSX {
         "attribute-boolean": AttributeBoolean;
         "attribute-boolean-root": AttributeBooleanRoot;
         "attribute-complex": AttributeComplex;
+        "attribute-delete": AttributeDelete;
         "attribute-host": AttributeHost;
         "attribute-html-root": AttributeHtmlRoot;
         "bad-shared-jsx": BadSharedJsx;
@@ -1734,6 +1750,7 @@ declare module "@stencil/core" {
             "attribute-boolean": LocalJSX.AttributeBoolean & JSXBase.HTMLAttributes<HTMLAttributeBooleanElement>;
             "attribute-boolean-root": LocalJSX.AttributeBooleanRoot & JSXBase.HTMLAttributes<HTMLAttributeBooleanRootElement>;
             "attribute-complex": LocalJSX.AttributeComplex & JSXBase.HTMLAttributes<HTMLAttributeComplexElement>;
+            "attribute-delete": LocalJSX.AttributeDelete & JSXBase.HTMLAttributes<HTMLAttributeDeleteElement>;
             "attribute-host": LocalJSX.AttributeHost & JSXBase.HTMLAttributes<HTMLAttributeHostElement>;
             "attribute-html-root": LocalJSX.AttributeHtmlRoot & JSXBase.HTMLAttributes<HTMLAttributeHtmlRootElement>;
             "bad-shared-jsx": LocalJSX.BadSharedJsx & JSXBase.HTMLAttributes<HTMLBadSharedJsxElement>;
