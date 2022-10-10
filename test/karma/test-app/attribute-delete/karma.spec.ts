@@ -1,6 +1,6 @@
 import { setupDomTests, waitForChanges } from '../util';
-
-describe('attribute-delete', () => {
+// TODO(NOW): unfocus this
+fdescribe('attribute-delete', () => {
   const { setupDom, tearDownDom } = setupDomTests(document);
   let app: HTMLElement;
 
@@ -12,6 +12,7 @@ describe('attribute-delete', () => {
   it('deleting attribute sets it to null', async () => {
     const child = app.querySelector('attribute-delete');
     // a boolean attribute that is reflected to the DOM has a value of an empty string
+    expect(child.hasAttribute('bool-state')).toBe(true);
     expect(child.getAttribute('bool-state')).toBe('');
 
     // set the _attribute_ on the DOM element to `null`
@@ -19,14 +20,13 @@ describe('attribute-delete', () => {
     setAttributeNullButton.click();
     await waitForChanges();
 
-    // because we removed the attribute from the DOM, we expect the 'get' to return `null`
-    expect(child.getAttribute('bool-state')).toBe(null);
+    expect(child.hasAttribute('bool-state')).toBe(false);
   });
 
-  // TODO(NOW): unfocus this
-  fit('deleting prop does not set it to null', async () => {
+  it('deleting prop does not set it to null', async () => {
     const child = app.querySelector('attribute-delete');
     // a boolean attribute that is reflected to the DOM has a value of an empty string
+    expect(child.hasAttribute('bool-state')).toBe(true);
     expect(child.getAttribute('bool-state')).toBe('');
 
     // set the _property_ on the underlying JS object to `null`
@@ -34,8 +34,6 @@ describe('attribute-delete', () => {
     setPropNullButton.click();
     await waitForChanges();
 
-    // because we deleted the property, but didn't remove the attribute from the DOM, we expect the 'get' to return an
-    // empty string
-    expect(child.getAttribute('bool-state')).toBe(null);
+    expect(child.hasAttribute('bool-state')).toBe(false);
   });
 });
