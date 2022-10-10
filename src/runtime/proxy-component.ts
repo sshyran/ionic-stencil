@@ -136,8 +136,7 @@ export const proxyComponent = (
             // APIs to reflect props as attributes. Calls to `setAttribute(someElement, propName)` will result in
             // `propName` to be converted to a `DOMString`, which may not be what we want for other primitive props.
             return;
-          }
-          else if (!this.hasOwnProperty(propName) &&_oldValue != null && newValue == null) {
+          } else if (/*!this.hasOwnProperty(propName) &&*/ _oldValue != null && newValue == null) {
             console.log(`case3`)
             delete this[propName];
             return;
