@@ -123,6 +123,7 @@ export const proxyComponent = (
           //  properties here given that this goes against best practices outlined here
           //  https://developers.google.com/web/fundamentals/web-components/best-practices#avoid-reentrancy
           if (this.hasOwnProperty(propName)) {
+            console.log(`case1`)
             newValue = this[propName];
             delete this[propName];
           } else if (
@@ -130,9 +131,15 @@ export const proxyComponent = (
             typeof this[propName] === 'number' &&
             this[propName] == newValue
           ) {
+            console.log(`case2`)
             // if the propName exists on the prototype of `Cstr`, this update may be a result of Stencil using native
             // APIs to reflect props as attributes. Calls to `setAttribute(someElement, propName)` will result in
             // `propName` to be converted to a `DOMString`, which may not be what we want for other primitive props.
+            return;
+          }
+          else if (!this.hasOwnProperty(propName) &&_oldValue != null && newValue == null) {
+            console.log(`case3`)
+            delete this[propName];
             return;
           }
 

@@ -4,24 +4,23 @@
 <script src="./build/testapp.js" nomodule></script>
 
 <attribute-delete></attribute-delete>
-<button id="setAttrNull" onclick="updateBoolState()">Set attr to undefined</button>
-<button id="setPropNull" onclick="updateBoolState2()">Set prop to undefined</button>
+<button id="setAttrNull" onclick="removeAttr()">Remove the Attribute</button>
+<button id="setPropNull" onclick="setPropertyToNull()">Set the Prop to Null</button>
 
 <script>
-  const updateBoolState = () => {
+  /**
+   * Removes the 'bool-state' attribute from the DOM element that backs `attribute-delete`
+   */
+  function removeAttr() {
     const cmp = document.querySelector('attribute-delete');
-    console.log(`1: Prop before ${cmp['boolState']}`)
-    console.log(`1: Attr before ${cmp.getAttribute('bool-state')}`)
     cmp.removeAttribute('bool-state')
-    console.log(`1: Prop after ${cmp['boolState']}`)
-    console.log(`1: Attr after ${cmp.getAttribute('bool-state')}`)
   }
-  const updateBoolState2 = () => {
+
+  /**
+   * Sets the `boolState` property from `attribute-delete` Stencil component
+   */
+  function setPropertyToNull() {
     const cmp = document.querySelector('attribute-delete');
-    console.log(`2: Prop before ${cmp['boolState']}`)
-    console.log(`2: Attr before ${cmp.getAttribute('bool-state')}`)
     cmp['boolState'] = null;
-    console.log(`2: Prop after ${cmp['boolState']}`)
-    console.log(`2: Attr after ${cmp.getAttribute('bool-state')}`)
   }
 </script>

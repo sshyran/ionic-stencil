@@ -5,11 +5,10 @@ import { Component, Prop, h } from '@stencil/core';
 })
 export class AttributeDelete {
   @Prop({ reflect: true }) boolState?: boolean = true;
-  @Prop() noreflect?: boolean = true;
 
   render() {
     return (
-      <div>Hello World</div>
+      <div>{`The Value of boolState is ${this.boolState}`}</div>
     )
   }
 }

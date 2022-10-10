@@ -39,7 +39,6 @@ export namespace Components {
     }
     interface AttributeDelete {
         "boolState"?: boolean;
-        "noreflect"?: boolean;
     }
     interface AttributeHost {
     }
@@ -1305,7 +1304,6 @@ declare namespace LocalJSX {
     }
     interface AttributeDelete {
         "boolState"?: boolean;
-        "noreflect"?: boolean;
     }
     interface AttributeHost {
     }
