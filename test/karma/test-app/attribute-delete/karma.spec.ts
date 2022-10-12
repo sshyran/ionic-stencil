@@ -1,7 +1,9 @@
 import { setupDomTests, waitForChanges } from '../util';
-// TODO(NOW): unfocus this
+// TODO(UNDO)
 fdescribe('attribute-delete', () => {
   const { setupDom, tearDownDom } = setupDomTests(document);
+  const CUSTOM_ELEMENT_NAME = 'attribute-delete';
+
   let app: HTMLElement;
 
   beforeEach(async () => {
@@ -9,31 +11,77 @@ fdescribe('attribute-delete', () => {
   });
   afterEach(tearDownDom);
 
-  it('deleting attribute sets it to null', async () => {
-    const child = app.querySelector('attribute-delete');
-    // a boolean attribute that is reflected to the DOM has a value of an empty string
-    expect(child.hasAttribute('bool-state')).toBe(true);
-    expect(child.getAttribute('bool-state')).toBe('');
+  describe('deleting attribute',  () => {
+    it('removes the attribute from the dom', async () => {
+      const child = app.querySelector(CUSTOM_ELEMENT_NAME);
 
-    // set the _attribute_ on the DOM element to `null`
-    const setAttributeNullButton = document.querySelector<HTMLButtonElement>('#setAttrNull');
-    setAttributeNullButton.click();
-    await waitForChanges();
+      if(!child) {
+        throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
+      }
 
-    expect(child.hasAttribute('bool-state')).toBe(false);
+      // a boolean attribute that is reflected to the DOM has a value of an empty string
+      expect(child.hasAttribute('bool-state')).toBe(true);
+      expect(child.getAttribute('bool-state')).toBe('');
+
+      // set the _attribute_ on the DOM element to `null`
+      const setAttributeNullButton = document.querySelector<HTMLButtonElement>('#setAttrNull');
+      setAttributeNullButton.click();
+      await waitForChanges();
+
+      expect(child.hasAttribute('bool-state')).toBe(false);
+    });
+
+    it('only re-renders once', async () => {
+      const child = app.querySelector(CUSTOM_ELEMENT_NAME);
+      if (!child) {
+        throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
+      }
+
+      expect(child.textContent).toEqual('The Value of boolState is true 1');
+
+      // set the _attribute_ on the DOM element to `null`
+      const setAttributeNullButton = document.querySelector<HTMLButtonElement>('#setAttrNull');
+      setAttributeNullButton.click();
+      await waitForChanges();
+
+      expect(child.textContent).toEqual('The Value of boolState is false 2');
+    })
   });
 
-  it('deleting prop does not set it to null', async () => {
-    const child = app.querySelector('attribute-delete');
-    // a boolean attribute that is reflected to the DOM has a value of an empty string
-    expect(child.hasAttribute('bool-state')).toBe(true);
-    expect(child.getAttribute('bool-state')).toBe('');
+  describe('deleting prop',  () => {
+    it('removes the reflected attribute from the dom', async () => {
+      const child = app.querySelector(CUSTOM_ELEMENT_NAME);
 
-    // set the _property_ on the underlying JS object to `null`
-    const setPropNullButton = document.querySelector<HTMLButtonElement>('#setPropNull');
-    setPropNullButton.click();
-    await waitForChanges();
+      if(!child) {
+        throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
+      }
 
-    expect(child.hasAttribute('bool-state')).toBe(false);
+      // a boolean attribute that is reflected to the DOM has a value of an empty string
+      expect(child.hasAttribute('bool-state')).toBe(true);
+      expect(child.getAttribute('bool-state')).toBe('');
+
+      // set the _property_ on the underlying JS object to `null`
+      const setPropNullButton = document.querySelector<HTMLButtonElement>('#setPropNull');
+      setPropNullButton.click();
+      await waitForChanges();
+
+      expect(child.hasAttribute('bool-state')).toBe(false);
+    });
+
+    it('only re-renders once', async () => {
+      const child = app.querySelector(CUSTOM_ELEMENT_NAME);
+      if (!child) {
+        throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
+      }
+
+      expect(child.textContent).toEqual('The Value of boolState is true 1');
+
+      // set the _property_ on the underlying JS object to `null`
+      const setPropNullButton = document.querySelector<HTMLButtonElement>('#setPropNull');
+      setPropNullButton.click();
+      await waitForChanges();
+
+      expect(child.textContent).toEqual('The Value of boolState is null 2');
+    })
   });
 });
