@@ -60,6 +60,9 @@ export const proxyComponent = (
                 );
               }
             }
+            if (memberFlags & MEMBER_FLAGS.HasAttribute && newValue === undefined) {
+              newValue = null;
+            }
             // proxyComponent, set value
             setValue(this, memberName, newValue, cmpMeta);
           },
