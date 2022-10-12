@@ -29,7 +29,7 @@ fdescribe('attribute-delete', () => {
       expect(elm.hasAttribute('bool-state')).toBe(false);
     });
 
-    it('doesn\'t re-render', async () => {
+    it('only re-renders once', async () => {
       expect(elm.textContent).toEqual('The Value of boolState is true 1');
 
       // set the _attribute_ on the DOM element to `null`
@@ -37,7 +37,7 @@ fdescribe('attribute-delete', () => {
       setAttributeNullButton.click();
       await waitForChanges();
 
-      expect(elm.textContent).toEqual('The Value of boolState is true 1');
+      expect(elm.textContent).toEqual('The Value of boolState is false 2');
     })
   });
 
