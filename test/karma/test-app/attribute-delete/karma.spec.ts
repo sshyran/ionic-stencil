@@ -3,22 +3,19 @@ import { setupDomTests, waitForChanges } from '../util';
 fdescribe('attribute-delete', () => {
   const { setupDom, tearDownDom } = setupDomTests(document);
   const CUSTOM_ELEMENT_NAME = 'attribute-delete';
-
-  let app: HTMLElement;
-
+  let child: HTMLAttributeDeleteElement;
   beforeEach(async () => {
-    app = await setupDom('/attribute-delete/index.html');
+    const app = await setupDom('/attribute-delete/index.html');
+    child = app.querySelector(CUSTOM_ELEMENT_NAME);
+
+    if(!child) {
+      throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
+    }
   });
   afterEach(tearDownDom);
 
   describe('deleting attribute',  () => {
     it('removes the attribute from the dom', async () => {
-      const child = app.querySelector(CUSTOM_ELEMENT_NAME);
-
-      if(!child) {
-        throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
-      }
-
       // a boolean attribute that is reflected to the DOM has a value of an empty string
       expect(child.hasAttribute('bool-state')).toBe(true);
       expect(child.getAttribute('bool-state')).toBe('');
@@ -32,11 +29,6 @@ fdescribe('attribute-delete', () => {
     });
 
     it('only re-renders once', async () => {
-      const child = app.querySelector(CUSTOM_ELEMENT_NAME);
-      if (!child) {
-        throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
-      }
-
       expect(child.textContent).toEqual('The Value of boolState is true 1');
 
       // set the _attribute_ on the DOM element to `null`
@@ -50,12 +42,6 @@ fdescribe('attribute-delete', () => {
 
   describe('deleting prop',  () => {
     it('removes the reflected attribute from the dom', async () => {
-      const child = app.querySelector(CUSTOM_ELEMENT_NAME);
-
-      if(!child) {
-        throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
-      }
-
       // a boolean attribute that is reflected to the DOM has a value of an empty string
       expect(child.hasAttribute('bool-state')).toBe(true);
       expect(child.getAttribute('bool-state')).toBe('');
@@ -69,11 +55,6 @@ fdescribe('attribute-delete', () => {
     });
 
     it('only re-renders once', async () => {
-      const child = app.querySelector(CUSTOM_ELEMENT_NAME);
-      if (!child) {
-        throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
-      }
-
       expect(child.textContent).toEqual('The Value of boolState is true 1');
 
       // set the _property_ on the underlying JS object to `null`
