@@ -60,8 +60,9 @@ export const proxyComponent = (
                 );
               }
             }
-            if (memberFlags & MEMBER_FLAGS.HasAttribute && newValue === undefined) {
-              newValue = null;
+            if ((memberFlags & MEMBER_FLAGS.HasAttribute) && (memberFlags & MEMBER_FLAGS.Boolean) && newValue == undefined) {
+              // boolean props that are reflected back to the DOM should be handled specially
+              newValue = false;
             }
             // proxyComponent, set value
             setValue(this, memberName, newValue, cmpMeta);
@@ -138,11 +139,11 @@ export const proxyComponent = (
             // `propName` to be converted to a `DOMString`, which may not be what we want for other primitive props.
             return;
           }
-          // else if (_oldValue != null && newValue == null) {
-          //   console.trace(`case3`)
-          //   this[propName] = newValue;
-          //   return;
-          // }
+          else if (_oldValue === undefined && newValue === null) {
+            // console.trace(`case3`)
+            // this[propName] = newValue;
+            return;
+          }
 
           this[propName] = newValue === null && typeof this[propName] === 'boolean' ? false : newValue;
         });
