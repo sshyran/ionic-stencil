@@ -785,14 +785,16 @@ render() {
   `);
   }
   if (BUILD.reflect && cmpMeta.$attrsToReflect$) {
-    console.trace()
+    console.trace();
     rootVnode.$attrs$ = rootVnode.$attrs$ || {};
-    cmpMeta.$attrsToReflect$.forEach(([propName, attribute]) => console.log(`${propName}, ${attribute}, ${(hostElm as any)[propName]}`))
+    cmpMeta.$attrsToReflect$.forEach(([propName, attribute]) =>
+      console.log(`${propName}, ${attribute}, ${(hostElm as any)[propName]}`)
+    );
+    cmpMeta.$attrsToReflect$.forEach(([propName, _attribute]) => console.log(`propName '${propName}' eval to ${(hostElm as any)[propName]}`))
     cmpMeta.$attrsToReflect$
-      .filter(([propName, _attribute]) => (hostElm as any)[propName] !== undefined)
       .map(([propName, attribute]) => {
         console.log(`0 ${propName}, ${attribute}, ${(hostElm as any)[propName]}`);
-        (rootVnode.$attrs$[attribute] = (hostElm as any)[propName]);
+        rootVnode.$attrs$[attribute] = (hostElm as any)[propName];
         console.log(`1 ${propName}, ${attribute}, ${(hostElm as any)[propName]}`);
       });
   }

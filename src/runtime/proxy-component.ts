@@ -60,9 +60,13 @@ export const proxyComponent = (
                 );
               }
             }
-            if ((memberFlags & MEMBER_FLAGS.HasAttribute) && (memberFlags & MEMBER_FLAGS.Boolean) && newValue == undefined) {
+            if (
+              memberFlags & MEMBER_FLAGS.HasAttribute &&
+              memberFlags & MEMBER_FLAGS.Boolean &&
+              newValue == undefined
+            ) {
               // boolean props that are reflected back to the DOM should be handled specially
-              newValue = false;
+              // newValue = false;
             }
             // proxyComponent, set value
             setValue(this, memberName, newValue, cmpMeta);
@@ -138,8 +142,7 @@ export const proxyComponent = (
             // APIs to reflect props as attributes. Calls to `setAttribute(someElement, propName)` will result in
             // `propName` to be converted to a `DOMString`, which may not be what we want for other primitive props.
             return;
-          }
-          else if (_oldValue === undefined && newValue === null) {
+          } else if (_oldValue === undefined && newValue === null) {
             // console.trace(`case3`)
             // this[propName] = newValue;
             return;

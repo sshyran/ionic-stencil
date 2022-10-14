@@ -9,13 +9,13 @@ fdescribe('attribute-delete', () => {
     const app = await setupDom('/attribute-delete/index.html');
     elm = app.querySelector(CUSTOM_ELEMENT_NAME);
 
-    if(!elm) {
-      throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`)
+    if (!elm) {
+      throw new Error(`Unable to find element with selector, "${CUSTOM_ELEMENT_NAME}"`);
     }
   });
   afterEach(tearDownDom);
 
-  describe('deleting attribute',  () => {
+  describe('deleting attribute', () => {
     it('removes the attribute from the dom', async () => {
       // a boolean attribute that is reflected to the DOM has a value of an empty string
       expect(elm.hasAttribute('bool-state')).toBe(true);
@@ -38,10 +38,10 @@ fdescribe('attribute-delete', () => {
       await waitForChanges();
 
       expect(elm.textContent).toEqual('The Value of boolState is false 2');
-    })
+    });
   });
 
-  describe('deleting prop',  () => {
+  describe('deleting prop', () => {
     it('removes the reflected attribute from the dom', async () => {
       // a boolean attribute that is reflected to the DOM has a value of an empty string
       expect(elm.hasAttribute('bool-state')).toBe(true);
@@ -64,6 +64,6 @@ fdescribe('attribute-delete', () => {
       await waitForChanges();
 
       expect(elm.textContent).toEqual('The Value of boolState is undefined 2');
-    })
+    });
   });
 });

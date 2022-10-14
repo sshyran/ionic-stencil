@@ -12,8 +12,6 @@ export class AttributeDelete {
 
   render() {
     this.renderCount++;
-    return (
-      <div>{`The Value of boolState is ${this.boolState} ${this.renderCount}`}</div>
-    )
+    return <div>{`The Value of boolState is ${this.boolState} ${this.renderCount}`}</div>;
   }
 }

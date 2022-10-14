@@ -79,6 +79,7 @@ const updateComponent = async (hostRef: d.HostRef, instance: any, isInitialLoad:
 
   const endRender = createTime('render', hostRef.$cmpMeta$.$tagName$);
   if (BUILD.isDev) {
+    console.log(`set devOnRender1`)
     hostRef.$flags$ |= HOST_FLAGS.devOnRender;
   }
 
