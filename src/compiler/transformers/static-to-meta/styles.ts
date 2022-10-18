@@ -5,39 +5,56 @@ import type * as d from '../../../declarations';
 import { normalizeStyles } from '../../style/normalize-styles';
 import { ConvertIdentifier, getStaticValue } from '../transform-utils';
 
+/**
+ * Parse the static "style" related members that were declared on a component.
+ *
+ * There are multiple ways to declare style(s) on a component, via various keywords on the `@Component` decorator and
+ * the various data structures associated with each keyword. Each must be accounted for in this function.
+ *
+ * This function has a side effect of storing each the style mode name (including the default style mode) on the
+ * compiler context.
+ *
+ * @param compilerCtx the current compiler context
+ * @param tagName the tag for the web component that styles should be associated with
+ * @param componentFilePath the fully qualified path to the containing the component's declaration
+ * @param isCollectionDependency
+ * @param staticMembers the static class elements for a component
+ * @returns
+ */
 export const parseStaticStyles = (
   compilerCtx: d.CompilerCtx,
   tagName: string,
   componentFilePath: string,
   isCollectionDependency: boolean,
   staticMembers: ts.ClassElement[]
-) => {
+): d.StyleCompiler[] => {
   const styles: d.StyleCompiler[] = [];
+  // If the dependency is a collection, use URLs that have been normalized to use ".css".
+  // Otherwise, use the original URL for the stylesheet.
   const styleUrlsProp = isCollectionDependency ? 'styleUrls' : 'originalStyleUrls';
   const parsedStyleUrls = getStaticValue(staticMembers, styleUrlsProp) as d.CompilerModeStyles;
+  let parsedStyles = getStaticValue(staticMembers, 'styles');
 
-  let parsedStyle = getStaticValue(staticMembers, 'styles');
-
-  if (parsedStyle) {
-    if (typeof parsedStyle === 'string') {
+  if (parsedStyles) {
+    if (typeof parsedStyles === 'string') {
       // styles: 'div { padding: 10px }'
-      parsedStyle = parsedStyle.trim();
-      if (parsedStyle.length > 0) {
+      parsedStyles = parsedStyles.trim();
+      if (parsedStyles.length > 0) {
         styles.push({
           modeName: DEFAULT_STYLE_MODE,
           styleId: null,
-          styleStr: parsedStyle,
+          styleStr: parsedStyles,
           styleIdentifier: null,
           externalStyles: [],
         });
         compilerCtx.styleModeNames.add(DEFAULT_STYLE_MODE);
       }
-    } else if ((parsedStyle as ConvertIdentifier).__identifier) {
-      styles.push(parseStyleIdentifier(parsedStyle, DEFAULT_STYLE_MODE));
+    } else if ((parsedStyles as ConvertIdentifier).__identifier) {
+      styles.push(parseStyleIdentifier(parsedStyles, DEFAULT_STYLE_MODE));
       compilerCtx.styleModeNames.add(DEFAULT_STYLE_MODE);
-    } else if (typeof parsedStyle === 'object') {
-      Object.keys(parsedStyle).forEach((modeName) => {
-        const parsedStyleMode = parsedStyle[modeName];
+    } else if (typeof parsedStyles === 'object') {
+      Object.keys(parsedStyles).forEach((modeName) => {
+        const parsedStyleMode = parsedStyles[modeName];
         if (typeof parsedStyleMode === 'string') {
           styles.push({
             modeName: modeName,
@@ -88,7 +105,13 @@ export const parseStaticStyles = (
   return sortBy(styles, (s) => s.modeName);
 };
 
-const parseStyleIdentifier = (parsedStyle: ConvertIdentifier, modeName: string) => {
+/**
+ *
+ * @param parsedStyle
+ * @param modeName
+ * @returns
+ */
+const parseStyleIdentifier = (parsedStyle: ConvertIdentifier, modeName: string): d.StyleCompiler => {
   const style: d.StyleCompiler = {
     modeName: modeName,
     styleId: null,

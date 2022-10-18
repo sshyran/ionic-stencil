@@ -70,6 +70,7 @@ export const styleToStatic = (newMembers: ts.ClassElement[], componentOptions: d
   } else if (componentOptions.styles) {
     const convertIdentifier = componentOptions.styles as any as ConvertIdentifier;
     if (convertIdentifier.__identifier) {
+      // The `styles` object itself is imported:
       // import styles from './styles.css';
       // @Component({
       //   styles
@@ -77,11 +78,12 @@ export const styleToStatic = (newMembers: ts.ClassElement[], componentOptions: d
       const stylesIdentifier = convertIdentifier.__escapedText;
       newMembers.push(createStaticGetter('styles', ts.factory.createIdentifier(stylesIdentifier)));
     } else if (typeof convertIdentifier === 'object') {
+      // The `styles` object is defined as an object literal (whose members might be imported):
       // import ios from './ios.css';
       // import md from './md.css';
       // @Component({
       //   styles: {
-      //     ios
+      //     ios,
       //     md
       //   }
       // })

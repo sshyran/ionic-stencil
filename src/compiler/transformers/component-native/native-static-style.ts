@@ -6,7 +6,12 @@ import { scopeCss } from '../../../utils/shadow-css';
 import { getScopeId } from '../../style/scope-css';
 import { createStaticGetter } from '../transform-utils';
 
-export const addNativeStaticStyle = (classMembers: ts.ClassElement[], cmp: d.ComponentCompilerMeta) => {
+/**
+ *
+ * @param classMembers
+ * @param cmp
+ */
+export const addNativeStaticStyle = (classMembers: ts.ClassElement[], cmp: d.ComponentCompilerMeta): void => {
   if (Array.isArray(cmp.styles) && cmp.styles.length > 0) {
     if (cmp.styles.length > 1 || (cmp.styles.length === 1 && cmp.styles[0].modeName !== DEFAULT_STYLE_MODE)) {
       // multiple style modes
@@ -18,11 +23,17 @@ export const addNativeStaticStyle = (classMembers: ts.ClassElement[], cmp: d.Com
   }
 };
 
+/**
+ *
+ * @param classMembers
+ * @param cmp
+ * @param styles
+ */
 const addMultipleModeStyleGetter = (
   classMembers: ts.ClassElement[],
   cmp: d.ComponentCompilerMeta,
   styles: d.StyleCompiler[]
-) => {
+): void => {
   const styleModes: ts.ObjectLiteralElementLike[] = [];
 
   styles.forEach((style) => {
@@ -54,11 +65,17 @@ const addMultipleModeStyleGetter = (
   classMembers.push(createStaticGetter('style', styleObj));
 };
 
+/**
+ *
+ * @param classMembers
+ * @param cmp
+ * @param style
+ */
 const addSingleStyleGetter = (
   classMembers: ts.ClassElement[],
   cmp: d.ComponentCompilerMeta,
   style: d.StyleCompiler
-) => {
+): void => {
   if (typeof style.styleStr === 'string') {
     // inline the style string
     // static get style() { return "string"; }
@@ -79,7 +96,13 @@ const addSingleStyleGetter = (
   }
 };
 
-const createStyleLiteral = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler) => {
+/**
+ *
+ * @param cmp
+ * @param style
+ * @returns
+ */
+const createStyleLiteral = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler): ts.StringLiteral => {
   if (cmp.encapsulation === 'scoped') {
     // scope the css first
     const scopeId = getScopeId(cmp.tagName, style.modeName);
@@ -89,6 +112,13 @@ const createStyleLiteral = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler
   return ts.factory.createStringLiteral(style.styleStr);
 };
 
+// TODO: Dupe? OW Add return type
+/**
+ *
+ * @param cmp
+ * @param style
+ * @returns
+ */
 const createStyleIdentifierFromUrl = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler) => {
   style.styleIdentifier = dashToPascalCase(cmp.tagName);
   style.styleIdentifier = style.styleIdentifier.charAt(0).toLowerCase() + style.styleIdentifier.substring(1);

@@ -4,11 +4,18 @@ import type * as d from '../../declarations';
 import { serializeImportPath } from './stencil-import-path';
 import { retrieveTsModifiers } from './transform-utils';
 
+/**
+ *
+ * @param transformOpts
+ * @param tsSourceFile
+ * @param moduleFile
+ * @returns
+ */
 export const updateStyleImports = (
   transformOpts: d.TransformOptions,
   tsSourceFile: ts.SourceFile,
   moduleFile: d.Module
-) => {
+): ts.SourceFile => {
   // add style imports built from @Component() styleUrl option
   if (transformOpts.module === 'cjs') {
     return updateCjsStyleRequires(transformOpts, tsSourceFile, moduleFile);
@@ -17,11 +24,18 @@ export const updateStyleImports = (
   return updateEsmStyleImports(transformOpts, tsSourceFile, moduleFile);
 };
 
+/**
+ *
+ * @param transformOpts
+ * @param tsSourceFile
+ * @param moduleFile
+ * @returns
+ */
 const updateEsmStyleImports = (
   transformOpts: d.TransformOptions,
   tsSourceFile: ts.SourceFile,
   moduleFile: d.Module
-) => {
+): ts.SourceFile => {
   const styleImports: ts.Statement[] = [];
   let statements = tsSourceFile.statements.slice();
   let updateSourceFile = false;

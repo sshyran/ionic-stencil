@@ -165,11 +165,19 @@ export const createStaticGetter = (propName: string, returnExpression: ts.Expres
   );
 };
 
+/**
+ * Retrieves a static member from a set of class elements, converting from an intermediate representation the
+ * TypeScript compiler understands back to TypeScript/JavaScript values
+ * @param staticMembers the class elements that were previously converted to static members
+ * @param staticName the name of a static member to find
+ * @returns
+ */
 export const getStaticValue = (staticMembers: ts.ClassElement[], staticName: string): any => {
   const staticMember: ts.GetAccessorDeclaration = staticMembers.find(
     (member) => (member.name as any).escapedText === staticName
   ) as any;
   if (!staticMember || !staticMember.body || !staticMember.body.statements) {
+    // Not all static member names will be found on every component. If one isn't found, return.
     return null;
   }
 

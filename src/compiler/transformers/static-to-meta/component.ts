@@ -54,7 +54,7 @@ export const parseStaticComponentMeta = (
   const docs = serializeSymbol(typeChecker, symbol);
   const isCollectionDependency = moduleFile.isCollectionDependency;
   const encapsulation = parseStaticEncapsulation(staticMembers);
-
+  // Create the initial component metadata for the compiler
   const cmp: d.ComponentCompilerMeta = {
     tagName: tagName,
     excludeFromCollection: moduleFile.excludeFromCollection,

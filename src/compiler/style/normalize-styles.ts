@@ -3,11 +3,26 @@ import { dirname, isAbsolute, join, relative } from 'path';
 
 import type * as d from '../../declarations';
 
-export const normalizeStyles = (tagName: string, componentFilePath: string, styles: d.StyleCompiler[]) => {
+/**
+ * Helper function that "normalizes" a collection of compiler styles.
+ *
+ * In this function, to "normalize" means to:
+ * - Create a uniform ID based on the tag name and the style mode
+ * - Modifying the paths of any external styles to include relative and absolute fields
+ *
+ * This function is expected to mutate the provided styles argument.
+ *
+ * @param tagName the tag name of the Stencil web component whose styles are being normalized
+ * @param componentFilePath the fully qualified path of the file containing the Stencil component's declaration
+ * @param styles the styles to normalize
+ */
+export const normalizeStyles = (tagName: string, componentFilePath: string, styles: d.StyleCompiler[]): void => {
   styles.forEach((style) => {
     if (style.modeName === DEFAULT_STYLE_MODE) {
+      // Set the style ID to the uppercase name of the component. e.g. "MY-COMPONENT"
       style.styleId = tagName.toUpperCase();
     } else {
+      // Set the style ID to the uppercase name of the component, with the mode name. `e.g. "MY-COMPONENT#ios"
       style.styleId = `${tagName.toUpperCase()}#${style.modeName}`;
     }
 
@@ -18,8 +33,15 @@ export const normalizeStyles = (tagName: string, componentFilePath: string, styl
     }
   });
 };
-
-const normalizeExternalStyle = (componentFilePath: string, externalStyle: d.ExternalStyleCompiler) => {
+// TODO(): IDK yet
+/**
+ * Helper function that normalizes the path of an external style to include both relative and absolute components.
+ * It does so by mutating the external style provided to this function.
+ * @param componentFilePath the fully qualified path of the file containing the declaration of a Stencil component that
+ * uses an external style
+ * @param externalStyle the style to normalize
+ */
+const normalizeExternalStyle = (componentFilePath: string, externalStyle: d.ExternalStyleCompiler): void => {
   if (
     typeof externalStyle.originalComponentPath !== 'string' ||
     externalStyle.originalComponentPath.trim().length === 0
