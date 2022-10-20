@@ -4,9 +4,11 @@
     "composite": true
   },
   "include": [
-    "**/*.ts"
-  ],
-  "references": [
-    { "path": "../worker" }
+    "./in-memory-fs.ts",
+    "./compiler-system.ts",
+    "./logger/console-logger.ts",
+    "./logger/logger.ts",
+    "./logger/terminal-logger.ts",
+    "./logger/diagnostic.ts"
   ]
 }

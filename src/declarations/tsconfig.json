@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig-base.json",
+  "compilerOptions": {
+    "composite": true 
+  },
+  "include": [
+    "./index.ts",
+    "stencil-ext-modules.d.ts",
+    "stencil-private.ts",
+    "stencil-public-compiler.ts",
+    "stencil-public-docs.ts",
+    "stencil-public-runtime.ts"
+  ],
+  "references": [
+    { "path": "../compiler/sys" },
+    { "path": "../cli" }
+  ]
+}

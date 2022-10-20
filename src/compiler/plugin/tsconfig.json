@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig-base.json",
+  "extends": "../../../tsconfig-base.json",
   "compilerOptions": {
     "composite": true
   },
@@ -7,6 +7,6 @@
     "./plugin.ts"
   ],
   "references": [
-    { "path": "../internal" }
+    { "path": "../../declarations" }
   ]
 }

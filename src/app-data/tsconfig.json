@@ -7,6 +7,6 @@
     "./index.ts"
   ],
   "references": [
-    { "path": "../internal" }
+    { "path": "../declarations" }
   ]
 }
