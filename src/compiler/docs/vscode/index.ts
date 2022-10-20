@@ -19,7 +19,7 @@ import { getNameText } from '../generate-doc-data';
  * @param outputTargets the output target(s) the associated with the current build
  */
 export const generateVscodeDocs = async (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   docsData: d.JsonDocs,
   outputTargets: d.OutputTarget[]
 ): Promise<void> => {

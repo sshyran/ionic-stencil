@@ -5,7 +5,7 @@ import type * as d from '../../../declarations';
 
 export const writeLazyModule = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   outputTargetType: string,
   destinations: string[],
   entryModule: d.EntryModule,

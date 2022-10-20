@@ -23,7 +23,7 @@ import { getCustomElementsBuildConditionals } from './custom-elements-build-cond
 
 export const outputCustomElementsBundle = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ): Promise<void> => {
   if (!config.buildDist) {
@@ -45,7 +45,7 @@ export const outputCustomElementsBundle = async (
 
 const bundleCustomElements = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetDistCustomElementsBundle
 ) => {
@@ -163,7 +163,7 @@ const generateEntryPoint = (outputTarget: d.OutputTargetDistCustomElementsBundle
   return [...imp, ...exp].join('\n') + '\n';
 };
 
-const getCustomElementBundleCustomTransformer = (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx) => {
+const getCustomElementBundleCustomTransformer = (config: d.ValidatedConfig, compilerCtx: CompilerCtx) => {
   const transformOpts: d.TransformOptions = {
     coreImportPath: STENCIL_INTERNAL_CLIENT_ID,
     componentExport: null,

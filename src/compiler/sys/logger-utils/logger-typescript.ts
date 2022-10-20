@@ -1,10 +1,10 @@
 import type { Diagnostic, DiagnosticMessageChain, Node } from 'typescript';
 
-import { isIterable } from '../helpers';
-import { normalizePath } from '../normalize-path';
+import { isIterable } from '../../../utils/helpers';
+import { normalizePath } from '../../../utils/normalize-path';
 import { splitLineBreaks } from './logger-utils';
-import { Diagnostic as StencilDiagnostic, } from '../../compiler/sys/logger/diagnostic'
-import {PrintLine} from '../../compiler/sys/logger/logger';
+import { Diagnostic as StencilDiagnostic, } from '../logger/diagnostic'
+import {PrintLine} from '../logger/logger';
 
 /**
  * Augment a `Diagnostic` with information from a `Node` in the AST to provide richer error information

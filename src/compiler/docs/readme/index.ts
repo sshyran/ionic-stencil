@@ -4,7 +4,7 @@ import { generateReadme } from './output-docs';
 
 export const generateReadmeDocs = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   docsData: d.JsonDocs,
   outputTargets: d.OutputTarget[]
 ) => {

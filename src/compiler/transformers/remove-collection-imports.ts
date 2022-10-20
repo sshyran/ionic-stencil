@@ -2,7 +2,7 @@ import ts from 'typescript';
 
 import type * as d from '../../declarations';
 
-export const removeCollectionImports = (compilerCtx: d.CompilerCtx): ts.TransformerFactory<ts.SourceFile> => {
+export const removeCollectionImports = (compilerCtx: CompilerCtx): ts.TransformerFactory<ts.SourceFile> => {
   /*
     // remove side effect collection imports like:
     import 'ionicons';

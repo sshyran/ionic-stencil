@@ -6,7 +6,7 @@ import { parseCollectionManifest } from './parse-collection-manifest';
 
 export const parseCollection = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   moduleId: string,
   pkgJsonFilePath: string,

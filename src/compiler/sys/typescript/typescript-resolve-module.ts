@@ -42,7 +42,7 @@ export const patchTypeScriptResolveModule = (config: d.Config, inMemoryFs: InMem
 
 export const tsResolveModuleName = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   moduleName: string,
   containingFile: string
 ) => {
@@ -61,7 +61,7 @@ export const tsResolveModuleName = (
 
 export const tsResolveModuleNamePackageJsonPath = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   moduleName: string,
   containingFile: string
 ) => {

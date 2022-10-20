@@ -3,7 +3,7 @@ import { join } from 'path';
 import type * as d from '../../declarations';
 
 export const inlineStyleSheets = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   doc: Document,
   maxSize: number,
   outputTarget: d.OutputTargetWww

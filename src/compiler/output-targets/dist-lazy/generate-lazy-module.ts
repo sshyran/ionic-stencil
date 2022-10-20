@@ -11,6 +11,20 @@ import type * as d from '../../../declarations';
 import { optimizeModule } from '../../optimize/optimize-module';
 import { writeLazyModule } from './write-lazy-entry-module';
 
+const SKIP_DEPS = ['@stencil/core'];
+
+/**
+ * Retrieve a project's dependencies from the current build context
+ * @param buildCtx the current build context to query for a specific package
+ * @returns a list of package names the project is dependent on
+ */
+const getDependencies = (buildCtx: d.BuildCtx): ReadonlyArray<string> => {
+  if (buildCtx.packageJson != null && buildCtx.packageJson.dependencies != null) {
+    return Object.keys(buildCtx.packageJson.dependencies).filter((pkgName) => !SKIP_DEPS.includes(pkgName));
+  }
+  return [];
+};
+
 /**
  * Utility to determine whether a project has a dependency on a package
  * @param buildCtx the current build context to query for a specific package
@@ -24,7 +38,7 @@ export const hasDependency = (buildCtx: d.BuildCtx, depName: string): boolean =>
 
 export const generateLazyModules = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTargetType: string,
   destinations: string[],
@@ -192,7 +206,7 @@ const generateCaseClauseCjs = (bundleId: string): string => {
 
 const generateLazyEntryModule = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupResult: d.RollupChunkResult,
   outputTargetType: string,
@@ -239,7 +253,7 @@ const generateLazyEntryModule = async (
 
 const writeLazyChunk = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupResult: d.RollupChunkResult,
   outputTargetType: string,
@@ -275,7 +289,7 @@ const writeLazyChunk = async (
 
 const writeLazyEntry = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupResult: d.RollupChunkResult,
   outputTargetType: string,
@@ -410,7 +424,7 @@ export const sortBundleComponents = (a: d.ComponentCompilerMeta, b: d.ComponentC
 
 const convertChunk = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   sourceTarget: d.SourceTarget,
   shouldMinify: boolean,

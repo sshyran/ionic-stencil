@@ -36,7 +36,7 @@ import { isOutputTargetDistCustomElements } from '../output-utils';
  */
 export const outputCustomElements = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ): Promise<void> => {
   if (!config.buildDist) {
@@ -69,7 +69,7 @@ export const outputCustomElements = async (
 export const getBundleOptions = (
   config: d.ValidatedConfig,
   buildCtx: d.BuildCtx,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   outputTarget: d.OutputTargetDistCustomElements
 ): BundleOptions => ({
   id: 'customElements',
@@ -106,7 +106,7 @@ export const getBundleOptions = (
  */
 export const bundleCustomElements = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetDistCustomElements
 ) => {
@@ -255,7 +255,7 @@ export const generateEntryPoint = (outputTarget: d.OutputTargetDistCustomElement
  */
 const getCustomElementCustomTransformer = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   components: d.ComponentCompilerMeta[],
   outputTarget: d.OutputTargetDistCustomElements
 ): ts.TransformerFactory<ts.SourceFile>[] => {

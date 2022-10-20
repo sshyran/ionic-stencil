@@ -28,7 +28,7 @@ import { getModuleFromSourceFile } from '../transform-utils';
  * @returns a TypeScript AST transformer factory function that performs the above described transformation
  */
 export const proxyCustomElement = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   transformOpts: d.TransformOptions
 ): ts.TransformerFactory<ts.SourceFile> => {
   return () => {

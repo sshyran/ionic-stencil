@@ -21,7 +21,7 @@ import {
  */
 export const validateBuildPackageJson = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ): Promise<void> => {
   if (config.watch) {
@@ -54,7 +54,7 @@ export const validateBuildPackageJson = async (
  */
 const validateDistCollectionPkgJson = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetDistCollection
 ) => {
@@ -77,7 +77,7 @@ const validateDistCollectionPkgJson = async (
  */
 export const validatePackageFiles = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetDistCollection
 ) => {
@@ -124,7 +124,7 @@ export const validatePackageFiles = async (
  */
 export const validateMain = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetDistCollection
 ) => {
@@ -152,7 +152,7 @@ export const validateMain = (
  * @param buildCtx the build context
  * @returns an empty Promise
  */
-export const validateModule = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+export const validateModule = async (config: d.ValidatedConfig, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   const currentModule = buildCtx.packageJson.module;
 
   const recommendedRelPath = recommendedModulePath(config);
@@ -219,7 +219,7 @@ function recommendedModulePath(config: d.ValidatedConfig): string | null {
  */
 export const validateTypes = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetDistTypes
 ) => {
@@ -256,7 +256,7 @@ export const validateTypes = async (
  */
 export const validateCollection = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetDistCollection
 ) => {
@@ -277,7 +277,7 @@ export const validateCollection = (
  * @param compilerCtx the current compiler context
  * @param buildCtx the current build context
  */
-export const validateBrowser = (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+export const validateBrowser = (config: d.ValidatedConfig, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   if (isString(buildCtx.packageJson.browser)) {
     const msg = `package.json "browser" property is set to "${buildCtx.packageJson.browser}". However, for maximum compatibility with all bundlers it's recommended to not set the "browser" property and instead ensure both "module" and "main" properties are set.`;
     packageJsonWarn(config, compilerCtx, buildCtx, msg, `"browser"`);
@@ -298,7 +298,7 @@ export const validateBrowser = (config: d.ValidatedConfig, compilerCtx: d.Compil
  */
 const packageJsonError = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   msg: string,
   jsonField: string
@@ -322,7 +322,7 @@ const packageJsonError = (
  */
 const packageJsonWarn = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   msg: string,
   jsonField: string

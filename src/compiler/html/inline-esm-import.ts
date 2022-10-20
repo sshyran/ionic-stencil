@@ -9,7 +9,7 @@ import { injectModulePreloads } from './inject-module-preloads';
 
 export const optimizeEsmImport = async (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   doc: Document,
   outputTarget: d.OutputTargetWww
 ) => {

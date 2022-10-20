@@ -10,7 +10,7 @@ import { generateLazyModules } from './generate-lazy-module';
 
 export const generateEsm = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupBuild: RollupBuild,
   outputTargets: d.OutputTargetDistLazy[]
@@ -66,7 +66,7 @@ export const generateEsm = async (
 
 const copyPolyfills = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   outputTargets: d.OutputTargetDistLazy[]
 ): Promise<void> => {
   const destinations = outputTargets.filter((o) => o.polyfills).map((o) => o.esmDir);
@@ -90,7 +90,7 @@ const copyPolyfills = async (
 
 const generateShortcuts = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   outputTargets: d.OutputTargetDistLazy[],
   rollupResult: RollupResult[]
 ): Promise<void[]> => {

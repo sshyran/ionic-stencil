@@ -5,7 +5,7 @@ import { isOutputTargetCustom } from './output-utils';
 
 export const outputCustom = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   docs: d.JsonDocs,
   outputTargets: d.OutputTarget[]

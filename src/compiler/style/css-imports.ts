@@ -22,7 +22,7 @@ import { stripCssComments } from './style-utils';
  */
 export const parseCssImports = async (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   srcFilePath: string,
   resolvedFilePath: string,
@@ -131,7 +131,7 @@ interface ParseCSSReturn {
  * @param cssImportData the import data for the file we want to read
  * @returns the contents of the file, if it can be read without error
  */
-const loadStyleText = async (compilerCtx: d.CompilerCtx, cssImportData: d.CssImportData): Promise<string | null> => {
+const loadStyleText = async (compilerCtx: CompilerCtx, cssImportData: d.CssImportData): Promise<string | null> => {
   let styleText: string | null = null;
 
   try {
@@ -159,7 +159,7 @@ const loadStyleText = async (compilerCtx: d.CompilerCtx, cssImportData: d.CssImp
  */
 export const getCssImports = async (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   filePath: string,
   styleText: string
@@ -227,7 +227,7 @@ export const isCssNodeModule = (url: string) => url.startsWith('~');
 
 export const resolveCssNodeModule = async (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   diagnostics: d.Diagnostic[],
   filePath: string,
   cssImportData: d.CssImportData

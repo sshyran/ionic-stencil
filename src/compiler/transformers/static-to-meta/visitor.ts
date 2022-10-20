@@ -10,7 +10,7 @@ import { parseStringLiteral } from './string-literal';
 
 export const convertStaticToMeta = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   typeChecker: ts.TypeChecker,
   collection: d.CollectionCompilerMeta,

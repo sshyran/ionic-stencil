@@ -16,7 +16,7 @@ import {
 
 export const appDataPlugin = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   build: d.BuildConditionals,
   platform: 'client' | 'hydrate' | 'worker'
@@ -128,7 +128,7 @@ export const appDataPlugin = (
   };
 };
 
-export const getGlobalScriptData = (config: d.Config, compilerCtx: d.CompilerCtx) => {
+export const getGlobalScriptData = (config: d.Config, compilerCtx: CompilerCtx) => {
   const globalScripts: GlobalScript[] = [];
 
   if (isString(config.globalScript)) {

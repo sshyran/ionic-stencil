@@ -5,7 +5,7 @@ import type * as d from '../../declarations';
 import { getClientPolyfill } from '../app-core/app-polyfills';
 import { isOutputTargetDistLazyLoader, relativeImport } from './output-utils';
 
-export const outputLazyLoader = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx) => {
+export const outputLazyLoader = async (config: d.ValidatedConfig, compilerCtx: CompilerCtx) => {
   const outputTargets = config.outputTargets.filter(isOutputTargetDistLazyLoader);
   if (outputTargets.length === 0) {
     return;
@@ -16,7 +16,7 @@ export const outputLazyLoader = async (config: d.ValidatedConfig, compilerCtx: d
 
 const generateLoader = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   outputTarget: d.OutputTargetDistLazyLoader
 ) => {
   const loaderPath = outputTarget.dir;

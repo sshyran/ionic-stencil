@@ -8,7 +8,7 @@ import { parseCollection } from './parse-collection-module';
 
 export const addExternalImport = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   moduleFile: d.Module,
   containingFile: string,

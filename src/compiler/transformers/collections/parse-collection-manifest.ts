@@ -6,7 +6,7 @@ import { parseCollectionComponents, transpileCollectionModule } from './parse-co
 
 export const parseCollectionManifest = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   collectionName: string,
   collectionDir: string,
@@ -41,7 +41,7 @@ export const parseCollectionDependencies = (collectionManifest: d.CollectionMani
 
 export const parseGlobal = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   collectionDir: string,
   collectionManifest: d.CollectionManifest,

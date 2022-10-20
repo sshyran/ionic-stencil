@@ -5,7 +5,7 @@ import type * as d from '../../declarations';
 
 export const generateEs5DisabledMessage = async (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   outputTarget: d.OutputTargetWww
 ) => {
   // not doing an es5 right now

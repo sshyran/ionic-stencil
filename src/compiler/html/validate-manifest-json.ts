@@ -4,7 +4,7 @@ import { dirname, join } from 'path';
 import type * as d from '../../declarations';
 import { isOutputTargetWww } from '../output-targets/output-utils';
 
-export const validateManifestJson = (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+export const validateManifestJson = (config: d.ValidatedConfig, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   if (config.devMode) {
     return null;
   }
@@ -33,7 +33,7 @@ export const validateManifestJson = (config: d.ValidatedConfig, compilerCtx: d.C
 };
 
 const validateManifestJsonData = async (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   manifestFilePath: string,
   manifestData: any
@@ -48,7 +48,7 @@ const validateManifestJsonData = async (
 };
 
 const validateManifestJsonIcon = async (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   manifestFilePath: string,
   manifestIcon: any

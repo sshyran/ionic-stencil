@@ -10,7 +10,7 @@ import { isOutputTargetDistTypes } from './output-utils';
  */
 export const outputTypes = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ): Promise<void> => {
   const outputTargets = config.outputTargets.filter(isOutputTargetDistTypes);

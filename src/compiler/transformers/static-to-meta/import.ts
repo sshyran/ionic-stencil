@@ -7,7 +7,7 @@ import { addExternalImport } from '../collections/add-external-import';
 
 export const parseModuleImport = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   moduleFile: d.Module,
   dirPath: string,

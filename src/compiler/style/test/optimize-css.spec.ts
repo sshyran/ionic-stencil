@@ -7,7 +7,7 @@ import { optimizeCss } from '../optimize-css';
 
 describe('optimizeCss', () => {
   let config: d.Config;
-  let compilerCtx: d.CompilerCtx;
+  let compilerCtx: CompilerCtx;
   let diagnostics: d.Diagnostic[];
 
   // TODO(STENCIL-307): Remove usage of the Jasmine global

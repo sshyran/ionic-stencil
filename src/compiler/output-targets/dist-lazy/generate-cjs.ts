@@ -9,7 +9,7 @@ import { generateLazyModules } from './generate-lazy-module';
 
 export const generateCjs = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupBuild: RollupBuild,
   outputTargets: d.OutputTargetDistLazy[]
@@ -50,7 +50,7 @@ export const generateCjs = async (
 };
 
 const generateShortcuts = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   rollupResult: d.RollupResult[],
   outputTargets: d.OutputTargetDistLazy[]
 ): Promise<void[]> => {

@@ -60,7 +60,7 @@ const getPackageJsonPath = (resolvedPath: string, importee: string): string => {
 
 export const compilerRequest = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   data: d.CompilerRequest
 ) => {
   const results: d.CompilerRequestResponse = {
@@ -133,7 +133,7 @@ export const compilerRequest = async (
 
 const bundleDevModule = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   parsedUrl: ParsedDevModuleUrl,
   results: d.CompilerRequestResponse
 ) => {

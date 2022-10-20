@@ -49,7 +49,7 @@ export const getComponentAssetsCopyTasks = (
 };
 
 export const canSkipAssetsCopy = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   entryModules: d.EntryModule[],
   filesChanged: string[]
 ) => {

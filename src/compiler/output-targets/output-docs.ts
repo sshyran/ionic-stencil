@@ -21,7 +21,7 @@ import {
  */
 export const outputDocs = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ): Promise<void> => {
   if (!config.buildDocs) {

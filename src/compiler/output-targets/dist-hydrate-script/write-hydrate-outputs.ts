@@ -6,7 +6,7 @@ import { relocateHydrateContextConst } from './relocate-hydrate-context';
 
 export const writeHydrateOutputs = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTargets: d.OutputTargetHydrate[],
   rollupOutput: RollupOutput
@@ -20,7 +20,7 @@ export const writeHydrateOutputs = (
 
 const writeHydrateOutput = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetHydrate,
   rollupOutput: RollupOutput
@@ -74,7 +74,7 @@ const getHydratePackageJson = (
   return JSON.stringify(pkg, null, 2);
 };
 
-const getHydratePackageName = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx) => {
+const getHydratePackageName = async (config: d.ValidatedConfig, compilerCtx: CompilerCtx) => {
   try {
     const rootPkgFilePath = join(config.rootDir, 'package.json');
     const pkgStr = await compilerCtx.fs.readFile(rootPkgFilePath);
@@ -87,7 +87,7 @@ const getHydratePackageName = async (config: d.ValidatedConfig, compilerCtx: d.C
 
 const copyHydrateRunnerDts = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   hydrateAppDirPath: string
 ) => {
   const packageDir = join(config.sys.getCompilerExecutingPath(), '..', '..');

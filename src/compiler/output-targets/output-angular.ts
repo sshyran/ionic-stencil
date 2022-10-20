@@ -5,7 +5,7 @@ import ts from 'typescript';
 import type * as d from '../../declarations';
 import { isOutputTargetAngular, relativeImport } from './output-utils';
 
-export const outputAngular = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+export const outputAngular = async (config: d.ValidatedConfig, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   if (!config.buildDist) {
     return;
   }
@@ -24,7 +24,7 @@ export const outputAngular = async (config: d.ValidatedConfig, compilerCtx: d.Co
 
 export const angularDirectiveProxyOutput = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetAngular
 ) => {
@@ -43,7 +43,7 @@ const getFilteredComponents = (excludeComponents: string[] = [], cmps: d.Compone
 
 const generateProxies = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   components: d.ComponentCompilerMeta[],
   outputTarget: d.OutputTargetAngular
@@ -163,7 +163,7 @@ const getProxyUtils = (outputTarget: d.OutputTargetAngular) => {
 };
 
 const generateAngularArray = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   components: d.ComponentCompilerMeta[],
   outputTarget: d.OutputTargetAngular
 ): Promise<any> => {
@@ -187,7 +187,7 @@ ${directives}
   return compilerCtx.fs.writeFile(outputTarget.directivesArrayFile, c);
 };
 
-const generateAngularUtils = async (compilerCtx: d.CompilerCtx, outputTarget: d.OutputTargetAngular) => {
+const generateAngularUtils = async (compilerCtx: CompilerCtx, outputTarget: d.OutputTargetAngular) => {
   if (outputTarget.directivesUtilsFile) {
     await compilerCtx.fs.writeFile(
       outputTarget.directivesUtilsFile,

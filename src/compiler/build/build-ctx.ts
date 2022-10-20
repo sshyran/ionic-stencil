@@ -13,7 +13,7 @@ export class BuildContext implements d.BuildCtx {
   bundleBuildCount = 0;
   collections: d.Collection[] = [];
   completedTasks: d.BuildTask[] = [];
-  compilerCtx: d.CompilerCtx;
+  compilerCtx: CompilerCtx;
   components: d.ComponentCompilerMeta[] = [];
   componentGraph = new Map<string, string[]>();
   config: d.Config;
@@ -62,7 +62,7 @@ export class BuildContext implements d.BuildCtx {
   transpileBuildCount = 0;
   validateTypesPromise: Promise<d.ValidateTypesResults>;
 
-  constructor(config: d.Config, compilerCtx: d.CompilerCtx) {
+  constructor(config: d.Config, compilerCtx: CompilerCtx) {
     this.config = config;
     this.compilerCtx = compilerCtx;
     this.buildId = ++this.compilerCtx.activeBuildId;

@@ -108,7 +108,7 @@ export const hasHtmlChanges = (config: d.Config, buildCtx: d.BuildCtx): boolean 
   return srcIndexHtmlChanged;
 };
 
-export const updateCacheFromRebuild = (compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+export const updateCacheFromRebuild = (compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   buildCtx.filesChanged.forEach((filePath) => {
     compilerCtx.fs.clearFileCache(filePath);
   });

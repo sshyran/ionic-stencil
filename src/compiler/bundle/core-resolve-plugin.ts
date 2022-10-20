@@ -18,7 +18,7 @@ import {
 
 export const coreResolvePlugin = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   platform: 'client' | 'hydrate' | 'worker',
   externalRuntime: boolean
 ): Plugin => {

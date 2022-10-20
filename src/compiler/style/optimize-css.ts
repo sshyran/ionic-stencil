@@ -5,7 +5,7 @@ import { optimizeCssId } from '../../version';
 
 export const optimizeCss = async (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   diagnostics: d.Diagnostic[],
   styleText: string,
   filePath: string

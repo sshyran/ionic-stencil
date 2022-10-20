@@ -35,7 +35,7 @@ import { parseStaticWatchers } from './watchers';
  * function was called
  */
 export const parseStaticComponentMeta = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   typeChecker: ts.TypeChecker,
   cmpNode: ts.ClassDeclaration,
   moduleFile: d.Module,

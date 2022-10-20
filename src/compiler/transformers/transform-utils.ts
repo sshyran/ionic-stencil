@@ -548,7 +548,7 @@ export const parseDocsType = (checker: ts.TypeChecker, type: ts.Type, parts: Set
   }
 };
 
-export const getModuleFromSourceFile = (compilerCtx: d.CompilerCtx, tsSourceFile: ts.SourceFile) => {
+export const getModuleFromSourceFile = (compilerCtx: CompilerCtx, tsSourceFile: ts.SourceFile) => {
   const sourceFilePath = normalizePath(tsSourceFile.fileName);
   const moduleFile = compilerCtx.moduleMap.get(sourceFilePath);
   if (moduleFile != null) {
@@ -560,7 +560,7 @@ export const getModuleFromSourceFile = (compilerCtx: d.CompilerCtx, tsSourceFile
 };
 
 export const getComponentMeta = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   tsSourceFile: ts.SourceFile,
   node: ts.ClassDeclaration
 ) => {

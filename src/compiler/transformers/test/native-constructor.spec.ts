@@ -5,7 +5,7 @@ import { nativeComponentTransform } from '../component-native/tranform-to-native
 import { transpileModule } from './transpile';
 
 describe('nativeComponentTransform', () => {
-  let compilerCtx: d.CompilerCtx;
+  let compilerCtx: CompilerCtx;
   let transformOpts: d.TransformOptions;
 
   beforeEach(() => {

@@ -20,7 +20,7 @@ import { BuildContext } from './build-ctx';
 
 export const createWatchBuild = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx
+  compilerCtx: CompilerCtx
 ): Promise<d.CompilerWatcher> => {
   let isRebuild = false;
   let tsWatchProgram: {
@@ -157,7 +157,7 @@ export const createWatchBuild = async (
   };
 };
 
-const watchSrcDirectory = async (config: d.Config, compilerCtx: d.CompilerCtx) => {
+const watchSrcDirectory = async (config: d.Config, compilerCtx: CompilerCtx) => {
   const srcFiles = await compilerCtx.fs.readdir(config.srcDir, {
     recursive: true,
     excludeDirNames: ['.cache', '.git', '.github', '.stencil', '.vscode', 'node_modules'],
@@ -179,7 +179,7 @@ const watchSrcDirectory = async (config: d.Config, compilerCtx: d.CompilerCtx) =
   compilerCtx.addWatchDir(config.srcDir, true);
 };
 
-const watchRootFiles = async (config: d.Config, compilerCtx: d.CompilerCtx) => {
+const watchRootFiles = async (config: d.Config, compilerCtx: CompilerCtx) => {
   // non-src files that cause a rebuild
   // mainly for root level config files, and getting an event when they change
   const rootFiles = await compilerCtx.fs.readdir(config.rootDir, {
@@ -190,7 +190,7 @@ const watchRootFiles = async (config: d.Config, compilerCtx: d.CompilerCtx) => {
   rootFiles.filter(({ isFile }) => isFile).forEach(({ absPath }) => compilerCtx.addWatchFile(absPath));
 };
 
-const emitFsChange = (compilerCtx: d.CompilerCtx, buildCtx: BuildContext) => {
+const emitFsChange = (compilerCtx: CompilerCtx, buildCtx: BuildContext) => {
   if (
     buildCtx.dirsAdded.length > 0 ||
     buildCtx.dirsDeleted.length > 0 ||
@@ -210,7 +210,7 @@ const emitFsChange = (compilerCtx: d.CompilerCtx, buildCtx: BuildContext) => {
 
 const updateCompilerCtxCache = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   path: string,
   kind: d.CompilerFileWatcherEvent
 ) => {

@@ -8,7 +8,7 @@ import { getComponentMeta, getModuleFromSourceFile } from '../transform-utils';
 import { updateLazyComponentClass } from './lazy-component';
 
 export const lazyComponentTransform = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   transformOpts: d.TransformOptions
 ): ts.TransformerFactory<ts.SourceFile> => {
   return (transformCtx) => {

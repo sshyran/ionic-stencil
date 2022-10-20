@@ -10,7 +10,7 @@ import { generateLazyModules } from './generate-lazy-module';
 
 export const generateSystem = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupBuild: RollupBuild,
   outputTargets: d.OutputTargetDistLazy[]
@@ -51,7 +51,7 @@ export const generateSystem = async (
 
 const generateSystemLoaders = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   rollupResult: d.RollupResult[],
   systemOutputs: d.OutputTargetDistLazy[]
 ): Promise<void[]> => {
@@ -62,7 +62,7 @@ const generateSystemLoaders = (
 
 const writeSystemLoader = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   loaderFilename: string,
   outputTarget: d.OutputTargetDistLazy
 ): Promise<void> => {
@@ -78,7 +78,7 @@ const writeSystemLoader = async (
 
 const getSystemLoader = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   corePath: string,
   includePolyfills: boolean
 ): Promise<string> => {

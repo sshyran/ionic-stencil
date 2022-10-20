@@ -12,7 +12,7 @@ import { validateBuildFiles } from './validate-files';
  */
 export const writeBuild = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ): Promise<void> => {
   const timeSpan = buildCtx.createTimeSpan(`writeBuildFiles started`, true);

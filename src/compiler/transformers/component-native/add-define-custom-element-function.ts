@@ -13,7 +13,7 @@ import { createImportStatement, getModuleFromSourceFile } from '../transform-uti
  * @returns a TS AST transformer factory function
  */
 export const addDefineCustomElementFunctions = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   components: d.ComponentCompilerMeta[],
   outputTarget: d.OutputTargetDistCustomElements
 ): ts.TransformerFactory<ts.SourceFile> => {

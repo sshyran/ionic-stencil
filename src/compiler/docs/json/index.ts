@@ -5,7 +5,7 @@ import { isOutputTargetDocsJson } from '../../output-targets/output-utils';
 
 export const generateJsonDocs = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   docsData: d.JsonDocs,
   outputTargets: d.OutputTarget[]
 ) => {
@@ -58,7 +58,7 @@ export default _default;
 };
 
 export const writeDocsOutput = async (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   jsonOutput: d.OutputTargetDocsJson,
   jsonContent: string,
   typesContent: string

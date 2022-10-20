@@ -10,7 +10,7 @@ import { getComponentMeta, getModuleFromSourceFile } from '../transform-utils';
 import { updateNativeComponentClass } from './native-component';
 
 export const nativeComponentTransform = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   transformOpts: d.TransformOptions
 ): ts.TransformerFactory<ts.SourceFile> => {
   return (transformCtx) => {

@@ -37,54 +37,8 @@ export const isDtsFile = (filePath: string): boolean => {
   return false;
 };
 
-/**
- * Generate the preamble to be placed atop the main file of the build
- * @param config the Stencil configuration file
- * @returns the generated preamble
- */
-export const generatePreamble = (config: d.Config): string => {
-  const { preamble } = config;
-
-  if (!preamble) {
-    return '';
-  }
-
-  // generate the body of the JSDoc-style comment
-  const preambleComment: string[] = preamble.split('\n').map((l) => ` * ${l}`);
-
-  preambleComment.unshift(`/*!`);
-  preambleComment.push(` */`);
-
-  return preambleComment.join('\n');
-};
-
-const lineBreakRegex = /\r?\n|\r/g;
-export function getTextDocs(docs: d.CompilerJsDoc | undefined | null) {
-  if (docs == null) {
-    return '';
-  }
-  return `${docs.text.replace(lineBreakRegex, ' ')}
-${docs.tags
-  .filter((tag) => tag.name !== 'internal')
-  .map((tag) => `@${tag.name} ${(tag.text || '').replace(lineBreakRegex, ' ')}`)
-  .join('\n')}`.trim();
-}
-
-/**
- * Retrieve a project's dependencies from the current build context
- * @param buildCtx the current build context to query for a specific package
- * @returns a list of package names the project is dependent on
- */
-const getDependencies = (buildCtx: d.BuildCtx): ReadonlyArray<string> => {
-  if (buildCtx.packageJson != null && buildCtx.packageJson.dependencies != null) {
-    return Object.keys(buildCtx.packageJson.dependencies).filter((pkgName) => !SKIP_DEPS.includes(pkgName));
-  }
-  return [];
-};
-
 export const getDynamicImportFunction = (namespace: string) => `__sc_import_${namespace.replace(/\s|-/g, '_')}`;
 
-const SKIP_DEPS = ['@stencil/core'];
 
 /**
  * Check whether a string is a member of a ReadonlyArray<string>

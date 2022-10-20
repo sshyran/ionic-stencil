@@ -1,17 +1,17 @@
 import type { RollupError } from 'rollup';
-import {PrintLine} from '../../compiler/sys/logger/logger';
-import {Diagnostic} from '../../compiler/sys/logger/diagnostic';
+import {PrintLine} from '../logger/logger';
+import {Diagnostic} from '../logger/diagnostic';
 
-import type * as d from '../../declarations';
-import { isString, toTitleCase } from '../helpers';
-import { buildWarn } from '../message-utils';
+import { isString, toTitleCase } from '../../../utils/helpers';
+import { buildWarn } from '../../../utils/message-utils';
 import { splitLineBreaks } from './logger-utils';
-import { Config } from '../../compiler/config'
+import { Config } from '../../config'
+import { CompilerCtx } from '../../context'
 
 export const loadRollupDiagnostics = (
   config: Config,
-  compilerCtx: d.CompilerCtx,
-  buildCtx: d.BuildCtx,
+  compilerCtx: CompilerCtx,
+  buildCtx: BuildCtx,
   rollupError: RollupError
 ) => {
   const formattedCode = formatErrorCode(rollupError.code);

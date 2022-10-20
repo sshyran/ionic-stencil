@@ -115,7 +115,7 @@ const updateTypeName = (currentTypeName: string, typeAlias: d.TypesMemberNameDat
  */
 export const copyStencilCoreDts = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx
+  compilerCtx: CompilerCtx
 ): Promise<ReadonlyArray<FsWriteResults>> => {
   const typesOutputTargets = config.outputTargets.filter(isOutputTargetDistTypes).filter((o) => o.typesDir);
 

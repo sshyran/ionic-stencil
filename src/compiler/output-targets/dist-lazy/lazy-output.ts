@@ -27,7 +27,7 @@ import { getLazyBuildConditionals } from './lazy-build-conditionals';
 
 export const outputLazy = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ): Promise<void> => {
   const outputTargets = config.outputTargets.filter(isOutputTargetDistLazy);
@@ -98,7 +98,7 @@ export const outputLazy = async (
   timespan.finish(`${bundleEventMessage} finished`);
 };
 
-const getLazyCustomTransformer = (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx) => {
+const getLazyCustomTransformer = (config: d.ValidatedConfig, compilerCtx: CompilerCtx) => {
   const transformOpts: d.TransformOptions = {
     coreImportPath: STENCIL_CORE_ID,
     componentExport: 'lazy',

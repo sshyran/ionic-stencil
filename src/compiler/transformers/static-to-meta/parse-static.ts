@@ -11,7 +11,7 @@ import { parseStringLiteral } from './string-literal';
 
 export const updateModule = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   tsSourceFile: ts.SourceFile,
   sourceFileText: string,

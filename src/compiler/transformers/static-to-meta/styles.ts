@@ -6,7 +6,7 @@ import { normalizeStyles } from '../../style/normalize-styles';
 import { ConvertIdentifier, getStaticValue } from '../transform-utils';
 
 export const parseStaticStyles = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   tagName: string,
   componentFilePath: string,
   isCollectionDependency: boolean,

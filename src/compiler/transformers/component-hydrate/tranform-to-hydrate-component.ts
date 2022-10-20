@@ -8,7 +8,7 @@ import { getComponentMeta, getModuleFromSourceFile } from '../transform-utils';
 import { updateHydrateComponentClass } from './hydrate-component';
 
 export const hydrateComponentTransform = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   transformOpts: d.TransformOptions
 ): ts.TransformerFactory<ts.SourceFile> => {
   return (transformCtx) => {

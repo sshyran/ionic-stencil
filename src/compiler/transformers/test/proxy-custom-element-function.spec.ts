@@ -10,7 +10,7 @@ import { transpileModule } from './transpile';
 
 describe('proxy-custom-element-function', () => {
   const componentClassName = 'MyComponent';
-  let compilerCtx: d.CompilerCtx;
+  let compilerCtx: CompilerCtx;
   let transformOpts: d.TransformOptions;
 
   let getModuleFromSourceFileSpy: jest.SpyInstance<
@@ -36,7 +36,7 @@ describe('proxy-custom-element-function', () => {
     };
 
     getModuleFromSourceFileSpy = jest.spyOn(TransformUtils, 'getModuleFromSourceFile');
-    getModuleFromSourceFileSpy.mockImplementation((_compilerCtx: d.CompilerCtx, _tsSourceFile: ts.SourceFile) => {
+    getModuleFromSourceFileSpy.mockImplementation((_compilerCtx: CompilerCtx, _tsSourceFile: ts.SourceFile) => {
       // TODO(STENCIL-379): Replace with a getMockModule() call
       return {
         cmps: [
@@ -124,7 +124,7 @@ describe('proxy-custom-element-function', () => {
 
   describe('source file unchanged', () => {
     it('returns the source file when no Stencil module is found', () => {
-      getModuleFromSourceFileSpy.mockImplementation((_compilerCtx: d.CompilerCtx, _tsSourceFile: ts.SourceFile) => {
+      getModuleFromSourceFileSpy.mockImplementation((_compilerCtx: CompilerCtx, _tsSourceFile: ts.SourceFile) => {
         // TODO(STENCIL-379): Replace with a getMockModule() call
         return {
           cmps: [],
@@ -140,7 +140,7 @@ describe('proxy-custom-element-function', () => {
     });
 
     it('returns the source file when no variable statements are found', () => {
-      getModuleFromSourceFileSpy.mockImplementation((_compilerCtx: d.CompilerCtx, _tsSourceFile: ts.SourceFile) => {
+      getModuleFromSourceFileSpy.mockImplementation((_compilerCtx: CompilerCtx, _tsSourceFile: ts.SourceFile) => {
         // TODO(STENCIL-379): Replace with a getMockModule() call
         return {
           cmps: [
@@ -160,7 +160,7 @@ describe('proxy-custom-element-function', () => {
     });
 
     it("returns the source file when variable statements don't match the component name", () => {
-      getModuleFromSourceFileSpy.mockImplementation((_compilerCtx: d.CompilerCtx, _tsSourceFile: ts.SourceFile) => {
+      getModuleFromSourceFileSpy.mockImplementation((_compilerCtx: CompilerCtx, _tsSourceFile: ts.SourceFile) => {
         // TODO(STENCIL-379): Replace with a getMockModule() call
         return {
           cmps: [

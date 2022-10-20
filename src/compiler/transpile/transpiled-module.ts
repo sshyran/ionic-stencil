@@ -3,7 +3,7 @@ import ts from 'typescript';
 
 import type * as d from '../../declarations';
 
-export const getModule = (compilerCtx: d.CompilerCtx, filePath: string) =>
+export const getModule = (compilerCtx: CompilerCtx, filePath: string) =>
   compilerCtx.moduleMap.get(normalizePath(filePath));
 
 export const createModule = (

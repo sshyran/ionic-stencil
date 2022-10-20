@@ -69,7 +69,7 @@ export const buildWarn = (diagnostics: d.Diagnostic[]): d.Diagnostic => {
  * @returns a reference to the newly-created diagnostic
  */
 export const buildJsonFileError = (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   diagnostics: d.Diagnostic[],
   jsonFilePath: string,
   msg: string,

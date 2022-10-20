@@ -20,7 +20,7 @@ import type { BundleOptions } from './bundle-interface';
  */
 export const extTransformsPlugin = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   bundleOpts: BundleOptions
 ): Plugin => {

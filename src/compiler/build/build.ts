@@ -13,7 +13,7 @@ import { writeBuild } from './write-build';
 
 export const build = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   tsBuilder: ts.BuilderProgram
 ) => {

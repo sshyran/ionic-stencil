@@ -15,7 +15,7 @@ import { outputWww } from './output-www';
 
 export const generateOutputTargets = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ) => {
   const timeSpan = buildCtx.createTimeSpan('generate outputs started', true);
@@ -48,7 +48,7 @@ export const generateOutputTargets = async (
   timeSpan.finish('generate outputs finished');
 };
 
-const invalidateRollupCaches = (compilerCtx: d.CompilerCtx) => {
+const invalidateRollupCaches = (compilerCtx: CompilerCtx) => {
   const invalidatedIds = compilerCtx.changedFiles;
   compilerCtx.rollupCache.forEach((cache: RollupCache) => {
     cache.modules.forEach((mod) => {

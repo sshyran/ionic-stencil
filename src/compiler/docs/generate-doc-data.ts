@@ -16,7 +16,7 @@ import { AUTO_GENERATE_COMMENT } from './constants';
  */
 export const generateDocData = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ): Promise<d.JsonDocs> => {
   return {
@@ -39,7 +39,7 @@ export const generateDocData = async (
  */
 const getDocsComponents = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ): Promise<d.JsonDocsComponent[]> => {
   const results = await Promise.all(
@@ -322,7 +322,7 @@ export const getNameText = (name: string, tags: d.JsonDocsTag[]) => {
  * @returns the user generated content that occurs before {@link AUTO_GENERATE_COMMENT}. If no user generated content
  * exists, or if there was an issue reading the file, return `undefined`
  */
-const getUserReadmeContent = async (compilerCtx: d.CompilerCtx, readmePath: string): Promise<string | undefined> => {
+const getUserReadmeContent = async (compilerCtx: CompilerCtx, readmePath: string): Promise<string | undefined> => {
   try {
     const existingContent = await compilerCtx.fs.readFile(readmePath);
     // subtract one to get everything up to, but not including the auto generated comment
@@ -390,7 +390,7 @@ const generateDocs = (readme: string, jsdoc: d.CompilerJsDoc): string => {
  * @returns an object that maps the filename containing the usage example, to the file's contents. If an error occurs,
  * an empty object is returned.
  */
-const generateUsages = async (compilerCtx: d.CompilerCtx, usagesDir: string): Promise<d.JsonDocsUsage> => {
+const generateUsages = async (compilerCtx: CompilerCtx, usagesDir: string): Promise<d.JsonDocsUsage> => {
   const rtn: d.JsonDocsUsage = {};
 
   try {

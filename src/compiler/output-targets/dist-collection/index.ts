@@ -20,7 +20,7 @@ import { isOutputTargetDistCollection } from '../output-utils';
  */
 export const outputCollection = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   changedModuleFiles: d.Module[]
 ): Promise<void> => {
@@ -82,7 +82,7 @@ export const outputCollection = async (
 
 const writeCollectionManifests = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTargets: d.OutputTargetDistCollection[]
 ) => {
@@ -96,7 +96,7 @@ const writeCollectionManifests = async (
 // over the top lame mapping functions is basically so we can loosely
 // couple core component meta data between specific versions of the compiler
 const writeCollectionManifest = async (
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   collectionData: string,
   outputTarget: d.OutputTargetDistCollection
 ) => {
@@ -110,7 +110,7 @@ const writeCollectionManifest = async (
   await compilerCtx.fs.writeFile(collectionFilePath, collectionData);
 };
 
-const serializeCollectionManifest = (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+const serializeCollectionManifest = (config: d.ValidatedConfig, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   // create the single collection we're going to fill up with data
   const collectionManifest: d.CollectionManifest = {
     entries: buildCtx.moduleFiles
@@ -135,7 +135,7 @@ const serializeCollectionManifest = (config: d.ValidatedConfig, compilerCtx: d.C
   return collectionManifest;
 };
 
-const serializeCollectionDependencies = (compilerCtx: d.CompilerCtx): d.CollectionDependencyData[] => {
+const serializeCollectionDependencies = (compilerCtx: CompilerCtx): d.CollectionDependencyData[] => {
   const collectionDeps = compilerCtx.collections.map((c) => ({
     name: c.collectionName,
     tags: flatOne(c.moduleFiles.map((m) => m.cmps))

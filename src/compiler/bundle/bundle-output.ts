@@ -21,7 +21,7 @@ import { workerPlugin } from './worker-plugin';
 
 export const bundleOutput = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   bundleOpts: BundleOptions
 ) => {
@@ -51,7 +51,7 @@ export const bundleOutput = async (
  */
 export const getRollupOptions = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   bundleOpts: BundleOptions
 ): RollupOptions => {

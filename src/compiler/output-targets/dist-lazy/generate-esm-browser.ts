@@ -7,7 +7,7 @@ import { generateLazyModules } from './generate-lazy-module';
 
 export const generateEsmBrowser = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupBuild: RollupBuild,
   outputTargets: d.OutputTargetDistLazy[]

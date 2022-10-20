@@ -38,7 +38,7 @@ export const parsePackageJson = (pkgJsonStr: string, pkgJsonFilePath: string): P
   return parseResult;
 };
 
-export const readPackageJson = async (config: ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+export const readPackageJson = async (config: ValidatedConfig, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   try {
     const pkgJson = await compilerCtx.fs.readFile(config.packageJsonFilePath);
 
@@ -58,4 +58,26 @@ export const readPackageJson = async (config: ValidatedConfig, compilerCtx: d.Co
     }
   }
 };
+
+/**
+ * Generate the preamble to be placed atop the main file of the build
+ * @param config the Stencil configuration file
+ * @returns the generated preamble
+ */
+export const generatePreamble = (config: d.Config): string => {
+  const { preamble } = config;
+
+  if (!preamble) {
+    return '';
+  }
+
+  // generate the body of the JSDoc-style comment
+  const preambleComment: string[] = preamble.split('\n').map((l) => ` * ${l}`);
+
+  preambleComment.unshift(`/*!`);
+  preambleComment.push(` */`);
+
+  return preambleComment.join('\n');
+};
+
 

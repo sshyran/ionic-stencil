@@ -6,7 +6,7 @@ import { updateModule } from '../static-to-meta/parse-static';
 
 export const parseCollectionComponents = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   collectionDir: string,
   collectionManifest: d.CollectionManifest,
@@ -22,7 +22,7 @@ export const parseCollectionComponents = (
 
 export const transpileCollectionModule = (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   collection: d.CollectionCompilerMeta,
   inputFileName: string

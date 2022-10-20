@@ -17,7 +17,7 @@ import { INDEX_ORG } from '../service-worker/generate-sw';
 import { getScopeId } from '../style/scope-css';
 import { isOutputTargetWww } from './output-utils';
 
-export const outputWww = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+export const outputWww = async (config: d.ValidatedConfig, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   const outputTargets = config.outputTargets.filter(isOutputTargetWww);
   if (outputTargets.length === 0) {
     return;
@@ -49,7 +49,7 @@ const getCriticalPath = (buildCtx: d.BuildCtx) => {
 
 const generateWww = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   criticalPath: string[],
   outputTarget: d.OutputTargetWww
@@ -66,7 +66,7 @@ const generateWww = async (
   await generateHostConfig(compilerCtx, outputTarget);
 };
 
-const generateHostConfig = (compilerCtx: d.CompilerCtx, outputTarget: d.OutputTargetWww) => {
+const generateHostConfig = (compilerCtx: CompilerCtx, outputTarget: d.OutputTargetWww) => {
   const buildDir = getAbsoluteBuildDir(outputTarget);
   const hostConfigPath = join(outputTarget.appDir, 'host.config.json');
   const hostConfigContent = JSON.stringify(
@@ -94,7 +94,7 @@ const generateHostConfig = (compilerCtx: d.CompilerCtx, outputTarget: d.OutputTa
 
 const generateIndexHtml = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   criticalPath: string[],
   outputTarget: d.OutputTargetWww

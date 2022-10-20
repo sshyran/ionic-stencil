@@ -11,7 +11,7 @@ import { InMemoryFileSystem } from '../sys/in-memory-fs';
  * for in-memory caching, and can be reset, but the object itself
  * is always the same.
  */
-export class CompilerContext implements d.CompilerCtx {
+export class CompilerContext implements CompilerCtx {
   version = 2;
   activeBuildId = -1;
   activeFilesAdded: string[] = [];
@@ -62,7 +62,7 @@ export class CompilerContext implements d.CompilerCtx {
   }
 }
 
-export const getModuleLegacy = (_config: d.Config, compilerCtx: d.CompilerCtx, sourceFilePath: string) => {
+export const getModuleLegacy = (_config: d.Config, compilerCtx: CompilerCtx, sourceFilePath: string) => {
   sourceFilePath = normalizePath(sourceFilePath);
 
   const moduleFile = compilerCtx.moduleMap.get(sourceFilePath);

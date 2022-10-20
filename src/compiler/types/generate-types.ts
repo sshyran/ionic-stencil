@@ -16,7 +16,7 @@ import { copyStencilCoreDts, updateStencilTypesImports } from './stencil-types';
  */
 export const generateTypes = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetDistTypes
 ): Promise<void> => {
@@ -35,7 +35,7 @@ export const generateTypes = async (
  */
 const generateTypesOutput = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTarget: d.OutputTargetDistTypes
 ): Promise<void> => {

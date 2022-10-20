@@ -20,7 +20,7 @@ import { updateReferenceTypeImports } from './update-import-refs';
  */
 export const generateAppTypes = async (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   destination: string
 ): Promise<boolean> => {

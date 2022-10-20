@@ -14,7 +14,7 @@ import { usageToMarkdown } from './markdown-usage';
 
 export const generateReadme = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   readmeOutputs: d.OutputTargetDocsReadme[],
   docsData: d.JsonDocsComponent,
   cmps: d.JsonDocsComponent[]

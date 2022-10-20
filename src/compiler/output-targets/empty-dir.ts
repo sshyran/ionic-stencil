@@ -28,7 +28,7 @@ const isEmptable = (o: d.OutputTarget): o is OutputTargetEmptiable =>
 
 export const emptyOutputTargets = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx
 ) => {
   if (buildCtx.isRebuild) {

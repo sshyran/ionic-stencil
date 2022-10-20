@@ -14,7 +14,7 @@ import { validateTranspiledComponents } from './validate-components';
 
 export const runTsProgram = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   tsBuilder: ts.BuilderProgram
 ): Promise<boolean> => {

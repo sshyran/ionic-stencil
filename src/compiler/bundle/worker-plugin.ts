@@ -8,7 +8,7 @@ import { STENCIL_INTERNAL_ID } from './entry-alias-ids';
 
 export const workerPlugin = (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   platform: string,
   inlineWorkers: boolean
@@ -140,7 +140,7 @@ interface WorkerMeta {
 
 const getWorker = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   ctx: PluginContext,
   workersMap: Map<string, WorkerMeta>,
@@ -162,7 +162,7 @@ const getWorkerName = (id: string) => {
 
 const buildWorker = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   ctx: PluginContext,
   workerEntryPath: string

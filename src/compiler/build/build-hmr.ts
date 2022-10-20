@@ -6,7 +6,7 @@ import type * as d from '../../declarations';
 import { isOutputTargetWww } from '../output-targets/output-utils';
 import { getScopeId } from '../style/scope-css';
 
-export const generateHmr = (config: d.Config, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+export const generateHmr = (config: d.Config, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   if (config.devServer == null || config.devServer.reloadStrategy == null) {
     return null;
   }
@@ -70,7 +70,7 @@ export const generateHmr = (config: d.Config, compilerCtx: d.CompilerCtx, buildC
   return hmr;
 };
 
-const getComponentsUpdated = (compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+const getComponentsUpdated = (compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   // find all of the components that would be affected from the file changes
   if (!buildCtx.filesChanged) {
     return null;

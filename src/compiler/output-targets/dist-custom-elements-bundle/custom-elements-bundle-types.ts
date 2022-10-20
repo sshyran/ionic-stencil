@@ -6,7 +6,7 @@ import { isOutputTargetDistCustomElementsBundle } from '../output-utils';
 
 export const generateCustomElementsBundleTypes = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   distDtsFilePath: string
 ) => {
@@ -21,7 +21,7 @@ export const generateCustomElementsBundleTypes = async (
 
 const generateCustomElementsTypesOutput = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   distDtsFilePath: string,
   outputTarget: d.OutputTargetDistCustomElementsBundle

@@ -8,7 +8,7 @@ import * as v from '../validate-build-package-json';
 
 describe('validate-package-json', () => {
   let config: d.ValidatedConfig;
-  let compilerCtx: d.CompilerCtx;
+  let compilerCtx: CompilerCtx;
   let buildCtx: d.BuildCtx;
   let collectionOutputTarget: d.OutputTargetDistCollection;
   let typesOutputTarget: d.OutputTargetDistTypes;

@@ -20,7 +20,7 @@ import { getScriptTarget } from '../transform-utils';
 export function transpileModule(
   input: string,
   config?: d.Config | null,
-  compilerCtx?: d.CompilerCtx | null,
+  compilerCtx?: CompilerCtx | null,
   beforeTransformers: ts.TransformerFactory<ts.SourceFile>[] = [],
   afterTransformers: ts.TransformerFactory<ts.SourceFile>[] = []
 ) {

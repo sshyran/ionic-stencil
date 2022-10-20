@@ -4,7 +4,7 @@ import type * as d from '../../declarations';
 import { getBuildTimestamp } from './build-ctx';
 import { generateHmr } from './build-hmr';
 
-export const generateBuildResults = (config: d.Config, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+export const generateBuildResults = (config: d.Config, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   const componentGraph = buildCtx.componentGraph ? fromEntries(buildCtx.componentGraph.entries()) : undefined;
 
   const buildResults: d.CompilerBuildResults = {

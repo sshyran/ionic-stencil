@@ -12,7 +12,7 @@ import { build } from './build';
  */
 export const createFullBuild = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx
+  compilerCtx: CompilerCtx
 ): Promise<d.CompilerBuildResults> => {
   return new Promise<d.CompilerBuildResults>((resolve) => {
     let tsWatchProgram: ts.WatchOfConfigFile<ts.BuilderProgram> = null;

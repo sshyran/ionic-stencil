@@ -60,7 +60,7 @@ export const runPluginLoad = async (pluginCtx: PluginCtx, id: string) => {
 
 export const runPluginTransforms = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   id: string,
   cmp?: d.ComponentCompilerMeta
@@ -186,7 +186,7 @@ export const runPluginTransforms = async (
 
 export const runPluginTransformsEsmImports = async (
   config: d.Config,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   code: string,
   id: string

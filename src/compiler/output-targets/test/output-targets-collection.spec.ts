@@ -8,7 +8,7 @@ import { outputCollection } from '../dist-collection';
 describe('Dist Collection output target', () => {
   let mockConfig: d.ValidatedConfig;
   let mockedBuildCtx: d.BuildCtx;
-  let mockedCompilerCtx: d.CompilerCtx;
+  let mockedCompilerCtx: CompilerCtx;
   let changedModules: d.Module[];
 
   let mapImportPathSpy: jest.SpyInstance;

@@ -6,7 +6,7 @@ import { generateBuildStats } from '../build-stats';
 
 describe('generateBuildStats', () => {
   const config = mockConfig();
-  let compilerCtx: d.CompilerCtx;
+  let compilerCtx: CompilerCtx;
   let buildCtx: d.BuildCtx;
 
   beforeEach(() => {

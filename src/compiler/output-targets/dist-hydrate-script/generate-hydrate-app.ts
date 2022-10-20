@@ -18,7 +18,7 @@ import { writeHydrateOutputs } from './write-hydrate-outputs';
 
 export const generateHydrateApp = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   outputTargets: d.OutputTargetHydrate[]
 ) => {
@@ -73,7 +73,7 @@ export const generateHydrateApp = async (
   }
 };
 
-const generateHydrateFactory = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
+const generateHydrateFactory = async (config: d.ValidatedConfig, compilerCtx: CompilerCtx, buildCtx: d.BuildCtx) => {
   if (!buildCtx.hasError) {
     try {
       const cmps = buildCtx.components;

@@ -11,7 +11,7 @@ import { getHydrateBuildConditionals } from './hydrate-build-conditionals';
 
 export const bundleHydrateFactory = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   _build: d.BuildConditionals,
   appFactoryEntryCode: string
@@ -43,7 +43,7 @@ export const bundleHydrateFactory = async (
   return undefined;
 };
 
-const getHydrateCustomTransformer = (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx) => {
+const getHydrateCustomTransformer = (config: d.ValidatedConfig, compilerCtx: CompilerCtx) => {
   const transformOpts: d.TransformOptions = {
     coreImportPath: STENCIL_INTERNAL_HYDRATE_ID,
     componentExport: null,

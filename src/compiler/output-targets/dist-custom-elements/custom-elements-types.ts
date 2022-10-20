@@ -14,7 +14,7 @@ import { isOutputTargetDistCustomElements } from '../output-utils';
  */
 export const generateCustomElementsTypes = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   typesDir: string
 ): Promise<void> => {
@@ -38,7 +38,7 @@ export const generateCustomElementsTypes = async (
  */
 const generateCustomElementsTypesOutput = async (
   config: d.ValidatedConfig,
-  compilerCtx: d.CompilerCtx,
+  compilerCtx: CompilerCtx,
   buildCtx: d.BuildCtx,
   typesDir: string,
   outputTarget: d.OutputTargetDistCustomElements
