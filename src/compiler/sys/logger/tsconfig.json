@@ -1,7 +1,8 @@
 {
   "extends": "../../../../tsconfig-base.json",
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "rootDir": "../../.."
   },
   "include": [
     "./console-logger.ts",
@@ -10,5 +11,6 @@
     "./diagnostic.ts"
   ],
   "references": [
+    { "path": "../environment" }
   ]
 }

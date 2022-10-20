@@ -4,11 +4,11 @@
     "composite": true
   },
   "include": [
-    "./in-memory-fs.ts"
+    "./index.ts"
   ],
   "references": [
-    { "path": "./logger" },
-    { "path": "./environment" },
-    { "path": "../../utils" }
+    { "path": "../sys/logger" },
+    { "path": "../sys/compiler-system" },
+    { "path": "../../cli" }
   ]
 }

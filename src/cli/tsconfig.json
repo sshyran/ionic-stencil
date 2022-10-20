@@ -4,28 +4,28 @@
     "composite": true
   },
   "include": [
-"check-version.ts",
-"config-flags.ts",
-"find-config.ts",
-"index.ts",
-"ionic-config.ts",
-"load-compiler.ts",
-"logs.ts",
-"parse-flags.ts",
-"public.ts",
-"run.ts",
-"task-build.ts",
-"task-docs.ts",
-"task-generate.ts",
-"task-help.ts",
-"task-info.ts",
-"task-prerender.ts",
-"task-serve.ts",
-"task-telemetry.ts",
-"task-test.ts",
-"task-watch.ts"
+    "check-version.ts",
+    "config-flags.ts",
+    "find-config.ts",
+    "index.ts",
+    "ionic-config.ts",
+    "load-compiler.ts",
+    "logs.ts",
+    "parse-flags.ts",
+    "public.ts",
+    "run.ts",
+    "task-build.ts",
+    "task-docs.ts",
+    "task-generate.ts",
+    "task-help.ts",
+    "task-info.ts",
+    "task-prerender.ts",
+    "task-serve.ts",
+    "task-telemetry.ts",
+    "task-test.ts",
+    "task-watch.ts"
   ],
   "references": [
-    { "path": "../compiler/sys" }
+    { "path": "../compiler/sys/logger" }
   ]
 }

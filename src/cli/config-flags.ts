@@ -1,4 +1,4 @@
-import type { LogLevel, TaskCommand } from '../declarations';
+import type { LogLevel } from '../compiler/sys/logger/logger'
 
 /**
  * All the Boolean options supported by the Stencil CLI
@@ -274,6 +274,20 @@ export interface ConfigFlags
   knownArgs: string[];
   unknownArgs: string[];
 }
+
+export type TaskCommand =
+  | 'build'
+  | 'docs'
+  | 'generate'
+  | 'g'
+  | 'help'
+  | 'info'
+  | 'prerender'
+  | 'serve'
+  | 'telemetry'
+  | 'test'
+  | 'version';
+
 
 /**
  * Helper function for initializing a `ConfigFlags` object. Provide any overrides

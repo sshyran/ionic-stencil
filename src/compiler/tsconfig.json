@@ -10,6 +10,7 @@
     { "path": "./sys" },
     { "path": "./sys/environment" },
     { "path": "./worker" },
-    { "path": "./build" }
+    { "path": "./build" },
+    { "path": "./config" }
   ]
 }

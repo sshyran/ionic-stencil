@@ -1,10 +1,10 @@
 import type { Diagnostic, DiagnosticMessageChain, Node } from 'typescript';
 
-import type * as d from '../../declarations';
 import { isIterable } from '../helpers';
 import { normalizePath } from '../normalize-path';
 import { splitLineBreaks } from './logger-utils';
-import { Diagnostic as StencilDiagnostic, PrintLine } from '../../compiler/sys/logger/diagnostic'
+import { Diagnostic as StencilDiagnostic, } from '../../compiler/sys/logger/diagnostic'
+import {PrintLine} from '../../compiler/sys/logger/logger';
 
 /**
  * Augment a `Diagnostic` with information from a `Node` in the AST to provide richer error information
@@ -84,7 +84,7 @@ export const augmentDiagnosticWithNode = (d: StencilDiagnostic, node: Node): Ste
  */
 
 export const loadTypeScriptDiagnostics = (tsDiagnostics: readonly Diagnostic[]) => {
-  const diagnostics: d.Diagnostic[] = [];
+  const diagnostics: StencilDiagnostic[] = [];
   const maxErrors = Math.min(tsDiagnostics.length, 50);
 
   for (let i = 0; i < maxErrors; i++) {
@@ -101,8 +101,8 @@ export const loadTypeScriptDiagnostics = (tsDiagnostics: readonly Diagnostic[]) 
  * @param tsDiagnostic a TypeScript diagnostic message record
  * @returns a Stencil diagnostic, suitable for showing an error to the user
  */
-export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic): d.Diagnostic => {
-  const d: d.Diagnostic = {
+export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic): StencilDiagnostic => {
+  const d: StencilDiagnostic = {
     level: 'warn',
     type: 'typescript',
     language: 'typescript',

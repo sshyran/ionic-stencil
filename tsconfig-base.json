@@ -19,6 +19,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "build",
+    "rootDir": "src/",
     "pretty": true,
     "resolveJsonModule": true,
     "sourceMap": true,

@@ -1,19 +1,22 @@
 import type { RollupError } from 'rollup';
+import {PrintLine} from '../../compiler/sys/logger/logger';
+import {Diagnostic} from '../../compiler/sys/logger/diagnostic';
 
 import type * as d from '../../declarations';
 import { isString, toTitleCase } from '../helpers';
 import { buildWarn } from '../message-utils';
 import { splitLineBreaks } from './logger-utils';
+import { Config } from '../../compiler/config'
 
 export const loadRollupDiagnostics = (
-  config: d.Config,
+  config: Config,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupError: RollupError
 ) => {
   const formattedCode = formatErrorCode(rollupError.code);
 
-  const diagnostic: d.Diagnostic = {
+  const diagnostic: Diagnostic = {
     level: 'error',
     type: 'bundling',
     language: 'javascript',
@@ -47,7 +50,7 @@ export const loadRollupDiagnostics = (
           try {
             const srcLines = splitLineBreaks(sourceText);
 
-            const errorLine: d.PrintLine = {
+            const errorLine: PrintLine = {
               lineIndex: loc.line - 1,
               lineNumber: loc.line,
               text: srcLines[loc.line - 1],
@@ -74,7 +77,7 @@ export const loadRollupDiagnostics = (
             }
 
             if (errorLine.lineIndex > 0) {
-              const previousLine: d.PrintLine = {
+              const previousLine: PrintLine = {
                 lineIndex: errorLine.lineIndex - 1,
                 lineNumber: errorLine.lineNumber - 1,
                 text: srcLines[errorLine.lineIndex - 1],
@@ -86,7 +89,7 @@ export const loadRollupDiagnostics = (
             }
 
             if (errorLine.lineIndex + 1 < srcLines.length) {
-              const nextLine: d.PrintLine = {
+              const nextLine: PrintLine = {
                 lineIndex: errorLine.lineIndex + 1,
                 lineNumber: errorLine.lineNumber + 1,
                 text: srcLines[errorLine.lineIndex + 1],
@@ -110,7 +113,7 @@ export const loadRollupDiagnostics = (
   buildCtx.diagnostics.push(diagnostic);
 };
 
-export const createOnWarnFn = (diagnostics: d.Diagnostic[], bundleModulesFiles?: d.Module[]) => {
+export const createOnWarnFn = (diagnostics: Diagnostic[], bundleModulesFiles?: d.Module[]) => {
   const previousWarns = new Set<string>();
 
   return function onWarningMessage(warning: { code: string; importer: string; message: string }) {
