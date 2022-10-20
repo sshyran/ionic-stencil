@@ -1,0 +1,24 @@
+{
+  "extends": "../../../tsconfig-base.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  "include": [
+    "build-ctx.ts",
+    "build-finish.ts",
+    "build-hmr.ts",
+    "build-results.ts",
+    "build-stats.ts",
+    "build.ts",
+    "compiler-ctx.ts",
+    "full-build.ts",
+    "validate-files.ts",
+    "watch-build.ts",
+    "write-build.ts"
+  ],
+  "references": [
+    { "path": "../sys/environment" },
+    { "path": "../sys/logger" },
+    { "path": "../../declarations" }
+  ]
+}

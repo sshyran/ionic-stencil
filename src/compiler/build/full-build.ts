@@ -3,7 +3,6 @@ import ts from 'typescript';
 import type * as d from '../../declarations';
 import { createTsBuildProgram } from '../transpile/create-build-program';
 import { build } from './build';
-import { BuildContext } from './build-ctx';
 
 /**
  * Build a callable function to perform a full build of a Stencil project

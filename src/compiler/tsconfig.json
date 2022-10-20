@@ -8,6 +8,8 @@
   ],
   "references": [
     { "path": "./sys" },
-    { "path": "./worker" }
+    { "path": "./sys/environment" },
+    { "path": "./worker" },
+    { "path": "./build" }
   ]
 }

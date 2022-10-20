@@ -1,6 +1,9 @@
-import { Logger, LoggerTimeSpan } from './logger'
-import { IS_BROWSER_ENV } from '../environment';
+import { Logger, LoggerTimeSpan, LogLevel } from './logger'
+// import { IS_BROWSER_ENV } from '../environment';
 import { Diagnostic } from './diagnostic'
+
+// TODO obviously fix this
+const IS_BROWSER_ENV = true
 
 /**
  * Creates an instance of a logger
@@ -8,7 +11,7 @@ import { Diagnostic } from './diagnostic'
  */
 export const createLogger = (): Logger => {
   let useColors = IS_BROWSER_ENV;
-  let level: d.LogLevel = 'info';
+  let level: LogLevel = 'info';
 
   return {
     enableColors: (uc) => (useColors = uc),
@@ -39,7 +42,7 @@ export const createLogger = (): Logger => {
   };
 };
 
-const logDiagnostic = (diagnostic: d.Diagnostic, useColors: boolean) => {
+const logDiagnostic = (diagnostic: Diagnostic, useColors: boolean) => {
   let color = BLUE;
   let prefix = 'Build';
   let msg = '';

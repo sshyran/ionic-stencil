@@ -2,7 +2,8 @@
   "extends": "./tsconfig-base.json",
   "references": [
     { "path": "./src/app-data" },
-    { "path": "./src/cli" }
+    { "path": "./src/cli" },
+    { "path": "./src/compiler" }
   ],
   "files": [
     "src/cli/public.ts",

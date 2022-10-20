@@ -31,6 +31,10 @@ import type {
   VNode,
   VNodeData,
 } from './stencil-public-runtime';
+import type {
+  CompilerSystem,
+  CompilerBuildResults
+} from '../compiler/sys/compiler-system'
 
 export interface SourceMap {
   file: string;
