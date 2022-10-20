@@ -26,6 +26,7 @@
     "task-watch.ts"
   ],
   "references": [
-    { "path": "../compiler/sys/logger" }
+    { "path": "../compiler/sys/logger" },
+    { "path": "../utils" }
   ]
 }

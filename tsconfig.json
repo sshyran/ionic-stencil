@@ -3,7 +3,8 @@
   "references": [
     { "path": "./src/app-data" },
     { "path": "./src/cli" },
-    { "path": "./src/compiler" }
+    { "path": "./src/compiler" },
+    { "path": "./src/testing" }
   ],
   "files": [
     "src/cli/public.ts",

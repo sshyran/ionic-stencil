@@ -20,9 +20,5 @@
     "./url-paths.ts",
     "./util.ts",
     "./validation.ts"
-  ],
-  "references": [
-    { "path": "../compiler/sys/logger" },
-    { "path": "../compiler/config" }
   ]
  }
