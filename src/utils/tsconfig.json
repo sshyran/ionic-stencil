@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig-base.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  "include": [
+    "./index.ts",
+    "./byte-size.ts",
+    "./constants.ts",
+    "./format-component-runtime-meta.ts",
+    "./helpers.ts",
+    "./is-glob.ts",
+    "./is-root-path.ts",
+    "./logger/logger-rollup.ts",
+    "./logger/logger-typescript.ts",
+    "./logger/logger-utils.ts",
+    "./message-utils.ts",
+    "./normalize-path.ts",
+    "./sourcemaps.ts",
+    "./url-paths.ts",
+    "./util.ts",
+    "./validation.ts"
+  ],
+  "references": [
+    { "path": "../compiler/sys/logger" }
+  ]
+ }

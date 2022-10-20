@@ -1,6 +1,6 @@
 import { dashToPascalCase, readOnlyArrayHasStringMember, toDashCase } from '@utils';
 
-import { CompilerSystem, LOG_LEVELS, LogLevel, TaskCommand } from '../declarations/stencil-public-compiler"';
+import { CompilerSystem, LOG_LEVELS, LogLevel, TaskCommand } from '../compiler/sys/logger'
 import {
   BOOLEAN_CLI_ARGS,
   BooleanCLIArg,

@@ -1,0 +1,15 @@
+{
+  "extends": "../../../../tsconfig-base.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  "include": [
+    "./console-logger.ts",
+    "./logger.ts",
+    "./terminal-logger.ts",
+    "./diagnostic.ts"
+  ],
+  "references": [
+    { "path": "../environment" }
+  ]
+}

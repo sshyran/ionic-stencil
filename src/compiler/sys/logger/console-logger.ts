@@ -1,11 +1,12 @@
-import type * as d from '../../../declarations';
+import { Logger, LoggerTimeSpan } from './logger'
 import { IS_BROWSER_ENV } from '../environment';
+import { Diagnostic } from './diagnostic'
 
 /**
  * Creates an instance of a logger
  * @returns the new logger instance
  */
-export const createLogger = (): d.Logger => {
+export const createLogger = (): Logger => {
   let useColors = IS_BROWSER_ENV;
   let level: d.LogLevel = 'info';
 
@@ -28,11 +29,11 @@ export const createLogger = (): d.Logger => {
     bold: (msg) => msg,
     dim: (msg) => msg,
     bgRed: (msg) => msg,
-    createTimeSpan: (_startMsg: string, _debug = false): d.LoggerTimeSpan => ({
+    createTimeSpan: (_startMsg: string, _debug = false): LoggerTimeSpan => ({
       duration: () => 0,
       finish: () => 0,
     }),
-    printDiagnostics(diagnostics: d.Diagnostic[]) {
+    printDiagnostics(diagnostics: Diagnostic[]) {
       diagnostics.forEach((diagnostic) => logDiagnostic(diagnostic, useColors));
     },
   };

@@ -1,5 +1,13 @@
 import { Diagnostic } from './diagnostic';
 
+export interface PrintLine {
+  lineIndex: number;
+  lineNumber: number;
+  text?: string;
+  errorCharStart: number;
+  errorLength?: number;
+}
+
 /**
  * This sets the log level hierarchy for our terminal logger, ranging from
  * most to least verbose.

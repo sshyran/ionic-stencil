@@ -1,14 +1,14 @@
 import ansiColor, { bgRed, blue, bold, cyan, dim, gray, green, magenta, red, yellow } from 'ansi-colors';
 
 import {
-  Diagnostic,
   LOG_LEVELS,
   Logger,
   LoggerLineUpdater,
   LoggerTimeSpan,
   LogLevel,
   PrintLine,
-} from '../../../declarations';
+} from './logger'
+import { Diagnostic } from './diagnostic'
 
 /**
  * A type to capture the range of functions exported by the ansi-colors module

@@ -121,7 +121,7 @@ export const readPackageJson = async (config: d.ValidatedConfig, compilerCtx: d.
  * A type that describes the result of parsing a `package.json` file's contents
  */
 export type ParsePackageJsonResult = {
-  diagnostic: d.Diagnostic | null;
+  diagnostic: Diagnostic | null;
   data: any | null;
   filePath: string;
 };

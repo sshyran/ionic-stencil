@@ -5,10 +5,10 @@
   },
   "include": [
     "./in-memory-fs.ts",
-    "./compiler-system.ts",
-    "./logger/console-logger.ts",
-    "./logger/logger.ts",
-    "./logger/terminal-logger.ts",
-    "./logger/diagnostic.ts"
+    "./compiler-system.ts"
+  ],
+  "references": [
+    { "path": "./logger" },
+    { "path": "../../utils" }
   ]
 }

@@ -1,6 +1,6 @@
-import type * as d from '@stencil/core/internal';
 import { isIterable, isString, normalizePath } from '@utils';
 import { basename, dirname, relative } from 'path';
+import { CompilerSystem } from './compiler-system'
 
 /**
  * An in-memory FS which proxies the underlying OS filesystem using a simple
@@ -151,7 +151,7 @@ interface FsStat {
  * @param sys a compiler system object
  * @returns an in-memory filesystem interface
  */
-export const createInMemoryFs = (sys: d.CompilerSystem) => {
+export const createInMemoryFs = (sys: CompilerSystem) => {
   /**
    * Map to hold the items in the in-memory cache which proxies the underlying
    * OS filesystem.
