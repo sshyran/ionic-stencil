@@ -1,6 +1,7 @@
 import { dashToPascalCase, readOnlyArrayHasStringMember, toDashCase } from '@utils';
 
-import { CompilerSystem, LOG_LEVELS, LogLevel, TaskCommand } from '../compiler/sys/logger'
+import { CompilerSystem, LOG_LEVELS, LogLevel } from '../compiler/sys/logger'
+import { TaskCommand } from './config-flags'
 import {
   BOOLEAN_CLI_ARGS,
   BooleanCLIArg,

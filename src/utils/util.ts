@@ -1,7 +1,4 @@
-import type * as d from '../declarations';
 import { dashToPascalCase, isString, toDashCase } from './helpers';
-import { buildError } from './message-utils';
-import {Diagnostic } from '../compiler/sys/logger/diagnostic'
 
 export const createJsVarName = (fileName: string) => {
   if (isString(fileName)) {
@@ -85,74 +82,7 @@ const getDependencies = (buildCtx: d.BuildCtx): ReadonlyArray<string> => {
   return [];
 };
 
-/**
- * Utility to determine whether a project has a dependency on a package
- * @param buildCtx the current build context to query for a specific package
- * @param depName the name of the dependency/package
- * @returns `true` if the project has a dependency a packaged with the provided name, `false` otherwise
- */
-export const hasDependency = (buildCtx: d.BuildCtx, depName: string): boolean => {
-  return getDependencies(buildCtx).includes(depName);
-};
-
 export const getDynamicImportFunction = (namespace: string) => `__sc_import_${namespace.replace(/\s|-/g, '_')}`;
-
-export const readPackageJson = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
-  try {
-    const pkgJson = await compilerCtx.fs.readFile(config.packageJsonFilePath);
-
-    if (pkgJson) {
-      const parseResults = parsePackageJson(pkgJson, config.packageJsonFilePath);
-      if (parseResults.diagnostic) {
-        buildCtx.diagnostics.push(parseResults.diagnostic);
-      } else {
-        buildCtx.packageJson = parseResults.data;
-      }
-    }
-  } catch (e) {
-    if (!config.outputTargets.some((o) => o.type.includes('dist'))) {
-      const diagnostic = buildError(buildCtx.diagnostics);
-      diagnostic.header = `Missing "package.json"`;
-      diagnostic.messageText = `Valid "package.json" file is required for distribution: ${config.packageJsonFilePath}`;
-    }
-  }
-};
-
-/**
- * A type that describes the result of parsing a `package.json` file's contents
- */
-export type ParsePackageJsonResult = {
-  diagnostic: Diagnostic | null;
-  data: any | null;
-  filePath: string;
-};
-
-/**
- * Parse a string read from a `package.json` file
- * @param pkgJsonStr the string read from a `package.json` file
- * @param pkgJsonFilePath the path to the already read `package.json` file
- * @returns the results of parsing the provided contents of the `package.json` file
- */
-export const parsePackageJson = (pkgJsonStr: string, pkgJsonFilePath: string): ParsePackageJsonResult => {
-  const parseResult: ParsePackageJsonResult = {
-    diagnostic: null,
-    data: null,
-    filePath: pkgJsonFilePath,
-  };
-
-  try {
-    parseResult.data = JSON.parse(pkgJsonStr);
-  } catch (e) {
-    parseResult.diagnostic = buildError();
-    parseResult.diagnostic.absFilePath = isString(pkgJsonFilePath) ? pkgJsonFilePath : undefined;
-    parseResult.diagnostic.header = `Error Parsing JSON`;
-    if (e instanceof Error) {
-      parseResult.diagnostic.messageText = e.message;
-    }
-  }
-
-  return parseResult;
-};
 
 const SKIP_DEPS = ['@stencil/core'];
 

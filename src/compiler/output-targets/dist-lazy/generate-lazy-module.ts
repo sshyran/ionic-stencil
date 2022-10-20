@@ -1,7 +1,6 @@
 import {
   formatComponentRuntimeMeta,
   getSourceMappingUrlForEndOfFile,
-  hasDependency,
   rollupToStencilSourceMap,
   stringifyRuntimeData,
 } from '@utils';
@@ -11,6 +10,17 @@ import type { SourceMap as RollupSourceMap } from 'rollup';
 import type * as d from '../../../declarations';
 import { optimizeModule } from '../../optimize/optimize-module';
 import { writeLazyModule } from './write-lazy-entry-module';
+
+/**
+ * Utility to determine whether a project has a dependency on a package
+ * @param buildCtx the current build context to query for a specific package
+ * @param depName the name of the dependency/package
+ * @returns `true` if the project has a dependency a packaged with the provided name, `false` otherwise
+ */
+export const hasDependency = (buildCtx: d.BuildCtx, depName: string): boolean => {
+  return getDependencies(buildCtx).includes(depName);
+};
+
 
 export const generateLazyModules = async (
   config: d.ValidatedConfig,

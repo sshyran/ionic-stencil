@@ -1,4 +1,5 @@
-import { isString, parsePackageJson } from '@utils';
+import { isString, } from '@utils';
+import {  parsePackageJson } from '../../util'
 import { dirname } from 'path';
 
 import type * as d from '../../../declarations';
@@ -110,3 +111,5 @@ export const addExternalImport = (
     });
   }
 };
+
+
