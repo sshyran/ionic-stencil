@@ -1,6 +1,7 @@
 import { join, relative } from 'path';
 
 import type * as d from '../../../declarations';
+import { OutputTargetDocsReadme } from '../../output-targets';
 import { AUTO_GENERATE_COMMENT } from '../constants';
 import { stylesToMarkdown } from './markdown-css-props';
 import { depsToMarkdown } from './markdown-dependencies';
@@ -15,7 +16,7 @@ import { usageToMarkdown } from './markdown-usage';
 export const generateReadme = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
-  readmeOutputs: d.OutputTargetDocsReadme[],
+  readmeOutputs: OutputTargetDocsReadme[],
   docsData: d.JsonDocsComponent,
   cmps: d.JsonDocsComponent[]
 ) => {
@@ -45,7 +46,7 @@ export const generateMarkdown = (
   userContent: string,
   cmp: d.JsonDocsComponent,
   cmps: d.JsonDocsComponent[],
-  readmeOutput: d.OutputTargetDocsReadme
+  readmeOutput: OutputTargetDocsReadme
 ) => {
   //If the readmeOutput.dependencies is true or undefined the dependencies will be generated.
   const dependencies = readmeOutput.dependencies !== false ? depsToMarkdown(cmp, cmps) : [];

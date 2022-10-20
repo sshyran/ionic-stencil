@@ -3,6 +3,7 @@ import minimatch from 'minimatch';
 import { join } from 'path';
 
 import type * as d from '../../../declarations';
+import { OutputTargetCopy } from '..';
 import { isOutputTargetCopy } from '../output-utils';
 import { canSkipAssetsCopy, getComponentAssetsCopyTasks } from './assets-copy-tasks';
 import { getDestAbsPath, getSrcAbsPath } from './local-copy-tasks';
@@ -44,12 +45,7 @@ export const outputCopy = async (config: d.ValidatedConfig, compilerCtx: d.Compi
   }
 };
 
-const getCopyTasks = (
-  config: d.ValidatedConfig,
-  buildCtx: d.BuildCtx,
-  o: d.OutputTargetCopy,
-  changedFiles: string[]
-) => {
+const getCopyTasks = (config: d.ValidatedConfig, buildCtx: d.BuildCtx, o: OutputTargetCopy, changedFiles: string[]) => {
   if (!Array.isArray(o.copy)) {
     return [];
   }

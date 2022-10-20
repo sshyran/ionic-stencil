@@ -1,9 +1,10 @@
 import { join } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 import { getAbsoluteBuildDir } from './html-utils';
 
-export const addScriptDataAttribute = (config: d.Config, doc: Document, outputTarget: d.OutputTargetWww) => {
+export const addScriptDataAttribute = (config: d.Config, doc: Document, outputTarget: OutputTargetWww) => {
   const resourcesUrl = getAbsoluteBuildDir(outputTarget);
   const entryEsmFilename = `${config.fsNamespace}.esm.js`;
   const entryNoModuleFilename = `${config.fsNamespace}.js`;

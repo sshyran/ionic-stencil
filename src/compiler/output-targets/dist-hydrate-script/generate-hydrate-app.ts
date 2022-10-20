@@ -11,6 +11,7 @@ import {
   STENCIL_INTERNAL_HYDRATE_ID,
   STENCIL_MOCK_DOC_ID,
 } from '../../bundle/entry-alias-ids';
+import { OutputTargetHydrate } from '..';
 import { bundleHydrateFactory } from './bundle-hydrate-factory';
 import { HYDRATE_FACTORY_INTRO, HYDRATE_FACTORY_OUTRO } from './hydrate-factory-closure';
 import { updateToHydrateComponents } from './update-to-hydrate-components';
@@ -20,7 +21,7 @@ export const generateHydrateApp = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTargets: d.OutputTargetHydrate[]
+  outputTargets: OutputTargetHydrate[]
 ) => {
   try {
     const packageDir = join(config.sys.getCompilerExecutingPath(), '..', '..');

@@ -3,6 +3,7 @@ import { normalize } from 'path';
 
 import type * as d from '../../../declarations';
 import * as test from '../../transformers/map-imports-to-path-aliases';
+import { OutputTargetDistCollection } from '..';
 import { outputCollection } from '../dist-collection';
 
 describe('Dist Collection output target', () => {
@@ -15,7 +16,7 @@ describe('Dist Collection output target', () => {
 
   const mockTraverse = jest.fn().mockImplementation((source: any) => source);
   const mockMap = jest.fn().mockImplementation(() => mockTraverse);
-  const target: d.OutputTargetDistCollection = {
+  const target: OutputTargetDistCollection = {
     type: 'dist-collection',
     dir: '',
     collectionDir: '/dist/collection',

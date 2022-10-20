@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { Compiler, Config } from '@stencil/core/compiler';
-import type * as d from '@stencil/core/declarations';
 import { mockConfig } from '@stencil/core/testing';
 import path from 'path';
 
@@ -23,7 +22,7 @@ describe.skip('outputTarget, www / dist / docs', () => {
           dir: 'custom-www',
           buildDir: 'www-build',
           indexHtml: 'custom-index.htm',
-        } as any as d.OutputTargetDist,
+        } as any as OutputTargetDist,
         {
           type: 'dist',
           dir: 'custom-dist',
@@ -33,7 +32,7 @@ describe.skip('outputTarget, www / dist / docs', () => {
         },
         {
           type: 'docs',
-        } as d.OutputTargetDocsReadme,
+        } as OutputTargetDocsReadme,
       ],
       rootDir: path.join(root, 'User', 'testing', '/'),
     });

@@ -2,6 +2,7 @@ import { dashToPascalCase, normalizePath } from '@utils';
 import { dirname, join, relative } from 'path';
 
 import type * as d from '../../../declarations';
+import { OutputTargetDistCustomElementsBundle } from '..';
 import { isOutputTargetDistCustomElementsBundle } from '../output-utils';
 
 export const generateCustomElementsBundleTypes = async (
@@ -24,7 +25,7 @@ const generateCustomElementsTypesOutput = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   distDtsFilePath: string,
-  outputTarget: d.OutputTargetDistCustomElementsBundle
+  outputTarget: OutputTargetDistCustomElementsBundle
 ) => {
   const customElementsDtsPath = join(outputTarget.dir, 'index.d.ts');
   const componentsDtsRelPath = relDts(outputTarget.dir, distDtsFilePath);

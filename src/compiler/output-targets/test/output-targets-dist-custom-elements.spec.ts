@@ -8,9 +8,9 @@ import {
 } from '@stencil/core/testing';
 
 import type * as d from '../../../declarations';
-import { OutputTargetDistCustomElements } from '../../../declarations';
 import { STENCIL_APP_GLOBALS_ID, STENCIL_INTERNAL_CLIENT_ID, USER_INDEX_ENTRY_ID } from '../../bundle/entry-alias-ids';
 import { stubComponentCompilerMeta } from '../../types/tests/ComponentCompilerMeta.stub';
+import { OutputTarget, OutputTargetDistCustomElements } from '..';
 import {
   addCustomElementInputs,
   bundleCustomElements,
@@ -54,16 +54,15 @@ describe('Custom Elements output target', () => {
     expect(bundleCustomElementsSpy).not.toHaveBeenCalled();
   });
 
-  it.each<d.OutputTarget[][]>([
-    [[]],
-    [[{ type: 'dist' }]],
-    [[{ type: 'dist' }, { type: DIST_CUSTOM_ELEMENTS_BUNDLE }]],
-  ])('should return early if no appropriate output target (%j)', async (outputTargets) => {
-    const { config, compilerCtx, buildCtx, bundleCustomElementsSpy } = setup();
-    config.outputTargets = outputTargets;
-    await outputCustomElements(config, compilerCtx, buildCtx);
-    expect(bundleCustomElementsSpy).not.toHaveBeenCalled();
-  });
+  it.each<OutputTarget[][]>([[[]], [[{ type: 'dist' }]], [[{ type: 'dist' }, { type: DIST_CUSTOM_ELEMENTS_BUNDLE }]]])(
+    'should return early if no appropriate output target (%j)',
+    async (outputTargets) => {
+      const { config, compilerCtx, buildCtx, bundleCustomElementsSpy } = setup();
+      config.outputTargets = outputTargets;
+      await outputCustomElements(config, compilerCtx, buildCtx);
+      expect(bundleCustomElementsSpy).not.toHaveBeenCalled();
+    }
+  );
 
   describe('generateEntryPoint', () => {
     it.each([true, false])('should include globalScripts if the right option is set', (includeGlobalScripts) => {

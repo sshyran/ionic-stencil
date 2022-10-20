@@ -1,8 +1,8 @@
-import type { OutputTargetDistCollection } from '@stencil/core/declarations';
 import { mockValidatedConfig } from '@stencil/core/testing';
 import ts, { Extension } from 'typescript';
 
 import { ValidatedConfig } from '../../../internal';
+import { OutputTargetDistCollection } from '../../output-targets';
 import { mapImportsToPathAliases } from '../map-imports-to-path-aliases';
 import { transpileModule } from './transpile';
 

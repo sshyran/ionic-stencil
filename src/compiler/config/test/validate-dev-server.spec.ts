@@ -4,6 +4,7 @@ import path from 'path';
 import { ConfigFlags, createConfigFlags } from '../../../cli/config-flags';
 import type * as d from '../../../declarations';
 import { normalizePath } from '../../../utils';
+import { OutputTargetWww } from '../../output-targets';
 import { validateConfig } from '../validate-config';
 
 describe('validateDevServer', () => {
@@ -55,7 +56,7 @@ describe('validateDevServer', () => {
       {
         type: 'www',
         baseUrl: '/my-base-url',
-      } as d.OutputTargetWww,
+      } as OutputTargetWww,
     ];
     const { config } = validateConfig(inputConfig, mockLoadConfigInit());
     expect(config.devServer.basePath).toBe('/my-base-url/');
@@ -66,7 +67,7 @@ describe('validateDevServer', () => {
       {
         type: 'www',
         baseUrl: 'http://stenciljs.com/my-base-url',
-      } as d.OutputTargetWww,
+      } as OutputTargetWww,
     ];
     const { config } = validateConfig(inputConfig, mockLoadConfigInit());
     expect(config.devServer.basePath).toBe('/my-base-url/');
@@ -242,7 +243,7 @@ describe('validateDevServer', () => {
   });
 
   it('should set srcIndexHtml from config', () => {
-    const wwwOutputTarget: d.OutputTargetWww = {
+    const wwwOutputTarget: OutputTargetWww = {
       type: 'www',
       prerenderConfig: normalizePath(path.join(root, 'some', 'path', 'prerender.config.ts')),
     };

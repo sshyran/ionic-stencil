@@ -1,12 +1,13 @@
 import { join } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 
 export const inlineStyleSheets = (
   compilerCtx: d.CompilerCtx,
   doc: Document,
   maxSize: number,
-  outputTarget: d.OutputTargetWww
+  outputTarget: OutputTargetWww
 ) => {
   const globalLinks = Array.from(doc.querySelectorAll('link[rel=stylesheet]')) as HTMLLinkElement[];
   return Promise.all(

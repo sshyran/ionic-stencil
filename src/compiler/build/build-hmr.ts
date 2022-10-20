@@ -3,6 +3,7 @@ import minimatch from 'minimatch';
 import { basename } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 import { isOutputTargetWww } from '../output-targets/output-utils';
 import { getScopeId } from '../style/scope-css';
 
@@ -170,7 +171,7 @@ const addTsFileImporters = (
   });
 };
 
-const getExternalStylesUpdated = (buildCtx: d.BuildCtx, outputTargetsWww: d.OutputTargetWww[]) => {
+const getExternalStylesUpdated = (buildCtx: d.BuildCtx, outputTargetsWww: OutputTargetWww[]) => {
   if (!buildCtx.isRebuild || outputTargetsWww.length === 0) {
     return null;
   }
@@ -183,7 +184,7 @@ const getExternalStylesUpdated = (buildCtx: d.BuildCtx, outputTargetsWww: d.Outp
   return cssFiles.map((cssFile) => basename(cssFile)).sort();
 };
 
-const getImagesUpdated = (buildCtx: d.BuildCtx, outputTargetsWww: d.OutputTargetWww[]) => {
+const getImagesUpdated = (buildCtx: d.BuildCtx, outputTargetsWww: OutputTargetWww[]) => {
   if (outputTargetsWww.length === 0) {
     return null;
   }

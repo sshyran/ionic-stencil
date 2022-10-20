@@ -2,6 +2,7 @@ import { buildError, isBoolean, isString } from '@utils';
 import { isAbsolute, join } from 'path';
 
 import type * as d from '../../../declarations';
+import { OutputTarget, OutputTargetWww } from '../../output-targets';
 import {
   COPY,
   DIST_GLOBAL_STYLES,
@@ -15,7 +16,7 @@ import { validateCopy } from '../validate-copy';
 import { validatePrerender } from '../validate-prerender';
 import { validateServiceWorker } from '../validate-service-worker';
 
-export const validateWww = (config: d.ValidatedConfig, diagnostics: d.Diagnostic[], userOutputs: d.OutputTarget[]) => {
+export const validateWww = (config: d.ValidatedConfig, diagnostics: d.Diagnostic[], userOutputs: OutputTarget[]) => {
   const hasOutputTargets = userOutputs.length > 0;
   const hasE2eTests = !!config.flags.e2e;
   const userWwwOutputs = userOutputs.filter(isOutputTargetWww);
@@ -77,7 +78,7 @@ export const validateWww = (config: d.ValidatedConfig, diagnostics: d.Diagnostic
 
 const validateWwwOutputTarget = (
   config: d.ValidatedConfig,
-  outputTarget: d.OutputTargetWww,
+  outputTarget: OutputTargetWww,
   diagnostics: d.Diagnostic[]
 ) => {
   if (!isString(outputTarget.baseUrl)) {

@@ -4,14 +4,21 @@ import { isAbsolute, join } from 'path';
 import type * as d from '../../../declarations';
 import { NOTE } from '../../docs/constants';
 import {
+  OutputTarget,
+  OutputTargetDocsCustom,
+  OutputTargetDocsJson,
+  OutputTargetDocsReadme,
+  OutputTargetDocsVscode,
+} from '../../output-targets';
+import {
   isOutputTargetDocsCustom,
   isOutputTargetDocsJson,
   isOutputTargetDocsReadme,
   isOutputTargetDocsVscode,
 } from '../../output-targets/output-utils';
 
-export const validateDocs = (config: d.ValidatedConfig, diagnostics: d.Diagnostic[], userOutputs: d.OutputTarget[]) => {
-  const docsOutputs: d.OutputTarget[] = [];
+export const validateDocs = (config: d.ValidatedConfig, diagnostics: d.Diagnostic[], userOutputs: OutputTarget[]) => {
+  const docsOutputs: OutputTarget[] = [];
 
   // json docs flag
   if (isString(config.flags.docsJson)) {
@@ -57,7 +64,7 @@ export const validateDocs = (config: d.ValidatedConfig, diagnostics: d.Diagnosti
   return docsOutputs;
 };
 
-const validateReadmeOutputTarget = (config: d.ValidatedConfig, outputTarget: d.OutputTargetDocsReadme) => {
+const validateReadmeOutputTarget = (config: d.ValidatedConfig, outputTarget: OutputTargetDocsReadme) => {
   if (!isString(outputTarget.dir)) {
     outputTarget.dir = config.srcDir;
   }
@@ -76,7 +83,7 @@ const validateReadmeOutputTarget = (config: d.ValidatedConfig, outputTarget: d.O
 const validateJsonDocsOutputTarget = (
   config: d.ValidatedConfig,
   diagnostics: d.Diagnostic[],
-  outputTarget: d.OutputTargetDocsJson
+  outputTarget: OutputTargetDocsJson
 ) => {
   if (!isString(outputTarget.file)) {
     const err = buildError(diagnostics);
@@ -93,7 +100,7 @@ const validateJsonDocsOutputTarget = (
   return outputTarget;
 };
 
-const validateCustomDocsOutputTarget = (diagnostics: d.Diagnostic[], outputTarget: d.OutputTargetDocsCustom) => {
+const validateCustomDocsOutputTarget = (diagnostics: d.Diagnostic[], outputTarget: OutputTargetDocsCustom) => {
   if (!isFunction(outputTarget.generator)) {
     const err = buildError(diagnostics);
     err.messageText = `docs-custom outputTarget missing the "generator" function`;
@@ -103,7 +110,7 @@ const validateCustomDocsOutputTarget = (diagnostics: d.Diagnostic[], outputTarge
   return outputTarget;
 };
 
-const validateVScodeDocsOutputTarget = (diagnostics: d.Diagnostic[], outputTarget: d.OutputTargetDocsVscode) => {
+const validateVScodeDocsOutputTarget = (diagnostics: d.Diagnostic[], outputTarget: OutputTargetDocsVscode) => {
   if (!isString(outputTarget.file)) {
     const err = buildError(diagnostics);
     err.messageText = `docs-vscode outputTarget missing the "file" path`;

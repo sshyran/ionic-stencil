@@ -2,6 +2,7 @@ import { dashToPascalCase } from '@utils';
 import ts from 'typescript';
 
 import type * as d from '../../../declarations';
+import { OutputTargetDistCustomElements } from '../../output-targets';
 import { createImportStatement, getModuleFromSourceFile } from '../transform-utils';
 
 /**
@@ -15,7 +16,7 @@ import { createImportStatement, getModuleFromSourceFile } from '../transform-uti
 export const addDefineCustomElementFunctions = (
   compilerCtx: d.CompilerCtx,
   components: d.ComponentCompilerMeta[],
-  outputTarget: d.OutputTargetDistCustomElements
+  outputTarget: OutputTargetDistCustomElements
 ): ts.TransformerFactory<ts.SourceFile> => {
   return () => {
     return (tsSourceFile: ts.SourceFile): ts.SourceFile => {

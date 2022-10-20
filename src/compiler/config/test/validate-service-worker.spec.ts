@@ -1,14 +1,14 @@
 import type * as d from '@stencil/core/declarations';
-import { OutputTargetWww } from '@stencil/core/declarations';
 import { mockCompilerSystem, mockLogger } from '@stencil/core/testing';
 
 import { createConfigFlags } from '../../../cli/config-flags';
+import { OutputTargetWww } from '../../output-targets';
 import { validateServiceWorker } from '../validate-service-worker';
 
 describe('validateServiceWorker', () => {
   let config: d.ValidatedConfig;
 
-  let outputTarget: d.OutputTargetWww;
+  let outputTarget: OutputTargetWww;
 
   beforeEach(() => {
     config = {

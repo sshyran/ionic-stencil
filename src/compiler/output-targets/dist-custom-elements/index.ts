@@ -20,6 +20,7 @@ import { proxyCustomElement } from '../../transformers/component-native/proxy-cu
 import { nativeComponentTransform } from '../../transformers/component-native/tranform-to-native-component';
 import { removeCollectionImports } from '../../transformers/remove-collection-imports';
 import { updateStencilCoreImports } from '../../transformers/update-stencil-core-import';
+import { OutputTargetDistCustomElements } from '..';
 import { getCustomElementsBuildConditionals } from '../dist-custom-elements-bundle/custom-elements-build-conditionals';
 import { isOutputTargetDistCustomElements } from '../output-utils';
 
@@ -70,7 +71,7 @@ export const getBundleOptions = (
   config: d.ValidatedConfig,
   buildCtx: d.BuildCtx,
   compilerCtx: d.CompilerCtx,
-  outputTarget: d.OutputTargetDistCustomElements
+  outputTarget: OutputTargetDistCustomElements
 ): BundleOptions => ({
   id: 'customElements',
   platform: 'client',
@@ -108,7 +109,7 @@ export const bundleCustomElements = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistCustomElements
+  outputTarget: OutputTargetDistCustomElements
 ) => {
   try {
     const bundleOpts = getBundleOptions(config, buildCtx, compilerCtx, outputTarget);
@@ -228,7 +229,7 @@ export const addCustomElementInputs = (buildCtx: d.BuildCtx, bundleOpts: BundleO
  * @param outputTarget the output target's configuration
  * @returns the stringified contents to be placed in the entrypoint
  */
-export const generateEntryPoint = (outputTarget: d.OutputTargetDistCustomElements): string => {
+export const generateEntryPoint = (outputTarget: OutputTargetDistCustomElements): string => {
   const imp: string[] = [];
 
   imp.push(
@@ -257,7 +258,7 @@ const getCustomElementCustomTransformer = (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   components: d.ComponentCompilerMeta[],
-  outputTarget: d.OutputTargetDistCustomElements
+  outputTarget: OutputTargetDistCustomElements
 ): ts.TransformerFactory<ts.SourceFile>[] => {
   const transformOpts: d.TransformOptions = {
     coreImportPath: STENCIL_INTERNAL_CLIENT_ID,

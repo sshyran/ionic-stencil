@@ -3,6 +3,7 @@ import { dirname, relative } from 'path';
 import ts from 'typescript';
 
 import type * as d from '../../declarations';
+import { OutputTargetDistCollection } from '../output-targets';
 
 /**
  * This method is responsible for replacing user-defined import path aliases ({@link https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping})
@@ -20,7 +21,7 @@ import type * as d from '../../declarations';
 export const mapImportsToPathAliases = (
   config: d.ValidatedConfig,
   destinationFilePath: string,
-  outputTarget: d.OutputTargetDistCollection
+  outputTarget: OutputTargetDistCollection
 ): ts.TransformerFactory<ts.SourceFile> => {
   return (transformCtx) => {
     const compilerHost = ts.createCompilerHost(config.tsCompilerOptions);

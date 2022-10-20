@@ -15,6 +15,7 @@ import { getUsedComponents } from '../html/used-components';
 import { generateHashedCopy } from '../output-targets/copy/hashed-copy';
 import { INDEX_ORG } from '../service-worker/generate-sw';
 import { getScopeId } from '../style/scope-css';
+import { OutputTargetWww } from '.';
 import { isOutputTargetWww } from './output-utils';
 
 export const outputWww = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
@@ -52,7 +53,7 @@ const generateWww = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   criticalPath: string[],
-  outputTarget: d.OutputTargetWww
+  outputTarget: OutputTargetWww
 ) => {
   if (!config.buildEs5) {
     await generateEs5DisabledMessage(config, compilerCtx, outputTarget);
@@ -66,7 +67,7 @@ const generateWww = async (
   await generateHostConfig(compilerCtx, outputTarget);
 };
 
-const generateHostConfig = (compilerCtx: d.CompilerCtx, outputTarget: d.OutputTargetWww) => {
+const generateHostConfig = (compilerCtx: d.CompilerCtx, outputTarget: OutputTargetWww) => {
   const buildDir = getAbsoluteBuildDir(outputTarget);
   const hostConfigPath = join(outputTarget.appDir, 'host.config.json');
   const hostConfigContent = JSON.stringify(
@@ -97,7 +98,7 @@ const generateIndexHtml = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   criticalPath: string[],
-  outputTarget: d.OutputTargetWww
+  outputTarget: OutputTargetWww
 ) => {
   if (compilerCtx.hasSuccessfulBuild && !buildCtx.hasHtmlChanges) {
     // no need to rebuild index.html if there were no app file changes

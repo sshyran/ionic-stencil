@@ -3,6 +3,7 @@ import { mockLoadConfigInit } from '@stencil/core/testing';
 import path from 'path';
 
 import { ConfigFlags, createConfigFlags } from '../../../cli/config-flags';
+import { OutputTargetHydrate, OutputTargetWww } from '../../output-targets';
 import { isOutputTargetCopy, isOutputTargetHydrate, isOutputTargetWww } from '../../output-targets/output-utils';
 import { validateConfig } from '../validate-config';
 
@@ -20,7 +21,7 @@ describe('validateOutputTargetWww', () => {
   });
 
   it('should have default value', () => {
-    const outputTarget: d.OutputTargetWww = {
+    const outputTarget: OutputTargetWww = {
       type: 'www',
       dir: path.join('www', 'docs'),
     };
@@ -89,7 +90,7 @@ describe('validateOutputTargetWww', () => {
   });
 
   it('should www with sub directory', () => {
-    const outputTarget: d.OutputTargetWww = {
+    const outputTarget: OutputTargetWww = {
       type: 'www',
       dir: path.join('www', 'docs'),
     };
@@ -104,7 +105,7 @@ describe('validateOutputTargetWww', () => {
   });
 
   it('should set www values', () => {
-    const outputTarget: d.OutputTargetWww = {
+    const outputTarget: OutputTargetWww = {
       type: 'www',
       dir: 'my-www',
       buildDir: 'my-build',
@@ -135,7 +136,7 @@ describe('validateOutputTargetWww', () => {
 
   describe('baseUrl', () => {
     it('baseUrl does not end with / with dir set', () => {
-      const outputTarget: d.OutputTargetWww = {
+      const outputTarget: OutputTargetWww = {
         type: 'www',
         dir: 'my-www',
         baseUrl: '/docs',
@@ -154,7 +155,7 @@ describe('validateOutputTargetWww', () => {
     });
 
     it('baseUrl does not end with /', () => {
-      const outputTarget: d.OutputTargetWww = {
+      const outputTarget: OutputTargetWww = {
         type: 'www',
         baseUrl: '/docs',
       };
@@ -172,7 +173,7 @@ describe('validateOutputTargetWww', () => {
     });
 
     it('baseUrl is a full url', () => {
-      const outputTarget: d.OutputTargetWww = {
+      const outputTarget: OutputTargetWww = {
         type: 'www',
         baseUrl: 'https://example.com/docs',
       };
@@ -192,7 +193,7 @@ describe('validateOutputTargetWww', () => {
 
   describe('copy', () => {
     it('should add copy tasks', () => {
-      const outputTarget: d.OutputTargetWww = {
+      const outputTarget: OutputTargetWww = {
         type: 'www',
         dir: path.join('www', 'docs'),
         copy: [
@@ -234,7 +235,7 @@ describe('validateOutputTargetWww', () => {
     });
 
     it('should replace copy tasks', () => {
-      const outputTarget: d.OutputTargetWww = {
+      const outputTarget: OutputTargetWww = {
         type: 'www',
         dir: path.join('www', 'docs'),
         copy: [
@@ -272,7 +273,7 @@ describe('validateOutputTargetWww', () => {
     });
 
     it('should disable copy tasks', () => {
-      const outputTarget: d.OutputTargetWww = {
+      const outputTarget: OutputTargetWww = {
         type: 'www',
         dir: path.join('www', 'docs'),
         copy: null,
@@ -304,7 +305,7 @@ describe('validateOutputTargetWww', () => {
     });
 
     it('should not add hydrate with user www', () => {
-      const wwwOutputTarget: d.OutputTargetWww = {
+      const wwwOutputTarget: OutputTargetWww = {
         type: 'www',
       };
       userConfig.outputTargets = [wwwOutputTarget];
@@ -314,10 +315,10 @@ describe('validateOutputTargetWww', () => {
     });
 
     it('should add hydrate with user hydrate and www outputs', () => {
-      const wwwOutputTarget: d.OutputTargetWww = {
+      const wwwOutputTarget: OutputTargetWww = {
         type: 'www',
       };
-      const hydrateOutputTarget: d.OutputTargetHydrate = {
+      const hydrateOutputTarget: OutputTargetHydrate = {
         type: 'dist-hydrate-script',
       };
       userConfig.outputTargets = [wwwOutputTarget, hydrateOutputTarget];
@@ -341,7 +342,7 @@ describe('validateOutputTargetWww', () => {
     });
 
     it('should add externals and defaults', () => {
-      const hydrateOutputTarget: d.OutputTargetHydrate = {
+      const hydrateOutputTarget: OutputTargetHydrate = {
         type: 'dist-hydrate-script',
         external: ['lodash', 'left-pad'],
       };

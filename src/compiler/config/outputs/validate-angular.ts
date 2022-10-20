@@ -1,10 +1,10 @@
 import { isAbsolute, join } from 'path';
 
 import type * as d from '../../../declarations';
-import { OutputTargetAngular } from '../../../declarations';
+import { OutputTarget, OutputTargetAngular } from '../../output-targets';
 import { isOutputTargetAngular } from '../../output-targets/output-utils';
 
-export const validateAngular = (config: d.ValidatedConfig, userOutputs: d.OutputTarget[]): OutputTargetAngular[] => {
+export const validateAngular = (config: d.ValidatedConfig, userOutputs: OutputTarget[]): OutputTargetAngular[] => {
   const angularOutputTargets = userOutputs.filter(isOutputTargetAngular);
   return angularOutputTargets.map((outputTarget) => {
     let directivesProxyFile = outputTarget.directivesProxyFile;

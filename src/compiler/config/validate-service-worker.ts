@@ -2,8 +2,9 @@ import { isString } from '@utils';
 import { isAbsolute, join } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 
-export const validateServiceWorker = (config: d.ValidatedConfig, outputTarget: d.OutputTargetWww) => {
+export const validateServiceWorker = (config: d.ValidatedConfig, outputTarget: OutputTargetWww) => {
   if (outputTarget.serviceWorker === false) {
     return;
   }

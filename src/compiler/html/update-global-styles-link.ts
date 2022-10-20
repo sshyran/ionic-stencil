@@ -1,13 +1,14 @@
 import { join } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 import { getAbsoluteBuildDir } from './html-utils';
 
 export const updateGlobalStylesLink = (
   config: d.Config,
   doc: Document,
   globalScriptFilename: string,
-  outputTarget: d.OutputTargetWww
+  outputTarget: OutputTargetWww
 ) => {
   if (!globalScriptFilename) {
     return;

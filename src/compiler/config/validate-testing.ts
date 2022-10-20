@@ -2,6 +2,7 @@ import { buildError, isString } from '@utils';
 import { basename, dirname, isAbsolute, join } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 import { isOutputTargetDist, isOutputTargetWww } from '../output-targets/output-utils';
 import { isLocalModule } from '../sys/resolve/resolve-utils';
 
@@ -75,7 +76,7 @@ export const validateTesting = (config: d.ValidatedConfig, diagnostics: d.Diagno
 
     (config.outputTargets ?? [])
       .filter((o) => (isOutputTargetDist(o) || isOutputTargetWww(o)) && o.dir)
-      .forEach((outputTarget: d.OutputTargetWww) => {
+      .forEach((outputTarget: OutputTargetWww) => {
         testing.testPathIgnorePatterns?.push(outputTarget.dir!);
       });
   }

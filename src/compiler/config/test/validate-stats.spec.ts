@@ -1,6 +1,7 @@
 import type * as d from '@stencil/core/declarations';
 import { mockConfig, mockLoadConfigInit } from '@stencil/core/testing';
 
+import { OutputTargetStats } from '../../output-targets';
 import { validateConfig } from '../validate-config';
 
 describe('validateStats', () => {
@@ -14,7 +15,7 @@ describe('validateStats', () => {
     userConfig.flags.stats = true;
 
     const { config } = validateConfig(userConfig, mockLoadConfigInit());
-    const o = config.outputTargets.find((o) => o.type === 'stats') as d.OutputTargetStats;
+    const o = config.outputTargets.find((o) => o.type === 'stats') as OutputTargetStats;
     expect(o).toBeDefined();
     expect(o.file).toContain('stencil-stats.json');
   });
@@ -24,10 +25,10 @@ describe('validateStats', () => {
       {
         type: 'stats',
         file: 'custom-path.json',
-      } as d.OutputTargetStats,
+      } as OutputTargetStats,
     ];
     const { config } = validateConfig(userConfig, mockLoadConfigInit());
-    const o = config.outputTargets.find((o) => o.type === 'stats') as d.OutputTargetStats;
+    const o = config.outputTargets.find((o) => o.type === 'stats') as OutputTargetStats;
     expect(o).toBeDefined();
     expect(o.file).toContain('custom-path.json');
   });
@@ -39,7 +40,7 @@ describe('validateStats', () => {
       },
     ];
     const { config } = validateConfig(userConfig, mockLoadConfigInit());
-    const o = config.outputTargets.find((o) => o.type === 'stats') as d.OutputTargetStats;
+    const o = config.outputTargets.find((o) => o.type === 'stats') as OutputTargetStats;
     expect(o).toBeDefined();
     expect(o.file).toContain('stencil-stats.json');
   });

@@ -1,4 +1,5 @@
 import type * as d from '../../../declarations';
+import { OutputTarget, OutputTargetDistCollection } from '../../output-targets';
 import { isOutputTargetDistCollection } from '../../output-targets/output-utils';
 import { getAbsolutePath } from '../config-utils';
 
@@ -12,8 +13,8 @@ import { getAbsolutePath } from '../config-utils';
  */
 export const validateCollection = (
   config: d.ValidatedConfig,
-  userOutputs: d.OutputTarget[]
-): d.OutputTargetDistCollection[] => {
+  userOutputs: OutputTarget[]
+): OutputTargetDistCollection[] => {
   return userOutputs.filter(isOutputTargetDistCollection).map((outputTarget) => {
     return {
       ...outputTarget,

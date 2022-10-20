@@ -1,7 +1,6 @@
 // @ts-nocheck
 // TODO(STENCIL-462): investigate getting this file to pass (remove ts-nocheck)
 import { Compiler, Config } from '@stencil/core/compiler';
-import type * as d from '@stencil/core/declarations';
 import { mockConfig } from '@stencil/core/testing';
 import path from 'path';
 
@@ -22,7 +21,7 @@ describe.skip('service worker', () => {
             swSrc: path.join('src', 'sw.js'),
             globPatterns: ['**/*.{html,js,css,json,ico,png}'],
           },
-        } as d.OutputTargetWww,
+        } as OutputTargetWww,
       ],
     });
 

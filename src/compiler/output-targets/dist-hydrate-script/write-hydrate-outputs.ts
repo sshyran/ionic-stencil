@@ -2,13 +2,14 @@ import { basename, join } from 'path';
 import type { RollupOutput } from 'rollup';
 
 import type * as d from '../../../declarations';
+import { OutputTargetHydrate } from '..';
 import { relocateHydrateContextConst } from './relocate-hydrate-context';
 
 export const writeHydrateOutputs = (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTargets: d.OutputTargetHydrate[],
+  outputTargets: OutputTargetHydrate[],
   rollupOutput: RollupOutput
 ) => {
   return Promise.all(
@@ -22,7 +23,7 @@ const writeHydrateOutput = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetHydrate,
+  outputTarget: OutputTargetHydrate,
   rollupOutput: RollupOutput
 ) => {
   const hydratePackageName = await getHydratePackageName(config, compilerCtx);

@@ -5,7 +5,6 @@ import type {
   CompilerWatcher,
   DevServer,
   E2EProcessEnv,
-  OutputTargetWww,
   Testing,
   TestingRunOptions,
   ValidatedConfig,
@@ -13,6 +12,7 @@ import type {
 import { hasError } from '@utils';
 import type * as puppeteer from 'puppeteer';
 
+import { OutputTargetWww } from '../compiler/output-targets';
 import { runJest } from './jest/jest-runner';
 import { runJestScreenshot } from './jest/jest-screenshot';
 import { startPuppeteerBrowser } from './puppeteer/puppeteer-browser';

@@ -1,9 +1,9 @@
 import { join } from 'path';
 
-import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 import { getAbsoluteBuildDir } from './html-utils';
 
-export const optimizeCriticalPath = (doc: Document, criticalBundlers: string[], outputTarget: d.OutputTargetWww) => {
+export const optimizeCriticalPath = (doc: Document, criticalBundlers: string[], outputTarget: OutputTargetWww) => {
   const buildDir = getAbsoluteBuildDir(outputTarget);
   const paths = criticalBundlers.map((path) => join(buildDir, path));
   injectModulePreloads(doc, paths);

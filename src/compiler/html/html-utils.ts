@@ -1,8 +1,8 @@
 import { join, relative } from 'path';
 
-import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 
-export const getAbsoluteBuildDir = (outputTarget: d.OutputTargetWww) => {
+export const getAbsoluteBuildDir = (outputTarget: OutputTargetWww) => {
   const relativeBuildDir = relative(outputTarget.dir, outputTarget.buildDir);
   return join('/', relativeBuildDir) + '/';
 };

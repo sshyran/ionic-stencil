@@ -3,6 +3,7 @@ import type { OutputOptions, RollupBuild } from 'rollup';
 
 import type * as d from '../../../declarations';
 import { generateRollupOutput } from '../../app-core/bundle-app-core';
+import { OutputTargetDistLazy } from '..';
 import { generateLazyModules } from './generate-lazy-module';
 
 export const generateEsmBrowser = async (
@@ -10,7 +11,7 @@ export const generateEsmBrowser = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupBuild: RollupBuild,
-  outputTargets: d.OutputTargetDistLazy[]
+  outputTargets: OutputTargetDistLazy[]
 ): Promise<d.UpdatedLazyBuildCtx> => {
   const esmOutputs = outputTargets.filter((o) => !!o.esmDir && !!o.isBrowserBuild);
   if (esmOutputs.length) {

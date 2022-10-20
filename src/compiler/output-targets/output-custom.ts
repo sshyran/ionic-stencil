@@ -1,6 +1,7 @@
 import { catchError } from '@utils';
 
 import type * as d from '../../declarations';
+import { OutputTarget } from '.';
 import { isOutputTargetCustom } from './output-utils';
 
 export const outputCustom = async (
@@ -8,7 +9,7 @@ export const outputCustom = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   docs: d.JsonDocs,
-  outputTargets: d.OutputTarget[]
+  outputTargets: OutputTarget[]
 ) => {
   const customOutputTargets = outputTargets.filter(isOutputTargetCustom);
   if (customOutputTargets.length === 0) {

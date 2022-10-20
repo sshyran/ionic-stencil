@@ -2,6 +2,7 @@ import { buildJsonFileError, COLLECTION_MANIFEST_FILE_NAME, isGlob, isString, no
 import { dirname, join, relative } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetDistCollection, OutputTargetDistTypes } from '../output-targets';
 import {
   getComponentsDtsTypesFilePath,
   isOutputTargetDistCollection,
@@ -56,7 +57,7 @@ const validateDistCollectionPkgJson = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistCollection
+  outputTarget: OutputTargetDistCollection
 ) => {
   await Promise.all([
     validatePackageFiles(config, compilerCtx, buildCtx, outputTarget),
@@ -79,7 +80,7 @@ export const validatePackageFiles = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistCollection
+  outputTarget: OutputTargetDistCollection
 ) => {
   if (!config.devMode && Array.isArray(buildCtx.packageJson.files)) {
     const actualDistDir = normalizePath(relative(config.rootDir, outputTarget.dir));
@@ -126,7 +127,7 @@ export const validateMain = (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistCollection
+  outputTarget: OutputTargetDistCollection
 ) => {
   const mainAbs = join(outputTarget.dir, 'index.cjs.js');
   const mainRel = relative(config.rootDir, mainAbs);
@@ -221,7 +222,7 @@ export const validateTypes = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistTypes
+  outputTarget: OutputTargetDistTypes
 ) => {
   const typesAbs = getComponentsDtsTypesFilePath(outputTarget);
   const recommendedPath = relative(config.rootDir, typesAbs);
@@ -258,7 +259,7 @@ export const validateCollection = (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistCollection
+  outputTarget: OutputTargetDistCollection
 ) => {
   if (outputTarget.collectionDir) {
     const collectionRel = join(relative(config.rootDir, outputTarget.collectionDir), COLLECTION_MANIFEST_FILE_NAME);

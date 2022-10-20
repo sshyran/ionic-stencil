@@ -1,13 +1,13 @@
 import { isBoolean } from '@utils';
 import { join } from 'path';
 
-import type {
+import type { ValidatedConfig } from '../../../declarations';
+import {
   OutputTarget,
   OutputTargetCopy,
   OutputTargetDistCustomElements,
   OutputTargetDistTypes,
-  ValidatedConfig,
-} from '../../../declarations';
+} from '../../output-targets';
 import { COPY, DIST_TYPES, isOutputTargetDistCustomElements } from '../../output-targets/output-utils';
 import { getAbsolutePath } from '../config-utils';
 import { validateCopy } from '../validate-copy';

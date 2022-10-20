@@ -2,13 +2,14 @@ import { buildWarn, catchError } from '@utils';
 import { basename } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetWww, ServiceWorkerConfig } from '../output-targets';
 import { isOutputTargetWww } from '../output-targets/output-utils';
 
 export const generateServiceWorker = async (
   config: d.ValidatedConfig,
   buildCtx: d.BuildCtx,
   workbox: d.Workbox,
-  outputTarget: d.OutputTargetWww
+  outputTarget: OutputTargetWww
 ): Promise<void[] | void> => {
   const serviceWorker = await getServiceWorker(outputTarget);
   if (serviceWorker.unregister) {
@@ -20,7 +21,7 @@ export const generateServiceWorker = async (
   }
 };
 
-const copyLib = async (buildCtx: d.BuildCtx, outputTarget: d.OutputTargetWww, workbox: d.Workbox) => {
+const copyLib = async (buildCtx: d.BuildCtx, outputTarget: OutputTargetWww, workbox: d.Workbox) => {
   const timeSpan = buildCtx.createTimeSpan(`copy service worker library started`, true);
 
   try {
@@ -33,7 +34,7 @@ const copyLib = async (buildCtx: d.BuildCtx, outputTarget: d.OutputTargetWww, wo
   timeSpan.finish(`copy service worker library finished`);
 };
 
-const generateSW = async (buildCtx: d.BuildCtx, serviceWorker: d.ServiceWorkerConfig, workbox: d.Workbox) => {
+const generateSW = async (buildCtx: d.BuildCtx, serviceWorker: ServiceWorkerConfig, workbox: d.Workbox) => {
   const timeSpan = buildCtx.createTimeSpan(`generate service worker started`);
 
   try {
@@ -44,7 +45,7 @@ const generateSW = async (buildCtx: d.BuildCtx, serviceWorker: d.ServiceWorkerCo
   }
 };
 
-const injectManifest = async (buildCtx: d.BuildCtx, serviceWorker: d.ServiceWorkerConfig, workbox: d.Workbox) => {
+const injectManifest = async (buildCtx: d.BuildCtx, serviceWorker: ServiceWorkerConfig, workbox: d.Workbox) => {
   const timeSpan = buildCtx.createTimeSpan(`inject manifest into service worker started`);
 
   try {
@@ -74,12 +75,12 @@ export const hasServiceWorkerChanges = (config: d.ValidatedConfig, buildCtx: d.B
   });
 };
 
-const getServiceWorker = async (outputTarget: d.OutputTargetWww) => {
+const getServiceWorker = async (outputTarget: OutputTargetWww) => {
   if (!outputTarget.serviceWorker) {
     return undefined;
   }
 
-  const serviceWorker: d.ServiceWorkerConfig = {
+  const serviceWorker: ServiceWorkerConfig = {
     ...outputTarget.serviceWorker,
   };
 

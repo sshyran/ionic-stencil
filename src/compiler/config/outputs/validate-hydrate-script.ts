@@ -2,6 +2,7 @@ import { isBoolean, isString } from '@utils';
 import { isAbsolute, join } from 'path';
 
 import type * as d from '../../../declarations';
+import { OutputTarget, OutputTargetHydrate } from '../../output-targets';
 import {
   DIST_HYDRATE_SCRIPT,
   isOutputTargetDist,
@@ -10,8 +11,8 @@ import {
 } from '../../output-targets/output-utils';
 import { NODE_BUILTINS } from '../../sys/modules';
 
-export const validateHydrateScript = (config: d.ValidatedConfig, userOutputs: d.OutputTarget[]) => {
-  const output: d.OutputTargetHydrate[] = [];
+export const validateHydrateScript = (config: d.ValidatedConfig, userOutputs: OutputTarget[]) => {
+  const output: OutputTargetHydrate[] = [];
 
   const hasHydrateOutputTarget = userOutputs.some(isOutputTargetHydrate);
 
@@ -32,7 +33,7 @@ export const validateHydrateScript = (config: d.ValidatedConfig, userOutputs: d.
         hydrateDir = 'dist/hydrate';
       }
 
-      const hydrateForWwwOutputTarget: d.OutputTargetHydrate = {
+      const hydrateForWwwOutputTarget: OutputTargetHydrate = {
         type: DIST_HYDRATE_SCRIPT,
         dir: hydrateDir,
       };

@@ -2,6 +2,7 @@ import { dashToPascalCase, normalizePath } from '@utils';
 import { dirname, join, relative } from 'path';
 
 import type * as d from '../../../declarations';
+import { OutputTargetDistCustomElements } from '..';
 import { isOutputTargetDistCustomElements } from '../output-utils';
 
 /**
@@ -41,7 +42,7 @@ const generateCustomElementsTypesOutput = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   typesDir: string,
-  outputTarget: d.OutputTargetDistCustomElements
+  outputTarget: OutputTargetDistCustomElements
 ) => {
   // the path where we're going to write the typedef for the whole dist-custom-elements output
   const customElementsDtsPath = join(outputTarget.dir!, 'index.d.ts');

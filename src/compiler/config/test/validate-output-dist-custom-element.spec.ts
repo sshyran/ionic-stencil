@@ -2,6 +2,7 @@ import type * as d from '@stencil/core/declarations';
 import { mockConfig, mockLoadConfigInit } from '@stencil/core/testing';
 import path from 'path';
 
+import { OutputTargetDistCustomElements } from '../../output-targets';
 import { COPY, DIST_CUSTOM_ELEMENTS, DIST_TYPES } from '../../output-targets/output-utils';
 import { validateConfig } from '../validate-config';
 
@@ -17,7 +18,7 @@ describe('validate-output-dist-custom-element', () => {
     });
 
     it('generates a default dist-custom-elements output target', () => {
-      const outputTarget: d.OutputTargetDistCustomElements = {
+      const outputTarget: OutputTargetDistCustomElements = {
         type: DIST_CUSTOM_ELEMENTS,
       };
       userConfig.outputTargets = [outputTarget];
@@ -35,7 +36,7 @@ describe('validate-output-dist-custom-element', () => {
     });
 
     it('uses a provided dir field over a default directory', () => {
-      const outputTarget: d.OutputTargetDistCustomElements = {
+      const outputTarget: OutputTargetDistCustomElements = {
         type: DIST_CUSTOM_ELEMENTS,
         dir: distCustomElementsDir,
       };
@@ -55,7 +56,7 @@ describe('validate-output-dist-custom-element', () => {
 
     describe('"empty" field', () => {
       it('defaults the "empty" field to true if not provided', () => {
-        const outputTarget: d.OutputTargetDistCustomElements = {
+        const outputTarget: OutputTargetDistCustomElements = {
           type: DIST_CUSTOM_ELEMENTS,
           externalRuntime: false,
         };
@@ -74,7 +75,7 @@ describe('validate-output-dist-custom-element', () => {
       });
 
       it('defaults the "empty" field to true it\'s not a boolean', () => {
-        const outputTarget: d.OutputTargetDistCustomElements = {
+        const outputTarget: OutputTargetDistCustomElements = {
           type: DIST_CUSTOM_ELEMENTS,
           empty: undefined,
           externalRuntime: false,
@@ -96,7 +97,7 @@ describe('validate-output-dist-custom-element', () => {
 
     describe('"externalRuntime" field', () => {
       it('defaults the "externalRuntime" field to true if not provided', () => {
-        const outputTarget: d.OutputTargetDistCustomElements = {
+        const outputTarget: OutputTargetDistCustomElements = {
           type: DIST_CUSTOM_ELEMENTS,
           empty: false,
         };
@@ -115,7 +116,7 @@ describe('validate-output-dist-custom-element', () => {
       });
 
       it('defaults the "externalRuntime" field to true it\'s not a boolean', () => {
-        const outputTarget: d.OutputTargetDistCustomElements = {
+        const outputTarget: OutputTargetDistCustomElements = {
           type: DIST_CUSTOM_ELEMENTS,
           empty: false,
           externalRuntime: undefined,
@@ -137,7 +138,7 @@ describe('validate-output-dist-custom-element', () => {
 
     describe('"generateTypeDeclarations" field', () => {
       it('creates a types directory when "generateTypeDeclarations" is true', () => {
-        const outputTarget: d.OutputTargetDistCustomElements = {
+        const outputTarget: OutputTargetDistCustomElements = {
           type: DIST_CUSTOM_ELEMENTS,
           empty: false,
           externalRuntime: false,
@@ -164,7 +165,7 @@ describe('validate-output-dist-custom-element', () => {
       });
 
       it('creates a types directory for a custom directory', () => {
-        const outputTarget: d.OutputTargetDistCustomElements = {
+        const outputTarget: OutputTargetDistCustomElements = {
           type: DIST_CUSTOM_ELEMENTS,
           dir: distCustomElementsDir,
           empty: false,
@@ -192,7 +193,7 @@ describe('validate-output-dist-custom-element', () => {
       });
 
       it('doesn\'t create a types directory when "generateTypeDeclarations" is false', () => {
-        const outputTarget: d.OutputTargetDistCustomElements = {
+        const outputTarget: OutputTargetDistCustomElements = {
           type: DIST_CUSTOM_ELEMENTS,
           empty: false,
           externalRuntime: false,
@@ -225,7 +226,7 @@ describe('validate-output-dist-custom-element', () => {
           dest: 'mock/dest2',
         };
 
-        const outputTarget: d.OutputTargetDistCustomElements = {
+        const outputTarget: OutputTargetDistCustomElements = {
           type: DIST_CUSTOM_ELEMENTS,
           copy: [copyOutputTarget, copyOutputTarget2],
           dir: distCustomElementsDir,

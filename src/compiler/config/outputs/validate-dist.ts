@@ -2,6 +2,7 @@ import { isBoolean, isString } from '@utils';
 import { isAbsolute, join, resolve } from 'path';
 
 import type * as d from '../../../declarations';
+import { OutputTarget, OutputTargetDist } from '../../output-targets';
 import {
   COPY,
   DIST_COLLECTION,
@@ -24,9 +25,9 @@ import { validateCopy } from '../validate-copy';
  * @param userOutputs a user-supplied list of output targets.
  * @returns a list of OutputTargets which have been validated for us.
  */
-export const validateDist = (config: d.ValidatedConfig, userOutputs: d.OutputTarget[]): d.OutputTarget[] => {
+export const validateDist = (config: d.ValidatedConfig, userOutputs: OutputTarget[]): OutputTarget[] => {
   const distOutputTargets = userOutputs.filter(isOutputTargetDist);
-  return distOutputTargets.reduce((outputs: d.OutputTarget[], o: d.OutputTargetDist) => {
+  return distOutputTargets.reduce((outputs: OutputTarget[], o: OutputTargetDist) => {
     const distOutputTarget = validateOutputTargetDist(config, o);
     outputs.push(distOutputTarget);
 
@@ -115,15 +116,15 @@ export const validateDist = (config: d.ValidatedConfig, userOutputs: d.OutputTar
 /**
  * Validate that an OutputTargetDist object has what it needs to do it's job.
  * To enforce this, we have this function return
- * `Required<d.OutputTargetDist>`, giving us a compile-time check that all
+ * `Required<OutputTargetDist>`, giving us a compile-time check that all
  * properties are defined (with either user-supplied or default values).
  *
  * @param config the current config
  * @param o the OutputTargetDist object we want to validate
- * @returns `Required<d.OutputTargetDist>`, i.e. `d.OutputTargetDist` with all
+ * @returns `Required<OutputTargetDist>`, i.e. `OutputTargetDist` with all
  * optional properties rendered un-optional.
  */
-const validateOutputTargetDist = (config: d.ValidatedConfig, o: d.OutputTargetDist): Required<d.OutputTargetDist> => {
+const validateOutputTargetDist = (config: d.ValidatedConfig, o: OutputTargetDist): Required<OutputTargetDist> => {
   // we need to create an object with a bunch of default values here so that
   // the typescript compiler can infer their types correctly
   const outputTarget = {

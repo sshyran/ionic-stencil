@@ -2,11 +2,12 @@ import { escapeHtml, generatePreamble } from '@utils';
 import { join } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 
 export const generateEs5DisabledMessage = async (
   config: d.Config,
   compilerCtx: d.CompilerCtx,
-  outputTarget: d.OutputTargetWww
+  outputTarget: OutputTargetWww
 ) => {
   // not doing an es5 right now
   // but it's possible during development the user

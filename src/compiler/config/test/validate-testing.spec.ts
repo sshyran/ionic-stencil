@@ -3,6 +3,7 @@ import { mockCompilerSystem, mockLoadConfigInit, mockLogger } from '@stencil/cor
 import path from 'path';
 
 import { ConfigFlags, createConfigFlags } from '../../../cli/config-flags';
+import { OutputTargetStats } from '../../output-targets';
 import { validateConfig } from '../validate-config';
 
 describe('validateTesting', () => {
@@ -27,7 +28,7 @@ describe('validateTesting', () => {
       {
         type: 'www',
         dir: path.join(ROOT, 'www'),
-      } as any as d.OutputTargetStats,
+      } as any as OutputTargetStats,
     ];
   });
 

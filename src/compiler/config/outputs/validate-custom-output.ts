@@ -1,12 +1,13 @@
 import { catchError } from '@utils';
 
 import type * as d from '../../../declarations';
+import { OutputTarget } from '../../output-targets';
 import { COPY, isOutputTargetCustom } from '../../output-targets/output-utils';
 
 export const validateCustomOutput = (
   config: d.ValidatedConfig,
   diagnostics: d.Diagnostic[],
-  userOutputs: d.OutputTarget[]
+  userOutputs: OutputTarget[]
 ) => {
   return userOutputs.filter(isOutputTargetCustom).map((o) => {
     if (o.validate) {

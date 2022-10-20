@@ -2,6 +2,7 @@ import type * as d from '@stencil/core/declarations';
 import { mockConfig, mockLoadConfigInit } from '@stencil/core/testing';
 import { join, resolve } from 'path';
 
+import { OutputTargetDistCollection } from '../../output-targets';
 import { validateConfig } from '../validate-config';
 
 describe('validateDistCollectionOutputTarget', () => {
@@ -15,7 +16,7 @@ describe('validateDistCollectionOutputTarget', () => {
   });
 
   it('sets correct default values', () => {
-    const target: d.OutputTargetDistCollection = {
+    const target: OutputTargetDistCollection = {
       type: 'dist-collection',
       empty: false,
       dir: null,
@@ -37,7 +38,7 @@ describe('validateDistCollectionOutputTarget', () => {
   });
 
   it('sets specified directory', () => {
-    const target: d.OutputTargetDistCollection = {
+    const target: OutputTargetDistCollection = {
       type: 'dist-collection',
       empty: false,
       dir: '/my-dist',
@@ -62,7 +63,7 @@ describe('validateDistCollectionOutputTarget', () => {
     it.each([false, true])(
       "sets option '%s' when explicitly '%s' in config",
       (transformAliasedImportPaths: boolean) => {
-        const target: d.OutputTargetDistCollection = {
+        const target: OutputTargetDistCollection = {
           type: 'dist-collection',
           empty: false,
           dir: null,

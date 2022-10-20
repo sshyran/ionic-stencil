@@ -4,6 +4,7 @@ import { isAbsolute, join } from 'path';
 import type * as d from '../../declarations';
 import { createHydrateBuildId } from '../../hydrate/runner/render-utils';
 import { getAbsoluteBuildDir } from '../html/html-utils';
+import { OutputTargetWww } from '../output-targets';
 import { isOutputTargetWww } from '../output-targets/output-utils';
 import { createWorkerMainContext } from '../worker/main-thread';
 import { createWorkerContext } from '../worker/worker-thread';
@@ -132,7 +133,7 @@ const runPrerenderOutputTarget = async (
   hydrateAppFilePath: string,
   componentGraph: d.BuildResultsComponentGraph,
   srcIndexHtmlPath: string,
-  outputTarget: d.OutputTargetWww
+  outputTarget: OutputTargetWww
 ) => {
   try {
     const timeSpan = config.logger.createTimeSpan(`prerendering started`);
@@ -265,7 +266,7 @@ const createPrerenderTemplate = async (config: d.Config, templateHtml: string) =
 const createComponentGraphPath = async (
   config: d.Config,
   componentGraph: d.BuildResultsComponentGraph,
-  outputTarget: d.OutputTargetWww
+  outputTarget: OutputTargetWww
 ) => {
   if (componentGraph) {
     const content = getComponentPathContent(componentGraph, outputTarget);
@@ -278,7 +279,7 @@ const createComponentGraphPath = async (
   return null;
 };
 
-const getComponentPathContent = (componentGraph: { [scopeId: string]: string[] }, outputTarget: d.OutputTargetWww) => {
+const getComponentPathContent = (componentGraph: { [scopeId: string]: string[] }, outputTarget: OutputTargetWww) => {
   const buildDir = getAbsoluteBuildDir(outputTarget);
   const object: { [key: string]: string[] } = {};
   const entries = Object.entries(componentGraph);

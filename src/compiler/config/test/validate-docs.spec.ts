@@ -1,6 +1,7 @@
 import type * as d from '@stencil/core/declarations';
 import { mockConfig, mockLoadConfigInit } from '@stencil/core/testing';
 
+import { OutputTargetDocsReadme } from '../../output-targets';
 import { validateConfig } from '../validate-config';
 
 describe('validateDocs', () => {
@@ -16,10 +17,10 @@ describe('validateDocs', () => {
       {
         type: 'docs-readme',
         dir: 'my-dir',
-      } as d.OutputTargetDocsReadme,
+      } as OutputTargetDocsReadme,
     ];
     const { config } = validateConfig(userConfig, mockLoadConfigInit());
-    const o = config.outputTargets.find((o) => o.type === 'docs-readme') as d.OutputTargetDocsReadme;
+    const o = config.outputTargets.find((o) => o.type === 'docs-readme') as OutputTargetDocsReadme;
     expect(o.dir).toContain('my-dir');
   });
 

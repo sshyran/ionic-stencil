@@ -1,4 +1,5 @@
 import type * as d from '../../declarations';
+import { OutputTargetWww, ServiceWorkerConfig } from '../output-targets';
 import { getRegisterSW, UNREGISTER_SW } from '../service-worker/generate-sw';
 import { generateServiceWorkerUrl } from '../service-worker/service-worker-util';
 
@@ -6,7 +7,7 @@ export const updateIndexHtmlServiceWorker = async (
   config: d.Config,
   buildCtx: d.BuildCtx,
   doc: Document,
-  outputTarget: d.OutputTargetWww
+  outputTarget: OutputTargetWww
 ) => {
   const serviceWorker = outputTarget.serviceWorker;
 
@@ -19,8 +20,8 @@ export const updateIndexHtmlServiceWorker = async (
   }
 };
 
-const injectRegisterServiceWorker = async (buildCtx: d.BuildCtx, outputTarget: d.OutputTargetWww, doc: Document) => {
-  const swUrl = generateServiceWorkerUrl(outputTarget, outputTarget.serviceWorker as d.ServiceWorkerConfig);
+const injectRegisterServiceWorker = async (buildCtx: d.BuildCtx, outputTarget: OutputTargetWww, doc: Document) => {
+  const swUrl = generateServiceWorkerUrl(outputTarget, outputTarget.serviceWorker as ServiceWorkerConfig);
   const serviceWorker = getRegisterSwScript(doc, buildCtx, swUrl);
   doc.body.appendChild(serviceWorker);
 };

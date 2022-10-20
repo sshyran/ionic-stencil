@@ -2,6 +2,7 @@ import type * as d from '@stencil/core/declarations';
 import { mockConfig, mockLoadConfigInit } from '@stencil/core/testing';
 import path from 'path';
 
+import { OutputTargetDist } from '../../output-targets';
 import { validateConfig } from '../validate-config';
 
 describe('validateDistOutputTarget', () => {
@@ -13,7 +14,7 @@ describe('validateDistOutputTarget', () => {
   });
 
   it('should set dist values', () => {
-    const outputTarget: d.OutputTargetDist = {
+    const outputTarget: OutputTargetDist = {
       type: 'dist',
       dir: 'my-dist',
       buildDir: 'my-build',
@@ -98,7 +99,7 @@ describe('validateDistOutputTarget', () => {
   it('should set defaults when outputTargets dist is empty', () => {
     userConfig.outputTargets = [{ type: 'dist' }];
     const { config } = validateConfig(userConfig, mockLoadConfigInit());
-    const outputTarget = config.outputTargets.find((o) => o.type === 'dist') as d.OutputTargetDist;
+    const outputTarget = config.outputTargets.find((o) => o.type === 'dist') as OutputTargetDist;
     expect(outputTarget).toBeDefined();
     expect(outputTarget.dir).toBe(path.join(rootDir, 'dist'));
     expect(outputTarget.buildDir).toBe(path.join(rootDir, '/dist'));
@@ -112,7 +113,7 @@ describe('validateDistOutputTarget', () => {
   });
 
   it('sets option to transform aliased import paths when enabled', () => {
-    const outputTarget: d.OutputTargetDist = {
+    const outputTarget: OutputTargetDist = {
       type: 'dist',
       dir: 'my-dist',
       buildDir: 'my-build',

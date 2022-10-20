@@ -1,3 +1,4 @@
+import { OutputTargetWww } from '../compiler/output-targets';
 import type { InMemoryFileSystem } from '../compiler/sys/in-memory-fs';
 import type {
   BuildEvents,
@@ -18,7 +19,6 @@ import type {
   LoggerTimeSpan,
   OptimizeCssInput,
   OptimizeCssOutput,
-  OutputTargetWww,
   PageReloadStrategy,
   PrerenderConfig,
   StyleDoc,

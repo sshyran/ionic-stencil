@@ -2,6 +2,7 @@ import { createDocument, serializeNodeToHtml } from '@stencil/core/mock-doc';
 import { catchError, isFunction, isPromise, isString } from '@utils';
 
 import type * as d from '../../declarations';
+import { OutputTargetWww } from '../output-targets';
 import {
   hasStencilScript,
   inlineExternalStyleSheets,
@@ -16,7 +17,7 @@ export const generateTemplateHtml = async (
   diagnostics: d.Diagnostic[],
   isDebug: boolean,
   srcIndexHtmlPath: string,
-  outputTarget: d.OutputTargetWww,
+  outputTarget: OutputTargetWww,
   hydrateOpts: d.PrerenderHydrateOptions,
   manager: d.PrerenderManager
 ) => {

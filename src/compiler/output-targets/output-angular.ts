@@ -3,6 +3,7 @@ import { dirname, join } from 'path';
 import ts from 'typescript';
 
 import type * as d from '../../declarations';
+import { OutputTargetAngular } from '.';
 import { isOutputTargetAngular, relativeImport } from './output-utils';
 
 export const outputAngular = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
@@ -26,7 +27,7 @@ export const angularDirectiveProxyOutput = (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetAngular
+  outputTarget: OutputTargetAngular
 ) => {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, buildCtx.components);
 
@@ -46,7 +47,7 @@ const generateProxies = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   components: d.ComponentCompilerMeta[],
-  outputTarget: d.OutputTargetAngular
+  outputTarget: OutputTargetAngular
 ) => {
   const proxies = getProxies(components);
   const distTypesDir = dirname(buildCtx.packageJson.types);
@@ -153,7 +154,7 @@ const getMethods = (cmpMeta: d.ComponentCompilerMeta): string[] => {
   return cmpMeta.methods.filter((method) => !method.internal).map((prop) => prop.name);
 };
 
-const getProxyUtils = (outputTarget: d.OutputTargetAngular) => {
+const getProxyUtils = (outputTarget: OutputTargetAngular) => {
   if (!outputTarget.directivesUtilsFile) {
     return PROXY_UTILS.replace(/export function/g, 'function');
   } else {
@@ -165,7 +166,7 @@ const getProxyUtils = (outputTarget: d.OutputTargetAngular) => {
 const generateAngularArray = (
   compilerCtx: d.CompilerCtx,
   components: d.ComponentCompilerMeta[],
-  outputTarget: d.OutputTargetAngular
+  outputTarget: OutputTargetAngular
 ): Promise<any> => {
   if (!outputTarget.directivesArrayFile) {
     return Promise.resolve();
@@ -187,7 +188,7 @@ ${directives}
   return compilerCtx.fs.writeFile(outputTarget.directivesArrayFile, c);
 };
 
-const generateAngularUtils = async (compilerCtx: d.CompilerCtx, outputTarget: d.OutputTargetAngular) => {
+const generateAngularUtils = async (compilerCtx: d.CompilerCtx, outputTarget: OutputTargetAngular) => {
   if (outputTarget.directivesUtilsFile) {
     await compilerCtx.fs.writeFile(
       outputTarget.directivesUtilsFile,

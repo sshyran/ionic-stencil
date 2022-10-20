@@ -1,4 +1,5 @@
 import type * as d from '../../../declarations';
+import { OutputTarget } from '../../output-targets';
 import { isOutputTargetDocsReadme } from '../../output-targets/output-utils';
 import { generateReadme } from './output-docs';
 
@@ -6,7 +7,7 @@ export const generateReadmeDocs = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   docsData: d.JsonDocs,
-  outputTargets: d.OutputTarget[]
+  outputTargets: OutputTarget[]
 ) => {
   const readmeOutputTargets = outputTargets.filter(isOutputTargetDocsReadme);
   if (readmeOutputTargets.length === 0) {

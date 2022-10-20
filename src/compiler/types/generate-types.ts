@@ -2,6 +2,7 @@ import { isDtsFile } from '@utils';
 import { join, relative } from 'path';
 
 import type * as d from '../../declarations';
+import { OutputTargetDistTypes } from '../output-targets';
 import { generateCustomElementsTypes } from '../output-targets/dist-custom-elements/custom-elements-types';
 import { generateCustomElementsBundleTypes } from '../output-targets/dist-custom-elements-bundle/custom-elements-bundle-types';
 import { generateAppTypes } from './generate-app-types';
@@ -18,7 +19,7 @@ export const generateTypes = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistTypes
+  outputTarget: OutputTargetDistTypes
 ): Promise<void> => {
   if (!buildCtx.hasError) {
     await generateTypesOutput(config, compilerCtx, buildCtx, outputTarget);
@@ -37,7 +38,7 @@ const generateTypesOutput = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistTypes
+  outputTarget: OutputTargetDistTypes
 ): Promise<void> => {
   // get all type declaration files in a project's src/ directory
   const srcDirItems = await compilerCtx.fs.readdir(config.srcDir, { recursive: false });

@@ -1,6 +1,7 @@
 import { isString } from '@utils';
 
 import type * as d from '../../declarations';
+import { OutputTarget, OutputTargetDist, OutputTargetDistLazyLoader, OutputTargetHydrate, OutputTargetWww } from '.';
 import {
   isOutputTargetDist,
   isOutputTargetDistCustomElements,
@@ -11,13 +12,9 @@ import {
   isOutputTargetWww,
 } from './output-utils';
 
-type OutputTargetEmptiable =
-  | d.OutputTargetDist
-  | d.OutputTargetWww
-  | d.OutputTargetDistLazyLoader
-  | d.OutputTargetHydrate;
+type OutputTargetEmptiable = OutputTargetDist | OutputTargetWww | OutputTargetDistLazyLoader | OutputTargetHydrate;
 
-const isEmptable = (o: d.OutputTarget): o is OutputTargetEmptiable =>
+const isEmptable = (o: OutputTarget): o is OutputTargetEmptiable =>
   isOutputTargetDist(o) ||
   isOutputTargetDistCustomElements(o) ||
   isOutputTargetDistCustomElementsBundle(o) ||

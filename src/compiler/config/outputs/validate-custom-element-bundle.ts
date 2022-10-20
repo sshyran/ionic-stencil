@@ -1,11 +1,12 @@
 import { isBoolean } from '@utils';
 
 import type * as d from '../../../declarations';
+import { OutputTarget, OutputTargetCopy, OutputTargetDistCustomElementsBundle } from '../../output-targets';
 import { COPY, isOutputTargetDistCustomElementsBundle } from '../../output-targets/output-utils';
 import { getAbsolutePath } from '../config-utils';
 import { validateCopy } from '../validate-copy';
 
-export const validateCustomElementBundle = (config: d.ValidatedConfig, userOutputs: d.OutputTarget[]) => {
+export const validateCustomElementBundle = (config: d.ValidatedConfig, userOutputs: OutputTarget[]) => {
   return userOutputs.filter(isOutputTargetDistCustomElementsBundle).reduce((arr, o) => {
     const outputTarget = {
       ...o,
@@ -29,5 +30,5 @@ export const validateCustomElementBundle = (config: d.ValidatedConfig, userOutpu
     arr.push(outputTarget);
 
     return arr;
-  }, [] as (d.OutputTargetDistCustomElementsBundle | d.OutputTargetCopy)[]);
+  }, [] as (OutputTargetDistCustomElementsBundle | OutputTargetCopy)[]);
 };

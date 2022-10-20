@@ -1,13 +1,14 @@
 import { join } from 'path';
 
 import type * as d from '../../../declarations';
+import { OutputTarget, OutputTargetDocsJson } from '../../output-targets';
 import { isOutputTargetDocsJson } from '../../output-targets/output-utils';
 
 export const generateJsonDocs = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   docsData: d.JsonDocs,
-  outputTargets: d.OutputTarget[]
+  outputTargets: OutputTarget[]
 ) => {
   const jsonOutputTargets = outputTargets.filter(isOutputTargetDocsJson);
   if (jsonOutputTargets.length === 0) {
@@ -59,7 +60,7 @@ export default _default;
 
 export const writeDocsOutput = async (
   compilerCtx: d.CompilerCtx,
-  jsonOutput: d.OutputTargetDocsJson,
+  jsonOutput: OutputTargetDocsJson,
   jsonContent: string,
   typesContent: string
 ) => {

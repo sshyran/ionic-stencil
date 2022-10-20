@@ -3,6 +3,7 @@ import { mockBuildCtx, mockCompilerCtx, mockValidatedConfig } from '@stencil/cor
 import path from 'path';
 
 import { normalizePath } from '../../../utils/normalize-path';
+import { OutputTarget, OutputTargetDistCollection, OutputTargetDistTypes } from '../../output-targets';
 import { DIST_COLLECTION, DIST_CUSTOM_ELEMENTS, DIST_CUSTOM_ELEMENTS_BUNDLE } from '../../output-targets/output-utils';
 import * as v from '../validate-build-package-json';
 
@@ -10,8 +11,8 @@ describe('validate-package-json', () => {
   let config: d.ValidatedConfig;
   let compilerCtx: d.CompilerCtx;
   let buildCtx: d.BuildCtx;
-  let collectionOutputTarget: d.OutputTargetDistCollection;
-  let typesOutputTarget: d.OutputTargetDistTypes;
+  let collectionOutputTarget: OutputTargetDistCollection;
+  let typesOutputTarget: OutputTargetDistTypes;
   const root = path.resolve('/');
 
   beforeEach(async () => {
@@ -145,7 +146,7 @@ describe('validate-package-json', () => {
     });
 
     it.each<{
-      ot: d.OutputTarget;
+      ot: OutputTarget;
       path: string;
     }>([
       {

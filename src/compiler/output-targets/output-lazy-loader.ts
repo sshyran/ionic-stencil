@@ -3,6 +3,7 @@ import { join, relative } from 'path';
 
 import type * as d from '../../declarations';
 import { getClientPolyfill } from '../app-core/app-polyfills';
+import { OutputTargetDistLazyLoader } from '.';
 import { isOutputTargetDistLazyLoader, relativeImport } from './output-utils';
 
 export const outputLazyLoader = async (config: d.ValidatedConfig, compilerCtx: d.CompilerCtx) => {
@@ -17,7 +18,7 @@ export const outputLazyLoader = async (config: d.ValidatedConfig, compilerCtx: d
 const generateLoader = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
-  outputTarget: d.OutputTargetDistLazyLoader
+  outputTarget: OutputTargetDistLazyLoader
 ) => {
   const loaderPath = outputTarget.dir;
   const es2017Dir = outputTarget.esmDir;

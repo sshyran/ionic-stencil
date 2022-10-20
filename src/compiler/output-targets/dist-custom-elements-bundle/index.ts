@@ -18,6 +18,7 @@ import { optimizeModule } from '../../optimize/optimize-module';
 import { nativeComponentTransform } from '../../transformers/component-native/tranform-to-native-component';
 import { removeCollectionImports } from '../../transformers/remove-collection-imports';
 import { updateStencilCoreImports } from '../../transformers/update-stencil-core-import';
+import { OutputTargetDistCustomElementsBundle } from '..';
 import { isOutputTargetDistCustomElementsBundle } from '../output-utils';
 import { getCustomElementsBuildConditionals } from './custom-elements-build-conditionals';
 
@@ -47,7 +48,7 @@ const bundleCustomElements = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistCustomElementsBundle
+  outputTarget: OutputTargetDistCustomElementsBundle
 ) => {
   try {
     const bundleOpts: BundleOptions = {
@@ -117,7 +118,7 @@ const bundleCustomElements = async (
   }
 };
 
-const generateEntryPoint = (outputTarget: d.OutputTargetDistCustomElementsBundle, buildCtx: d.BuildCtx) => {
+const generateEntryPoint = (outputTarget: OutputTargetDistCustomElementsBundle, buildCtx: d.BuildCtx) => {
   const imp: string[] = [];
   const exp: string[] = [];
   const exportNames: string[] = [];

@@ -5,6 +5,7 @@ import type { OutputOptions, RollupBuild } from 'rollup';
 import type * as d from '../../../declarations';
 import type { RollupResult } from '../../../declarations';
 import { generateRollupOutput } from '../../app-core/bundle-app-core';
+import { OutputTargetDistLazy } from '..';
 import { relativeImport } from '../output-utils';
 import { generateLazyModules } from './generate-lazy-module';
 
@@ -13,7 +14,7 @@ export const generateEsm = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupBuild: RollupBuild,
-  outputTargets: d.OutputTargetDistLazy[]
+  outputTargets: OutputTargetDistLazy[]
 ): Promise<d.UpdatedLazyBuildCtx> => {
   const esmEs5Outputs = config.buildEs5 ? outputTargets.filter((o) => !!o.esmEs5Dir && !o.isBrowserBuild) : [];
   const esmOutputs = outputTargets.filter((o) => !!o.esmDir && !o.isBrowserBuild);
@@ -67,7 +68,7 @@ export const generateEsm = async (
 const copyPolyfills = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
-  outputTargets: d.OutputTargetDistLazy[]
+  outputTargets: OutputTargetDistLazy[]
 ): Promise<void> => {
   const destinations = outputTargets.filter((o) => o.polyfills).map((o) => o.esmDir);
   if (destinations.length === 0) {
@@ -91,7 +92,7 @@ const copyPolyfills = async (
 const generateShortcuts = (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
-  outputTargets: d.OutputTargetDistLazy[],
+  outputTargets: OutputTargetDistLazy[],
   rollupResult: RollupResult[]
 ): Promise<void[]> => {
   const indexFilename = rollupResult.find((r) => r.type === 'chunk' && r.isIndex).fileName;

@@ -5,6 +5,7 @@ import ts from 'typescript';
 import type * as d from '../../../declarations';
 import { typescriptVersion, version } from '../../../version';
 import { mapImportsToPathAliases } from '../../transformers/map-imports-to-path-aliases';
+import { OutputTargetDistCollection } from '..';
 import { isOutputTargetDistCollection } from '../output-utils';
 
 /**
@@ -84,7 +85,7 @@ const writeCollectionManifests = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTargets: d.OutputTargetDistCollection[]
+  outputTargets: OutputTargetDistCollection[]
 ) => {
   const collectionData = JSON.stringify(serializeCollectionManifest(config, compilerCtx, buildCtx), null, 2);
   return Promise.all(outputTargets.map((o) => writeCollectionManifest(compilerCtx, collectionData, o)));
@@ -98,7 +99,7 @@ const writeCollectionManifests = async (
 const writeCollectionManifest = async (
   compilerCtx: d.CompilerCtx,
   collectionData: string,
-  outputTarget: d.OutputTargetDistCollection
+  outputTarget: OutputTargetDistCollection
 ) => {
   // get the absolute path to the directory where the collection will be saved
   const collectionDir = normalizePath(outputTarget.collectionDir);

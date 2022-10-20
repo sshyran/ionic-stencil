@@ -4,6 +4,7 @@ import type { OutputOptions, RollupBuild } from 'rollup';
 
 import type * as d from '../../../declarations';
 import { generateRollupOutput } from '../../app-core/bundle-app-core';
+import { OutputTargetDistLazy } from '..';
 import { relativeImport } from '../output-utils';
 import { generateLazyModules } from './generate-lazy-module';
 
@@ -12,7 +13,7 @@ export const generateCjs = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupBuild: RollupBuild,
-  outputTargets: d.OutputTargetDistLazy[]
+  outputTargets: OutputTargetDistLazy[]
 ): Promise<d.UpdatedLazyBuildCtx> => {
   const cjsOutputs = outputTargets.filter((o) => !!o.cjsDir);
 
@@ -52,7 +53,7 @@ export const generateCjs = async (
 const generateShortcuts = (
   compilerCtx: d.CompilerCtx,
   rollupResult: d.RollupResult[],
-  outputTargets: d.OutputTargetDistLazy[]
+  outputTargets: OutputTargetDistLazy[]
 ): Promise<void[]> => {
   const indexFilename = rollupResult.find((r) => r.type === 'chunk' && r.isIndex).fileName;
   return Promise.all(

@@ -5,6 +5,7 @@ import type { OutputOptions, RollupBuild } from 'rollup';
 import type * as d from '../../../declarations';
 import { getAppBrowserCorePolyfills } from '../../app-core/app-polyfills';
 import { generateRollupOutput } from '../../app-core/bundle-app-core';
+import { OutputTargetDistLazy } from '..';
 import { relativeImport } from '../output-utils';
 import { generateLazyModules } from './generate-lazy-module';
 
@@ -13,7 +14,7 @@ export const generateSystem = async (
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
   rollupBuild: RollupBuild,
-  outputTargets: d.OutputTargetDistLazy[]
+  outputTargets: OutputTargetDistLazy[]
 ): Promise<d.UpdatedLazyBuildCtx> => {
   const systemOutputs = outputTargets.filter((o) => !!o.systemDir);
 
@@ -53,7 +54,7 @@ const generateSystemLoaders = (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   rollupResult: d.RollupResult[],
-  systemOutputs: d.OutputTargetDistLazy[]
+  systemOutputs: OutputTargetDistLazy[]
 ): Promise<void[]> => {
   const loaderFilename = rollupResult.find((r) => r.type === 'chunk' && r.isBrowserLoader).fileName;
 
@@ -64,7 +65,7 @@ const writeSystemLoader = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
   loaderFilename: string,
-  outputTarget: d.OutputTargetDistLazy
+  outputTarget: OutputTargetDistLazy
 ): Promise<void> => {
   if (outputTarget.systemLoaderFile) {
     const entryPointPath = join(outputTarget.systemDir, loaderFilename);

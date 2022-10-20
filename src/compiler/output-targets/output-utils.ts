@@ -2,6 +2,27 @@ import { flatOne, normalizePath, sortBy } from '@utils';
 import { basename, dirname, join, relative } from 'path';
 
 import type * as d from '../../declarations';
+import {
+  OutputTarget,
+  OutputTargetAngular,
+  OutputTargetCopy,
+  OutputTargetCustom,
+  OutputTargetDist,
+  OutputTargetDistCollection,
+  OutputTargetDistCustomElements,
+  OutputTargetDistCustomElementsBundle,
+  OutputTargetDistGlobalStyles,
+  OutputTargetDistLazy,
+  OutputTargetDistLazyLoader,
+  OutputTargetDistTypes,
+  OutputTargetDocsCustom,
+  OutputTargetDocsJson,
+  OutputTargetDocsReadme,
+  OutputTargetDocsVscode,
+  OutputTargetHydrate,
+  OutputTargetStats,
+  OutputTargetWww,
+} from '.';
 
 export const relativeImport = (pathFrom: string, pathTo: string, ext?: string, addPrefix = true) => {
   let relativePath = relative(dirname(pathFrom), dirname(pathTo));
@@ -17,55 +38,54 @@ export const relativeImport = (pathFrom: string, pathTo: string, ext?: string, a
 
 export const getComponentsDtsSrcFilePath = (config: d.Config) => join(config.srcDir, GENERATED_DTS);
 
-export const getComponentsDtsTypesFilePath = (outputTarget: d.OutputTargetDist | d.OutputTargetDistTypes) =>
+export const getComponentsDtsTypesFilePath = (outputTarget: OutputTargetDist | OutputTargetDistTypes) =>
   join(outputTarget.typesDir, GENERATED_DTS);
 
-export const isOutputTargetDist = (o: d.OutputTarget): o is d.OutputTargetDist => o.type === DIST;
+export const isOutputTargetDist = (o: OutputTarget): o is OutputTargetDist => o.type === DIST;
 
-export const isOutputTargetDistCollection = (o: d.OutputTarget): o is d.OutputTargetDistCollection =>
+export const isOutputTargetDistCollection = (o: OutputTarget): o is OutputTargetDistCollection =>
   o.type === DIST_COLLECTION;
 
-export const isOutputTargetDistCustomElements = (o: d.OutputTarget): o is d.OutputTargetDistCustomElements =>
+export const isOutputTargetDistCustomElements = (o: OutputTarget): o is OutputTargetDistCustomElements =>
   o.type === DIST_CUSTOM_ELEMENTS;
 
-export const isOutputTargetDistCustomElementsBundle = (
-  o: d.OutputTarget
-): o is d.OutputTargetDistCustomElementsBundle => o.type === DIST_CUSTOM_ELEMENTS_BUNDLE;
+export const isOutputTargetDistCustomElementsBundle = (o: OutputTarget): o is OutputTargetDistCustomElementsBundle =>
+  o.type === DIST_CUSTOM_ELEMENTS_BUNDLE;
 
-export const isOutputTargetCopy = (o: d.OutputTarget): o is d.OutputTargetCopy => o.type === COPY;
+export const isOutputTargetCopy = (o: OutputTarget): o is OutputTargetCopy => o.type === COPY;
 
-export const isOutputTargetDistLazy = (o: d.OutputTarget): o is d.OutputTargetDistLazy => o.type === DIST_LAZY;
+export const isOutputTargetDistLazy = (o: OutputTarget): o is OutputTargetDistLazy => o.type === DIST_LAZY;
 
-export const isOutputTargetAngular = (o: d.OutputTarget): o is d.OutputTargetAngular => o.type === ANGULAR;
+export const isOutputTargetAngular = (o: OutputTarget): o is OutputTargetAngular => o.type === ANGULAR;
 
-export const isOutputTargetDistLazyLoader = (o: d.OutputTarget): o is d.OutputTargetDistLazyLoader =>
+export const isOutputTargetDistLazyLoader = (o: OutputTarget): o is OutputTargetDistLazyLoader =>
   o.type === DIST_LAZY_LOADER;
 
-export const isOutputTargetDistGlobalStyles = (o: d.OutputTarget): o is d.OutputTargetDistGlobalStyles =>
+export const isOutputTargetDistGlobalStyles = (o: OutputTarget): o is OutputTargetDistGlobalStyles =>
   o.type === DIST_GLOBAL_STYLES;
 
-export const isOutputTargetHydrate = (o: d.OutputTarget): o is d.OutputTargetHydrate => o.type === DIST_HYDRATE_SCRIPT;
+export const isOutputTargetHydrate = (o: OutputTarget): o is OutputTargetHydrate => o.type === DIST_HYDRATE_SCRIPT;
 
-export const isOutputTargetCustom = (o: d.OutputTarget): o is d.OutputTargetCustom => o.type === CUSTOM;
+export const isOutputTargetCustom = (o: OutputTarget): o is OutputTargetCustom => o.type === CUSTOM;
 
 export const isOutputTargetDocs = (
-  o: d.OutputTarget
-): o is d.OutputTargetDocsJson | d.OutputTargetDocsReadme | d.OutputTargetDocsVscode | d.OutputTargetDocsCustom =>
+  o: OutputTarget
+): o is OutputTargetDocsJson | OutputTargetDocsReadme | OutputTargetDocsVscode | OutputTargetDocsCustom =>
   o.type === DOCS_README || o.type === DOCS_JSON || o.type === DOCS_CUSTOM || o.type === DOCS_VSCODE;
 
-export const isOutputTargetDocsReadme = (o: d.OutputTarget): o is d.OutputTargetDocsReadme => o.type === DOCS_README;
+export const isOutputTargetDocsReadme = (o: OutputTarget): o is OutputTargetDocsReadme => o.type === DOCS_README;
 
-export const isOutputTargetDocsJson = (o: d.OutputTarget): o is d.OutputTargetDocsJson => o.type === DOCS_JSON;
+export const isOutputTargetDocsJson = (o: OutputTarget): o is OutputTargetDocsJson => o.type === DOCS_JSON;
 
-export const isOutputTargetDocsCustom = (o: d.OutputTarget): o is d.OutputTargetDocsCustom => o.type === DOCS_CUSTOM;
+export const isOutputTargetDocsCustom = (o: OutputTarget): o is OutputTargetDocsCustom => o.type === DOCS_CUSTOM;
 
-export const isOutputTargetDocsVscode = (o: d.OutputTarget): o is d.OutputTargetDocsVscode => o.type === DOCS_VSCODE;
+export const isOutputTargetDocsVscode = (o: OutputTarget): o is OutputTargetDocsVscode => o.type === DOCS_VSCODE;
 
-export const isOutputTargetWww = (o: d.OutputTarget): o is d.OutputTargetWww => o.type === WWW;
+export const isOutputTargetWww = (o: OutputTarget): o is OutputTargetWww => o.type === WWW;
 
-export const isOutputTargetStats = (o: d.OutputTarget): o is d.OutputTargetStats => o.type === STATS;
+export const isOutputTargetStats = (o: OutputTarget): o is OutputTargetStats => o.type === STATS;
 
-export const isOutputTargetDistTypes = (o: d.OutputTarget): o is d.OutputTargetDistTypes => o.type === DIST_TYPES;
+export const isOutputTargetDistTypes = (o: OutputTarget): o is OutputTargetDistTypes => o.type === DIST_TYPES;
 
 export const getComponentsFromModules = (moduleFiles: d.Module[]) =>
   sortBy(flatOne(moduleFiles.map((m) => m.cmps)), (c: d.ComponentCompilerMeta) => c.tagName);
