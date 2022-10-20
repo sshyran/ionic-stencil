@@ -1,12 +1,20 @@
 import type { ConfigFlags } from '../cli/config-flags';
 import type { PrerenderUrlResults } from './stencil-private';
 import type { JsonDocs } from './stencil-public-docs';
-import type { Diagnostic } from '../compiler/sys/logger/diagnostic'
-import type { Logger, LogLevel } from '../compiler/sys/logger/logger'
-import type { BuildEmitEvents, BuildOnEvents, BuildResultsComponentGraph, CompilerBuildResults, CompilerSystem, CopyTask, PageReloadStrategy } from '../compiler/sys/compiler-system'
+import type { Diagnostic } from '../compiler/sys/logger/diagnostic';
+import type { Logger, LogLevel } from '../compiler/sys/logger/logger';
+import type {
+  BuildEmitEvents,
+  BuildOnEvents,
+  BuildResultsComponentGraph,
+  CompilerBuildResults,
+  CompilerSystem,
+  CopyTask,
+  PageReloadStrategy,
+} from '../compiler/sys/compiler-system';
 
 export * from './stencil-public-docs';
-export { CompilerSystem } from '../compiler/sys/compiler-system'
+export { CompilerSystem } from '../compiler/sys/compiler-system';
 
 /**
  * https://stenciljs.com/docs/config/
@@ -595,7 +603,6 @@ export type TaskCommand =
   | 'test'
   | 'version';
 
-
 /**
  * The prerender config is used when prerendering a `www` output target.
  * Within `stencil.config.ts`, set the path to the prerendering
@@ -912,8 +919,6 @@ export interface TranspileOnlyResults {
   output: string;
   sourceMap: any;
 }
-
-
 
 export interface Credentials {
   key: string;

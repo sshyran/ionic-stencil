@@ -1,2 +1,2 @@
 export * from '../declarations';
-export { ConfigFlags } from '../cli'
+export { ConfigFlags } from '../cli';

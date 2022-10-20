@@ -1,4 +1,4 @@
-import type { BuildConditionals } from '../declarations/stencil-private'
+import type { BuildConditionals } from '../declarations/stencil-private';
 
 export const BUILD: BuildConditionals = {
   allRenderFn: false,

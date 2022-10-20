@@ -1,4 +1,4 @@
-import { Diagnostic } from './diagnostic'
+import { Diagnostic } from './diagnostic';
 
 /**
  * This sets the log level hierarchy for our terminal logger, ranging from

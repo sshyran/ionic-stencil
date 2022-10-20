@@ -1,4 +1,3 @@
-
 export interface Diagnostic {
   level: 'error' | 'warn' | 'info' | 'log' | 'debug';
   type: string;
@@ -19,5 +18,3 @@ export interface Diagnostic {
     errorLength?: number;
   }[];
 }
-
-

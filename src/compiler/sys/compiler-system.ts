@@ -1,5 +1,5 @@
-import { Logger } from './logger/logger'
-import { Diagnostic } from './logger/diagnostic'
+import { Logger } from './logger/logger';
+import { Diagnostic } from './logger/diagnostic';
 
 export interface CopyTask {
   src: string;
@@ -20,11 +20,9 @@ export interface LazyRequire {
 }
 export type CompilerFileWatcherCallback = (fileName: string, eventKind: CompilerFileWatcherEvent) => void;
 
-
 export interface CompilerFileWatcher {
   close(): void | Promise<void>;
 }
-
 
 export interface ParsedPath {
   root: string;
@@ -74,8 +72,6 @@ export interface CompilerFsStats {
   error: any;
 }
 
-
-
 export interface PlatformPath {
   normalize(p: string): string;
   join(...paths: string[]): string;
@@ -91,8 +87,6 @@ export interface PlatformPath {
   posix: any;
   win32: any;
 }
-
-
 
 export interface CompilerSystemCreateDirectoryOptions {
   /**
@@ -113,7 +107,6 @@ export interface WorkerMainController {
   destroy(): void;
   maxWorkers: number;
 }
-
 
 export interface CopyResults {
   diagnostics: Diagnostic[];
@@ -224,7 +217,6 @@ export interface BuildResultsComponentGraph {
   [scopeId: string]: string[];
 }
 
-
 export type PageReloadStrategy = 'hmr' | 'pageReload' | null;
 
 export type CompilerFileWatcherEvent =
@@ -257,7 +249,6 @@ export type CompilerEventBuildFinish = 'buildFinish';
 export type CompilerEventBuildLog = 'buildLog';
 export type CompilerEventBuildNoChange = 'buildNoChange';
 
-
 export type BuildOnEventRemove = () => boolean;
 
 export interface CompilerBuildStart {
@@ -271,7 +262,6 @@ export interface BuildLog {
   progress: number;
 }
 
-
 export interface BuildNoChangeResults {
   buildId: number;
   noChange: boolean;
@@ -284,8 +274,6 @@ export interface FsWatchResults {
   filesAdded: string[];
   filesDeleted: string[];
 }
-
-
 
 export interface BuildOnEvents {
   on(cb: (eventName: CompilerEventName, data: any) => void): BuildOnEventRemove;
@@ -331,7 +319,6 @@ export interface CompilerDependency {
   main: string;
   resources?: string[];
 }
-
 
 export interface BuildEvents extends BuildOnEvents, BuildEmitEvents {
   unsubscribeAll(): void;
