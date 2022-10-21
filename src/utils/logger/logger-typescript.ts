@@ -1,10 +1,9 @@
 import type { Diagnostic, DiagnosticMessageChain, Node } from 'typescript';
 
-import { isIterable } from '../../../utils/helpers';
-import { normalizePath } from '../../../utils/normalize-path';
+import type * as d from '../../declarations';
+import { isIterable } from '../helpers';
+import { normalizePath } from '../normalize-path';
 import { splitLineBreaks } from './logger-utils';
-import { Diagnostic as StencilDiagnostic, } from '../logger/diagnostic'
-import {PrintLine} from '../logger/logger';
 
 /**
  * Augment a `Diagnostic` with information from a `Node` in the AST to provide richer error information
@@ -12,7 +11,7 @@ import {PrintLine} from '../logger/logger';
  * @param node the node to augment with additional information
  * @returns the augmented diagnostic
  */
-export const augmentDiagnosticWithNode = (d: StencilDiagnostic, node: Node): StencilDiagnostic => {
+export const augmentDiagnosticWithNode = (d: d.Diagnostic, node: Node): d.Diagnostic => {
   if (!node) {
     return d;
   }
@@ -31,7 +30,7 @@ export const augmentDiagnosticWithNode = (d: StencilDiagnostic, node: Node): Ste
   const end = node.getEnd();
   const posStart = sourceFile.getLineAndCharacterOfPosition(start);
 
-  const errorLine: PrintLine = {
+  const errorLine: d.PrintLine = {
     lineIndex: posStart.line,
     lineNumber: posStart.line + 1,
     text: srcLines[posStart.line],
@@ -50,7 +49,7 @@ export const augmentDiagnosticWithNode = (d: StencilDiagnostic, node: Node): Ste
   // if the error did not occur on the first line of the file, add metadata for the line of code preceding the line
   // where the error was detected to provide the user with additional context
   if (errorLine.lineIndex > 0) {
-    const previousLine: PrintLine = {
+    const previousLine: d.PrintLine = {
       lineIndex: errorLine.lineIndex - 1,
       lineNumber: errorLine.lineNumber - 1,
       text: srcLines[errorLine.lineIndex - 1],
@@ -64,7 +63,7 @@ export const augmentDiagnosticWithNode = (d: StencilDiagnostic, node: Node): Ste
   // if the error did not occur on the last line of the file, add metadata for the line of code following the line
   // where the error was detected to provide the user with additional context
   if (errorLine.lineIndex + 1 < srcLines.length) {
-    const nextLine: PrintLine = {
+    const nextLine: d.PrintLine = {
       lineIndex: errorLine.lineIndex + 1,
       lineNumber: errorLine.lineNumber + 1,
       text: srcLines[errorLine.lineIndex + 1],
@@ -84,7 +83,7 @@ export const augmentDiagnosticWithNode = (d: StencilDiagnostic, node: Node): Ste
  */
 
 export const loadTypeScriptDiagnostics = (tsDiagnostics: readonly Diagnostic[]) => {
-  const diagnostics: StencilDiagnostic[] = [];
+  const diagnostics: d.Diagnostic[] = [];
   const maxErrors = Math.min(tsDiagnostics.length, 50);
 
   for (let i = 0; i < maxErrors; i++) {
@@ -101,8 +100,8 @@ export const loadTypeScriptDiagnostics = (tsDiagnostics: readonly Diagnostic[]) 
  * @param tsDiagnostic a TypeScript diagnostic message record
  * @returns a Stencil diagnostic, suitable for showing an error to the user
  */
-export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic): StencilDiagnostic => {
-  const d: StencilDiagnostic = {
+export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic): d.Diagnostic => {
+  const d: d.Diagnostic = {
     level: 'warn',
     type: 'typescript',
     language: 'typescript',
@@ -126,7 +125,7 @@ export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic): StencilDiagn
 
     const posData = tsDiagnostic.file.getLineAndCharacterOfPosition(tsDiagnostic.start);
 
-    const errorLine: PrintLine = {
+    const errorLine: d.PrintLine = {
       lineIndex: posData.line,
       lineNumber: posData.line + 1,
       text: srcLines[posData.line],
@@ -145,7 +144,7 @@ export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic): StencilDiagn
     }
 
     if (errorLine.lineIndex > 0) {
-      const previousLine: PrintLine = {
+      const previousLine: d.PrintLine = {
         lineIndex: errorLine.lineIndex - 1,
         lineNumber: errorLine.lineNumber - 1,
         text: srcLines[errorLine.lineIndex - 1],
@@ -157,7 +156,7 @@ export const loadTypeScriptDiagnostic = (tsDiagnostic: Diagnostic): StencilDiagn
     }
 
     if (errorLine.lineIndex + 1 < srcLines.length) {
-      const nextLine: PrintLine = {
+      const nextLine: d.PrintLine = {
         lineIndex: errorLine.lineIndex + 1,
         lineNumber: errorLine.lineNumber + 1,
         text: srcLines[errorLine.lineIndex + 1],

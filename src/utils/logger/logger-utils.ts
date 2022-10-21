@@ -1,4 +1,4 @@
-import type * as d from '../../../declarations';
+import type * as d from '../../declarations';
 
 /**
  * Iterate through a series of diagnostics to provide minor fix-ups for various edge cases, deduplicate messages, etc.
@@ -6,7 +6,7 @@ import type * as d from '../../../declarations';
  * @param diagnostics the diagnostics to normalize
  * @returns the normalize documents
  */
-export const normalizeDiagnostics = (compilerCtx: CompilerCtx, diagnostics: d.Diagnostic[]): d.Diagnostic[] => {
+export const normalizeDiagnostics = (compilerCtx: d.CompilerCtx, diagnostics: d.Diagnostic[]): d.Diagnostic[] => {
   const maxErrorsToNormalize = 25;
   const normalizedErrors: d.Diagnostic[] = [];
   const normalizedOthers: d.Diagnostic[] = [];
@@ -39,7 +39,7 @@ export const normalizeDiagnostics = (compilerCtx: CompilerCtx, diagnostics: d.Di
  * @param diagnostic the diagnostic to normalize
  * @returns the altered diagnostic
  */
-const normalizeDiagnostic = (compilerCtx: CompilerCtx, diagnostic: d.Diagnostic): d.Diagnostic => {
+const normalizeDiagnostic = (compilerCtx: d.CompilerCtx, diagnostic: d.Diagnostic): d.Diagnostic => {
   if (diagnostic.messageText) {
     if (typeof (<any>diagnostic.messageText).message === 'string') {
       diagnostic.messageText = (<any>diagnostic.messageText).message;

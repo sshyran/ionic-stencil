@@ -1,22 +1,21 @@
 import type { RollupError } from 'rollup';
-import {PrintLine} from '../logger/logger';
-import {Diagnostic} from '../logger/diagnostic';
 
-import { isString, toTitleCase } from '../../../utils/helpers';
-import { buildWarn } from '../../../utils/message-utils';
+import type * as d from '../../declarations';
+import { isString, toTitleCase } from '../helpers';
+import { buildWarn } from '../message-utils';
 import { splitLineBreaks } from './logger-utils';
-import { Config } from '../../config'
-import { CompilerCtx, BuildCtx } from '../../context'
+import { ComponentCompilerMeta } from '../../compiler/component-compiler-meta'
+import { Module } from '../../compiler/module'
 
 export const loadRollupDiagnostics = (
-  config: Config,
-  compilerCtx: CompilerCtx,
-  buildCtx: BuildCtx,
+  config: d.Config,
+  compilerCtx: d.CompilerCtx,
+  buildCtx: d.BuildCtx,
   rollupError: RollupError
 ) => {
   const formattedCode = formatErrorCode(rollupError.code);
 
-  const diagnostic: Diagnostic = {
+  const diagnostic: d.Diagnostic = {
     level: 'error',
     type: 'bundling',
     language: 'javascript',
@@ -50,7 +49,7 @@ export const loadRollupDiagnostics = (
           try {
             const srcLines = splitLineBreaks(sourceText);
 
-            const errorLine: PrintLine = {
+            const errorLine: d.PrintLine = {
               lineIndex: loc.line - 1,
               lineNumber: loc.line,
               text: srcLines[loc.line - 1],
@@ -77,7 +76,7 @@ export const loadRollupDiagnostics = (
             }
 
             if (errorLine.lineIndex > 0) {
-              const previousLine: PrintLine = {
+              const previousLine: d.PrintLine = {
                 lineIndex: errorLine.lineIndex - 1,
                 lineNumber: errorLine.lineNumber - 1,
                 text: srcLines[errorLine.lineIndex - 1],
@@ -89,7 +88,7 @@ export const loadRollupDiagnostics = (
             }
 
             if (errorLine.lineIndex + 1 < srcLines.length) {
-              const nextLine: PrintLine = {
+              const nextLine: d.PrintLine = {
                 lineIndex: errorLine.lineIndex + 1,
                 lineNumber: errorLine.lineNumber + 1,
                 text: srcLines[errorLine.lineIndex + 1],
@@ -113,7 +112,7 @@ export const loadRollupDiagnostics = (
   buildCtx.diagnostics.push(diagnostic);
 };
 
-export const createOnWarnFn = (diagnostics: Diagnostic[], bundleModulesFiles?: d.Module[]) => {
+export const createOnWarnFn = (diagnostics: d.Diagnostic[], bundleModulesFiles?: d.Module[]) => {
   const previousWarns = new Set<string>();
 
   return function onWarningMessage(warning: { code: string; importer: string; message: string }) {
@@ -129,7 +128,7 @@ export const createOnWarnFn = (diagnostics: Diagnostic[], bundleModulesFiles?: d
         .reduce((cmps, m) => {
           cmps.push(...m.cmps);
           return cmps;
-        }, [] as d.ComponentCompilerMeta[])
+        }, [] as ComponentCompilerMeta[])
         .join(', ')
         .trim();
 
