@@ -6,8 +6,4 @@
   "include": [
     "./index.ts"
   ],
-  "references": [
-    { "path": "../sys/logger" },
-    { "path": "../component-compiler-meta" }
-  ]
 }

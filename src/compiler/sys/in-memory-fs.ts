@@ -1,6 +1,6 @@
 import { isIterable, isString, normalizePath } from '@utils';
 import { basename, dirname, relative } from 'path';
-import { CompilerSystem } from './compiler-system'
+import { BuildOutput, CompilerSystem } from './compiler-system'
 
 /**
  * An in-memory FS which proxies the underlying OS filesystem using a simple
@@ -1089,7 +1089,7 @@ export const createInMemoryFs = (sys: CompilerSystem) => {
    *
    * @returns a list of build output records
    */
-  const getBuildOutputs = (): d.BuildOutput[] => {
+  const getBuildOutputs = (): BuildOutput[] => {
     const outputs: d.BuildOutput[] = [];
 
     outputTargetTypes.forEach((outputTargetType, filePath) => {

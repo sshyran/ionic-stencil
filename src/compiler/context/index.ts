@@ -1,4 +1,5 @@
-import { Diagnostic } from '../sys/logger/logger'
+import { Diagnostic } from '../sys/logger/diagnostic'
+import { ComponentCompilerMeta } from '../component-compiler-meta'
 
 export interface CompilerCtx {
   version: number;
@@ -99,6 +100,97 @@ export interface WorkerRunnerOptions {
 export interface WorkerContext {
   tsHost?: any;
   tsProgram?: any;
+}
+
+export interface BuildCtx {
+  buildId: number;
+  buildResults: CompilerBuildResults;
+  buildStats?: CompilerBuildStats | { diagnostics: Diagnostic[] };
+  buildMessages: string[];
+  bundleBuildCount: number;
+  collections: Collection[];
+  compilerCtx: CompilerCtx;
+  esmBrowserComponentBundle: ReadonlyArray<BundleModule>;
+  esmComponentBundle: ReadonlyArray<BundleModule>;
+  es5ComponentBundle: ReadonlyArray<BundleModule>;
+  systemComponentBundle: ReadonlyArray<BundleModule>;
+  commonJsComponentBundle: ReadonlyArray<BundleModule>;
+  components: ComponentCompilerMeta[];
+  componentGraph: Map<string, string[]>;
+  config: Config;
+  createTimeSpan(msg: string, debug?: boolean): LoggerTimeSpan;
+  data: any;
+  debug: (msg: string) => void;
+  diagnostics: Diagnostic[];
+  dirsAdded: string[];
+  dirsDeleted: string[];
+  entryModules: EntryModule[];
+  filesAdded: string[];
+  filesChanged: string[];
+  filesDeleted: string[];
+  filesUpdated: string[];
+  filesWritten: string[];
+  globalStyle: string | undefined;
+  hasConfigChanges: boolean;
+  hasError: boolean;
+  hasFinished: boolean;
+  hasHtmlChanges: boolean;
+  hasPrintedResults: boolean;
+  hasServiceWorkerChanges: boolean;
+  hasScriptChanges: boolean;
+  hasStyleChanges: boolean;
+  hasWarning: boolean;
+  hydrateAppFilePath: string;
+  indexBuildCount: number;
+  indexDoc: Document;
+  isRebuild: boolean;
+  moduleFiles: Module[];
+  packageJson: PackageJsonData;
+  pendingCopyTasks: Promise<CopyResults>[];
+  progress(task: BuildTask): void;
+  requiresFullBuild: boolean;
+  rollupResults?: RollupResults;
+  scriptsAdded: string[];
+  scriptsDeleted: string[];
+  startTime: number;
+  styleBuildCount: number;
+  stylesPromise: Promise<void>;
+  stylesUpdated: BuildStyleUpdate[];
+  timeSpan: LoggerTimeSpan;
+  timestamp: string;
+  transpileBuildCount: number;
+  validateTypesBuild?(): Promise<void>;
+  validateTypesHandler?: (results: any) => Promise<void>;
+  validateTypesPromise?: Promise<any>;
+}
+
+
+/**
+ * Input CSS to be transformed into ESM
+ */
+export interface TransformCssToEsmInput {
+  input: string;
+  module?: 'cjs' | 'esm' | string;
+  file?: string;
+  tag?: string;
+  encapsulation?: string;
+  mode?: string;
+  commentOriginalSelector?: boolean;
+  sourceMap?: boolean;
+  minify?: boolean;
+  docs?: boolean;
+  autoprefixer?: any;
+  styleImportData?: string;
+}
+
+export interface TransformCssToEsmOutput {
+  styleText: string;
+  output: string;
+  map: any;
+  diagnostics: Diagnostic[];
+  defaultVarName: string;
+  styleDocs: StyleDoc[];
+  imports: { varName: string; importPath: string }[];
 }
 
 

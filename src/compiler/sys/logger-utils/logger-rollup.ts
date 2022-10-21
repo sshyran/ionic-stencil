@@ -6,7 +6,7 @@ import { isString, toTitleCase } from '../../../utils/helpers';
 import { buildWarn } from '../../../utils/message-utils';
 import { splitLineBreaks } from './logger-utils';
 import { Config } from '../../config'
-import { CompilerCtx } from '../../context'
+import { CompilerCtx, BuildCtx } from '../../context'
 
 export const loadRollupDiagnostics = (
   config: Config,

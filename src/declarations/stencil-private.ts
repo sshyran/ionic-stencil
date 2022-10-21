@@ -205,67 +205,6 @@ export interface UpdatedLazyBuildCtx {
   buildCtx: BuildCtx;
 }
 
-export interface BuildCtx {
-  buildId: number;
-  buildResults: CompilerBuildResults;
-  buildStats?: CompilerBuildStats | { diagnostics: Diagnostic[] };
-  buildMessages: string[];
-  bundleBuildCount: number;
-  collections: Collection[];
-  compilerCtx: CompilerCtx;
-  esmBrowserComponentBundle: ReadonlyArray<BundleModule>;
-  esmComponentBundle: ReadonlyArray<BundleModule>;
-  es5ComponentBundle: ReadonlyArray<BundleModule>;
-  systemComponentBundle: ReadonlyArray<BundleModule>;
-  commonJsComponentBundle: ReadonlyArray<BundleModule>;
-  components: ComponentCompilerMeta[];
-  componentGraph: Map<string, string[]>;
-  config: Config;
-  createTimeSpan(msg: string, debug?: boolean): LoggerTimeSpan;
-  data: any;
-  debug: (msg: string) => void;
-  diagnostics: Diagnostic[];
-  dirsAdded: string[];
-  dirsDeleted: string[];
-  entryModules: EntryModule[];
-  filesAdded: string[];
-  filesChanged: string[];
-  filesDeleted: string[];
-  filesUpdated: string[];
-  filesWritten: string[];
-  globalStyle: string | undefined;
-  hasConfigChanges: boolean;
-  hasError: boolean;
-  hasFinished: boolean;
-  hasHtmlChanges: boolean;
-  hasPrintedResults: boolean;
-  hasServiceWorkerChanges: boolean;
-  hasScriptChanges: boolean;
-  hasStyleChanges: boolean;
-  hasWarning: boolean;
-  hydrateAppFilePath: string;
-  indexBuildCount: number;
-  indexDoc: Document;
-  isRebuild: boolean;
-  moduleFiles: Module[];
-  packageJson: PackageJsonData;
-  pendingCopyTasks: Promise<CopyResults>[];
-  progress(task: BuildTask): void;
-  requiresFullBuild: boolean;
-  rollupResults?: RollupResults;
-  scriptsAdded: string[];
-  scriptsDeleted: string[];
-  startTime: number;
-  styleBuildCount: number;
-  stylesPromise: Promise<void>;
-  stylesUpdated: BuildStyleUpdate[];
-  timeSpan: LoggerTimeSpan;
-  timestamp: string;
-  transpileBuildCount: number;
-  validateTypesBuild?(): Promise<void>;
-  validateTypesHandler?: (results: any) => Promise<void>;
-  validateTypesPromise?: Promise<any>;
-}
 
 export interface BuildStyleUpdate {
   styleTag: string;
@@ -671,100 +610,6 @@ export type OnCallback = (buildStart: CompilerBuildStart) => void;
 export type RemoveCallback = () => boolean;
 
 
-
-export type NodeMap = WeakMap<any, ComponentCompilerMeta>;
-
-/** Must be serializable to JSON!! */
-export interface ComponentCompilerFeatures {
-  hasAttribute: boolean;
-  hasAttributeChangedCallbackFn: boolean;
-  hasComponentWillLoadFn: boolean;
-  hasComponentDidLoadFn: boolean;
-  hasComponentShouldUpdateFn: boolean;
-  hasComponentWillUpdateFn: boolean;
-  hasComponentDidUpdateFn: boolean;
-  hasComponentWillRenderFn: boolean;
-  hasComponentDidRenderFn: boolean;
-  hasComponentDidUnloadFn: boolean;
-  hasConnectedCallbackFn: boolean;
-  hasDisconnectedCallbackFn: boolean;
-  hasElement: boolean;
-  hasEvent: boolean;
-  hasLifecycle: boolean;
-  hasListener: boolean;
-  hasListenerTarget: boolean;
-  hasListenerTargetWindow: boolean;
-  hasListenerTargetDocument: boolean;
-  hasListenerTargetBody: boolean;
-  /**
-   * @deprecated Prevented from new apps, but left in for older collections
-   */
-  hasListenerTargetParent: boolean;
-  hasMember: boolean;
-  hasMethod: boolean;
-  hasMode: boolean;
-  hasProp: boolean;
-  hasPropBoolean: boolean;
-  hasPropNumber: boolean;
-  hasPropString: boolean;
-  hasPropMutable: boolean;
-  hasReflect: boolean;
-  hasRenderFn: boolean;
-  hasState: boolean;
-  hasStyle: boolean;
-  hasVdomAttribute: boolean;
-  hasVdomClass: boolean;
-  hasVdomFunctional: boolean;
-  hasVdomKey: boolean;
-  hasVdomListener: boolean;
-  hasVdomPropOrAttr: boolean;
-  hasVdomRef: boolean;
-  hasVdomRender: boolean;
-  hasVdomStyle: boolean;
-  hasVdomText: boolean;
-  hasVdomXlink: boolean;
-  hasWatchCallback: boolean;
-  htmlAttrNames: string[];
-  htmlTagNames: string[];
-  htmlParts: string[];
-  isUpdateable: boolean;
-  isPlain: boolean;
-  potentialCmpRefs: string[];
-}
-
-/** Must be serializable to JSON!! */
-export interface ComponentCompilerMeta extends ComponentCompilerFeatures {
-  assetsDirs: CompilerAssetDir[];
-  componentClassName: string;
-  elementRef: string;
-  encapsulation: Encapsulation;
-  shadowDelegatesFocus: boolean;
-  excludeFromCollection: boolean;
-  isCollectionDependency: boolean;
-  docs: CompilerJsDoc;
-  jsFilePath: string;
-  sourceMapPath: string;
-  listeners: ComponentCompilerListener[];
-  events: ComponentCompilerEvent[];
-  methods: ComponentCompilerMethod[];
-  virtualProperties: ComponentCompilerVirtualProperty[];
-  properties: ComponentCompilerProperty[];
-  watchers: ComponentCompilerWatch[];
-  sourceFilePath: string;
-  states: ComponentCompilerState[];
-  styleDocs: CompilerStyleDoc[];
-  styles: StyleCompiler[];
-  tagName: string;
-  internal: boolean;
-  legacyConnect: ComponentCompilerLegacyConnect[];
-  legacyContext: ComponentCompilerLegacyContext[];
-
-  dependencies?: string[];
-  dependents?: string[];
-  directDependencies?: string[];
-  directDependents?: string[];
-}
-
 export interface ComponentCompilerLegacyConnect {
   name: string;
   connect: string;
@@ -927,20 +772,6 @@ export interface CompilerStyleDoc {
   name: string;
   docs: string;
   annotation: 'prop';
-}
-
-export interface CompilerAssetDir {
-  absolutePath?: string;
-  cmpRelativePath?: string;
-  originalComponentPath?: string;
-}
-
-export interface ComponentCompilerData {
-  exportLine: string;
-  filePath: string;
-  cmp: ComponentCompilerMeta;
-  uniqueComponentClassName?: string;
-  importLine?: string;
 }
 
 export interface ComponentConstructor {
@@ -1329,52 +1160,7 @@ export interface MinifyJsResult {
   };
 }
 
-export type ModuleMap = Map<string, Module>;
 
-/**
- * Stencil's Intermediate Representation (IR) of a module, bundling together
- * various pieces of information like the classes declared within it, the path
- * to the original source file, HTML tag names defined in the file, and so on.
- *
- * Note that this gets serialized/parsed as JSON and therefore cannot be a
- * `Map` or a `Set`.
- */
-export interface Module {
-  cmps: ComponentCompilerMeta[];
-  coreRuntimeApis: string[];
-  collectionName: string;
-  dtsFilePath: string;
-  excludeFromCollection: boolean;
-  externalImports: string[];
-  htmlAttrNames: string[];
-  htmlTagNames: string[];
-  htmlParts: string[];
-  isCollectionDependency: boolean;
-  isLegacy: boolean;
-  jsFilePath: string;
-  localImports: string[];
-  originalImports: string[];
-  originalCollectionComponentPath: string;
-  potentialCmpRefs: string[];
-  sourceFilePath: string;
-  staticSourceFile: any;
-  staticSourceFileText: string;
-  sourceMapPath: string;
-  sourceMapFileText: string;
-
-  // build features
-  hasVdomAttribute: boolean;
-  hasVdomClass: boolean;
-  hasVdomFunctional: boolean;
-  hasVdomKey: boolean;
-  hasVdomListener: boolean;
-  hasVdomPropOrAttr: boolean;
-  hasVdomRef: boolean;
-  hasVdomRender: boolean;
-  hasVdomStyle: boolean;
-  hasVdomText: boolean;
-  hasVdomXlink: boolean;
-}
 
 export interface Plugin {
   name?: string;
@@ -1947,34 +1733,6 @@ export interface CssToEsmImportData {
   varName: string;
   url: string;
   filePath: string;
-}
-
-/**
- * Input CSS to be transformed into ESM
- */
-export interface TransformCssToEsmInput {
-  input: string;
-  module?: 'cjs' | 'esm' | string;
-  file?: string;
-  tag?: string;
-  encapsulation?: string;
-  mode?: string;
-  commentOriginalSelector?: boolean;
-  sourceMap?: boolean;
-  minify?: boolean;
-  docs?: boolean;
-  autoprefixer?: any;
-  styleImportData?: string;
-}
-
-export interface TransformCssToEsmOutput {
-  styleText: string;
-  output: string;
-  map: any;
-  diagnostics: Diagnostic[];
-  defaultVarName: string;
-  styleDocs: StyleDoc[];
-  imports: { varName: string; importPath: string }[];
 }
 
 export interface PackageJsonData {
