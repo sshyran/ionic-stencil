@@ -3,8 +3,12 @@ import { DEFAULT_STYLE_MODE } from '@utils';
 import type * as d from '../../declarations';
 
 /**
+ * Set various fields on the provided component compiler metadata based on other fields set on the same piece of
+ * metadata.
  *
- * @param cmpMeta
+ * This function mutates the provided metadata argument in place.
+ *
+ * @param cmpMeta the metadata for a component to update
  */
 export const setComponentBuildConditionals = (cmpMeta: d.ComponentCompilerMeta): void => {
   if (cmpMeta.properties.length > 0) {

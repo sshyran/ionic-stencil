@@ -17,9 +17,9 @@ import { ConvertIdentifier, getStaticValue } from '../transform-utils';
  * @param compilerCtx the current compiler context
  * @param tagName the tag for the web component that styles should be associated with
  * @param componentFilePath the fully qualified path to the containing the component's declaration
- * @param isCollectionDependency
+ * @param isCollectionDependency `true` if the dependency is part of a `collections` output target, `false` otherwise
  * @param staticMembers the static class elements for a component
- * @returns
+ * @returns the parsed styles for a component
  */
 export const parseStaticStyles = (
   compilerCtx: d.CompilerCtx,

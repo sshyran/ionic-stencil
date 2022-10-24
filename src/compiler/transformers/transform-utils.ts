@@ -763,6 +763,9 @@ export const createRequireStatement = (importFnNames: string[], importPath: stri
   );
 };
 
+/**
+ *
+ */
 export interface ConvertIdentifier {
   __identifier: boolean;
   __escapedText: string;

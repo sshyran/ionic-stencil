@@ -115,14 +115,14 @@ const normalizeExtension = (styleUrls: d.CompilerModeStyles): d.CompilerModeStyl
 const useCss = (stylePath: string): string => {
   const sourceFileDir = dirname(stylePath);
   const sourceFileExt = extname(stylePath);
-  // when capturing the source filename, it's important we keep "accordion.ios" in "accordion.ios.scss"
+  // when capturing the source filename, we keep "accordion.ios" in "accordion.ios.scss" (stripping out the extension)
   const sourceFileName = basename(stylePath, sourceFileExt);
   return join(sourceFileDir, sourceFileName + '.css');
 };
 
 /**
  * Helper method for 'normalizing' a series of mode styles. In this context, normalization refers to ensuring that each
- * mode's styles are stored in as a list, as opposed to a single string value, undefined, etc.
+ * mode's styles are stored in as a list, as opposed to a single string value, `undefined`, etc.
  * @param styleUrls the styles to normalize
  * @returns the normalized styles
  */

@@ -7,7 +7,7 @@ import type * as d from '../../declarations';
  * Helper function that "normalizes" a collection of compiler styles.
  *
  * In this function, to "normalize" means to:
- * - Create a uniform ID based on the tag name and the style mode
+ * - Create a uniform ID based on the tag name and the style mode name (e.g. 'ios', 'md', etc.)
  * - Modifying the paths of any external styles to include relative and absolute fields
  *
  * This function is expected to mutate the provided styles argument.
@@ -33,9 +33,10 @@ export const normalizeStyles = (tagName: string, componentFilePath: string, styl
     }
   });
 };
-// TODO(): IDK yet
+
 /**
- * Helper function that normalizes the path of an external style to include both relative and absolute components.
+ * Helper function that normalizes the paths of a component's external styles to include both relative and absolute
+ * paths.
  * It does so by mutating the external style provided to this function.
  * @param componentFilePath the fully qualified path of the file containing the declaration of a Stencil component that
  * uses an external style
