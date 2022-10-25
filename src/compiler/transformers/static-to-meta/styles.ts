@@ -106,10 +106,10 @@ export const parseStaticStyles = (
 };
 
 /**
- *
- * @param parsedStyle
- * @param modeName
- * @returns
+ * Create compiler style metadata
+ * @param parsedStyle metadata for styles, containing an identifier to attach to the metadata
+ * @param modeName the name of the mode to associate with the metadata
+ * @returns the created style metadata
  */
 const parseStyleIdentifier = (parsedStyle: ConvertIdentifier, modeName: string): d.StyleCompiler => {
   const style: d.StyleCompiler = {

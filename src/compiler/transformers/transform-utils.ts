@@ -170,7 +170,7 @@ export const createStaticGetter = (propName: string, returnExpression: ts.Expres
  * TypeScript compiler understands back to TypeScript/JavaScript values
  * @param staticMembers the class elements that were previously converted to static members
  * @param staticName the name of a static member to find
- * @returns
+ * @returns the converted value
  */
 export const getStaticValue = (staticMembers: ts.ClassElement[], staticName: string): any => {
   const staticMember: ts.GetAccessorDeclaration = staticMembers.find(
@@ -764,10 +764,17 @@ export const createRequireStatement = (importFnNames: string[], importPath: stri
 };
 
 /**
- *
+ * A identifier for a style attached to a component
  */
 export interface ConvertIdentifier {
+  /**
+   * A property to designate that an object that is of type `ConvertIdentifier` is an identifier to an object
+   * containing styles
+   */
   __identifier: boolean;
+  /**
+   * The escaped text representing the name of the identifier
+   */
   __escapedText: string;
 }
 

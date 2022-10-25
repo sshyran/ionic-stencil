@@ -63,6 +63,17 @@ export interface ShadowRootOptions {
   delegatesFocus?: boolean;
 }
 
+/**
+ * A mapping from a mode name to one or more urls to CSS files
+ * @example
+ * ```ts
+ * const styleUrls: ModeStyles = {
+ *   'ios': ['./styles/cmp.ios.scss', './styles/another.scss'],
+ *   'md': './styles/cmp.md.scss',
+ * }
+ *
+ * ```
+ */
 export interface ModeStyles {
   [modeName: string]: string | string[];
 }
