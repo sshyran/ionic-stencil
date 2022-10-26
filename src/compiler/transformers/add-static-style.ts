@@ -53,7 +53,16 @@ export const addStaticStylePropertyToClass = (styleStatements: ts.Statement[], c
   }
 };
 
-const getStyleLiteral = (cmp: d.ComponentCompilerMeta, commentOriginalSelector: boolean) => {
+/**
+ *
+ * @param cmp
+ * @param commentOriginalSelector
+ * @returns
+ */
+const getStyleLiteral = (
+  cmp: d.ComponentCompilerMeta,
+  commentOriginalSelector: boolean
+): ts.ObjectLiteralExpression | ts.Identifier | ts.StringLiteral => {
   if (Array.isArray(cmp.styles) && cmp.styles.length > 0) {
     if (cmp.styles.length > 1 || (cmp.styles.length === 1 && cmp.styles[0].modeName !== DEFAULT_STYLE_MODE)) {
       // multiple style modes
@@ -70,7 +79,7 @@ const getMultipleModeStyle = (
   cmp: d.ComponentCompilerMeta,
   styles: d.StyleCompiler[],
   commentOriginalSelector: boolean
-) => {
+): ts.ObjectLiteralExpression => {
   const styleModes: ts.ObjectLiteralElementLike[] = [];
 
   styles.forEach((style) => {
@@ -100,7 +109,11 @@ const getMultipleModeStyle = (
   return ts.factory.createObjectLiteralExpression(styleModes, true);
 };
 
-const getSingleStyle = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler, commentOriginalSelector: boolean) => {
+const getSingleStyle = (
+  cmp: d.ComponentCompilerMeta,
+  style: d.StyleCompiler,
+  commentOriginalSelector: boolean
+): ts.StringLiteral | ts.Identifier => {
   if (typeof style.styleStr === 'string') {
     // inline the style string
     // static get style() { return "string"; }
@@ -124,7 +137,17 @@ const getSingleStyle = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler, co
   return null;
 };
 
-const createStyleLiteral = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler, commentOriginalSelector: boolean) => {
+/**
+ *
+ * @param cmp
+ * @param style
+ * @param commentOriginalSelector
+ */
+const createStyleLiteral = (
+  cmp: d.ComponentCompilerMeta,
+  style: d.StyleCompiler,
+  commentOriginalSelector: boolean
+): ts.StringLiteral => {
   if (cmp.encapsulation === 'scoped' || (commentOriginalSelector && cmp.encapsulation === 'shadow')) {
     // scope the css first
     const scopeId = getScopeId(cmp.tagName, style.modeName);
@@ -134,7 +157,7 @@ const createStyleLiteral = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler
   return ts.factory.createStringLiteral(style.styleStr);
 };
 
-const createStyleIdentifierFromUrl = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler) => {
+const createStyleIdentifierFromUrl = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler): ts.Identifier => {
   style.styleIdentifier = dashToPascalCase(cmp.tagName);
   style.styleIdentifier = style.styleIdentifier.charAt(0).toLowerCase() + style.styleIdentifier.substring(1);
 

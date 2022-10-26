@@ -67,6 +67,9 @@ export const enum CMP_FLAGS {
 
 /**
  * Default style mode id
+ *
+ * Care should be taken should this value be changed, as it can change lexicographical sorting and other comparison
+ * results
  */
 export const DEFAULT_STYLE_MODE = '$';
 
