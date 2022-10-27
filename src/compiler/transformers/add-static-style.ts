@@ -96,7 +96,7 @@ const getMultipleModeStyle = (
   styles.forEach((style) => {
     if (typeof style.styleStr === 'string') {
       // inline the style string
-      // static get style() { return { ios: "string" }; }
+      // static get style() { return { ios: "string of css" }; }
       const styleLiteral = createStyleLiteral(cmp, style, commentOriginalSelector);
       const propStr = ts.factory.createPropertyAssignment(style.modeName, styleLiteral);
       styleModes.push(propStr);
@@ -109,8 +109,7 @@ const getMultipleModeStyle = (
       styleModes.push(propIdentifier);
     } else if (Array.isArray(style.externalStyles) && style.externalStyles.length > 0) {
       // import generated from @Component() styleUrls option
-      // import myTagIosStyle from './import-path.css';
-      // static get style() { return { ios: myTagIosStyle }; }
+      // static get style() { return { ios: 'myTagIosStyle.ios.css' }; }
       const styleUrlIdentifier = createStyleIdentifierFromUrl(cmp, style);
       const propUrlIdentifier = ts.factory.createPropertyAssignment(style.modeName, styleUrlIdentifier);
       styleModes.push(propUrlIdentifier);

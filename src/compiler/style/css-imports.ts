@@ -254,7 +254,7 @@ export const resolveCssNodeModule = async (
     d.absFilePath = filePath;
   }
 };
-
+/** Determines if a CSS import resolves to a local file based on the import path @param srcInput a CSS import statement @returns `true` if the import is for a local file, `false` otherwise */
 export const isLocalCssImport = (srcImport: string) => {
   srcImport = srcImport.toLowerCase();
 
@@ -269,7 +269,7 @@ export const isLocalCssImport = (srcImport: string) => {
 
   return true;
 };
-
+// TODO(NOW): THIS IS IT
 /**
  * Replace import declarations (like '@import "foobar";') with the actual CSS
  * written in the imported module, allowing us to produce a single file from a
