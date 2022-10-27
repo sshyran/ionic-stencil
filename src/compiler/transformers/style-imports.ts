@@ -99,13 +99,22 @@ const updateEsmStyleImportPath = (
   }
   return statements;
 };
-/** TODO */
+/**
+ * Generate an ESM style import of the format:
+ * `import myComponentStyle from './my-component.css?tag=my-component&encapsulation=shadow'
+ *
+ * @param transformOpts the transform options for the current compilation pass
+ * @param tsSourceFile the TypeScript source file that is performing the import of the css file
+ * @param cmp the metadata for the component that uses the style
+ * @param style the style metadata
+ * @returns the generated ESM-style import
+ */
 const createEsmStyleImport = (
   transformOpts: d.TransformOptions,
   tsSourceFile: ts.SourceFile,
   cmp: d.ComponentCompilerMeta,
   style: d.StyleCompiler
-) => {
+): ts.ImportDeclaration => {
   const importName = ts.factory.createIdentifier(style.styleIdentifier);
   const importPath = getStyleImportPath(transformOpts, tsSourceFile, cmp, style, style.externalStyles[0].absolutePath);
 
@@ -168,6 +177,14 @@ const createCjsStyleRequire = (
   );
 };
 
+/** Build a serialized query string path for a CSS file.
+ * @param transformOpts the transform options for the current compilation pass
+ * @param tsSourceFile the TypeScript source file that is performing the import of the css file
+ * @param cmp the metadata for the component that uses the style
+ * @param style the style metadata
+ * @param importPath the path to the css file
+ * @returns the serialized query string path
+ */
 const getStyleImportPath = (
   transformOpts: d.TransformOptions,
   tsSourceFile: ts.SourceFile,

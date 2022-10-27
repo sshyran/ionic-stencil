@@ -152,8 +152,8 @@ const getSingleStyle = (
  * Create a {@link ts.StringLiteral} version of a literal CSS string
  * @param cmp the component metadata that uses the CSS string
  * @param style the style metadata whose literal CSS string will be converted to a TS node
- * @param commentOriginalSelector
- * @returns the new TS node
+ * @param commentOriginalSelector if `true`, add a comment with the original CSS selector to the style.
+ * @returns the new TS node containing the literal CSS string
  */
 const createStyleLiteral = (
   cmp: d.ComponentCompilerMeta,

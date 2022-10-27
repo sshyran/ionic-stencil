@@ -66,6 +66,10 @@ const addMultipleModeStyleGetter = (
     }
   });
 
+  /**
+   * typescript's APIs don't enforce key uniqueness at this point.
+   * it is likely that we will have duplicate keys for the {@link DEFAULT_STYLE_MODE} at this point still
+   */
   const styleObj = ts.factory.createObjectLiteralExpression(styleModes, true);
 
   classMembers.push(createStaticGetter('style', styleObj));

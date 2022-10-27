@@ -1986,18 +1986,31 @@ export interface StyleCompiler {
    */
   styleStr: string;
   /**
-   *
+   * An identifier to resolve all external styles to??
    */
   styleIdentifier: string;
   /**
-   *
+   * A collection of paths used by CSS files that are external to the component using a style
+   * This field may be empty for inlined style string literals
    */
   externalStyles: ExternalStyleCompiler[];
 }
 
+/**
+ * Location metadata for a file containing styles used by a component
+ */
 export interface ExternalStyleCompiler {
+  /**
+   * The absolute path of a style file on disk
+   */
   absolutePath: string;
+  /**
+   * The relative path between the file containing a component definition and the style file
+   */
   relativePath: string;
+  /**
+   * The path of the style file as it was used in a `@Component({ ... })`
+   */
   originalComponentPath: string;
 }
 
