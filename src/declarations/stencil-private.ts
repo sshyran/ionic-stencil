@@ -1986,7 +1986,9 @@ export interface StyleCompiler {
    */
   styleStr: string;
   /**
-   * An identifier to resolve all external styles to??
+   * An identifier to resolve external styles in a compiled component.
+   * This identifier is used in an import/require statement when pulling an `externalStyles` entry into a file
+   * containing a component's definition.
    */
   styleIdentifier: string;
   /**

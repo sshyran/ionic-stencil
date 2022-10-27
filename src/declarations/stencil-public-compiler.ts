@@ -2557,6 +2557,10 @@ export interface TransformOptions {
   isolatedModules?: boolean;
   module?: 'cjs' | 'esm';
   proxy: 'defineproperty' | null;
+  /**
+   * Determine how styles should be set on compiled components
+   * - 'static' sets static getters for a component's styles directly on the class definition
+   */
   style: 'static' | null;
   styleImportData: 'queryparams' | null;
   target?: string;
