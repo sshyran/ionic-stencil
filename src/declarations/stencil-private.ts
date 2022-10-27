@@ -1964,11 +1964,34 @@ export interface MiddlewareConfig {
   destroy?: () => void;
 }
 
+/**
+ * Compiler metadata for styles to apply to a component
+ */
 export interface StyleCompiler {
+  /**
+   * The mode under which the style should be applied
+   */
   modeName: string;
+  /**
+   * An ID that ties the style to a component for a specific mode
+   * e.g. `MY-COMPONENT#ios`
+   *
+   * It should not be assumed that there is a '#' followed by a mode name.
+   * Users of this field should check for a mode name themselves
+   */
   styleId: string;
+  /**
+   * Contains the string literal CSS.
+   * This field may be `null` if the CSS is resolved via a path or identifier.
+   */
   styleStr: string;
+  /**
+   *
+   */
   styleIdentifier: string;
+  /**
+   *
+   */
   externalStyles: ExternalStyleCompiler[];
 }
 

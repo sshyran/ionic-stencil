@@ -25,7 +25,7 @@ export const updateStyleImports = (
 };
 
 /**
- *
+ * Add it!
  * @param transformOpts
  * @param tsSourceFile
  * @param moduleFile
@@ -99,7 +99,7 @@ const updateEsmStyleImportPath = (
   }
   return statements;
 };
-
+/** TODO */
 const createEsmStyleImport = (
   transformOpts: d.TransformOptions,
   tsSourceFile: ts.SourceFile,

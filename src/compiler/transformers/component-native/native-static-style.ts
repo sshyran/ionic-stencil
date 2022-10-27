@@ -7,9 +7,12 @@ import { getScopeId } from '../../style/scope-css';
 import { createStaticGetter } from '../transform-utils';
 
 /**
+ * Create 1+ style static getters for a component.
  *
- * @param classMembers
- * @param cmp
+ * This function mutates the provided `classMembers` argument
+ *
+ * @param classMembers the collection of class members for the component to push to new static getter(s) to
+ * @param cmp metadata for the component whose style getter(s) are being generated
  */
 export const addNativeStaticStyle = (classMembers: ts.ClassElement[], cmp: d.ComponentCompilerMeta): void => {
   if (Array.isArray(cmp.styles) && cmp.styles.length > 0) {
@@ -24,10 +27,13 @@ export const addNativeStaticStyle = (classMembers: ts.ClassElement[], cmp: d.Com
 };
 
 /**
+ * Create >1 style static getters for a component.
  *
- * @param classMembers
- * @param cmp
- * @param styles
+ * This function mutates the provided `classMembers` argument
+ *
+ * @param classMembers the collection of class members for the component to push to new static getters to
+ * @param cmp metadata for the component whose style getters are being generated
+ * @param styles the styles for the component
  */
 const addMultipleModeStyleGetter = (
   classMembers: ts.ClassElement[],
@@ -66,10 +72,13 @@ const addMultipleModeStyleGetter = (
 };
 
 /**
+ * Creates a static getter for a component's style and adds it to the component's class members.
  *
- * @param classMembers
- * @param cmp
- * @param style
+ * This function mutates the provided `classMembers` argument
+ *
+ * @param classMembers the list of class members to add the style getter to
+ * @param cmp the component for which the style is being generated
+ * @param style the style whose getter is being retried
  */
 const addSingleStyleGetter = (
   classMembers: ts.ClassElement[],
@@ -77,18 +86,18 @@ const addSingleStyleGetter = (
   style: d.StyleCompiler
 ): void => {
   if (typeof style.styleStr === 'string') {
-    // inline the style string
+    // inline the style string:
     // static get style() { return "string"; }
     const styleLiteral = createStyleLiteral(cmp, style);
     classMembers.push(createStaticGetter('style', styleLiteral));
   } else if (typeof style.styleIdentifier === 'string') {
-    // direct import already written in the source code
+    // direct import already written in the source code:
     // import myTagStyle from './import-path.css';
     // static get style() { return myTagStyle; }
     const styleIdentifier = ts.factory.createIdentifier(style.styleIdentifier);
     classMembers.push(createStaticGetter('style', styleIdentifier));
   } else if (Array.isArray(style.externalStyles) && style.externalStyles.length > 0) {
-    // import generated from @Component() styleUrls option
+    // import generated from @Component() styleUrls option:
     // import myTagStyle from './import-path.css';
     // static get style() { return myTagStyle; }
     const styleUrlIdentifier = createStyleIdentifierFromUrl(cmp, style);
@@ -97,10 +106,10 @@ const addSingleStyleGetter = (
 };
 
 /**
- *
- * @param cmp
- * @param style
- * @returns
+ * Create a {@link ts.StringLiteral} version of a literal CSS string
+ * @param cmp the component metadata that uses the CSS string
+ * @param style the style metadata whose literal CSS string will be converted to a TS node
+ * @returns the new TS node
  */
 const createStyleLiteral = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler): ts.StringLiteral => {
   if (cmp.encapsulation === 'scoped') {
@@ -112,14 +121,22 @@ const createStyleLiteral = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler
   return ts.factory.createStringLiteral(style.styleStr);
 };
 
-// TODO: Dupe? OW Add return type
 /**
+ * Generate an identifier for a component's styles.
  *
- * @param cmp
- * @param style
- * @returns
+ * An identifier takes the form of:
+ * "componentTagNameCamelCase(ModeNamePascalCase)?Style"
+ *
+ * where the mode name is omitted for the {@link DEFAULT_STYLE_MODE}
+ *
+ *
+ * This is accomplished by mutating the provided `style` argument
+ *
+ * @param cmp the metadata for the component to generate the style identifier for
+ * @param style the compiler style metadata
+ * @returns an identifier generated for the component's styles
  */
-const createStyleIdentifierFromUrl = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler) => {
+const createStyleIdentifierFromUrl = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler): ts.Identifier => {
   style.styleIdentifier = dashToPascalCase(cmp.tagName);
   style.styleIdentifier = style.styleIdentifier.charAt(0).toLowerCase() + style.styleIdentifier.substring(1);
 

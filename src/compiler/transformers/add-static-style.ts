@@ -13,6 +13,9 @@ import { createStaticGetter } from './transform-utils';
  *   static get style() { return "styles"; }
  * }
  * ```
+ *
+ * This is accomplished by mutating the provided `classMembers` argument
+ *
  * @param classMembers a class to existing members of a class. **this parameter will be mutated** rather than returning
  * a cloned version
  * @param cmp the metadata associated with the component being evaluated
@@ -37,6 +40,8 @@ export const addStaticStyleGetterWithinClass = (
  * MyComponent.style = "styles";
  * ```
  *
+ * This is accomplished by mutating the provided `styleStatements` argument
+ *
  * @param styleStatements a list of statements containing style assignments to a class
  * @param cmp the metadata associated with the component being evaluated
  */
@@ -53,16 +58,22 @@ export const addStaticStylePropertyToClass = (styleStatements: ts.Statement[], c
   }
 };
 
+// TODO(NOW): 2x check these
 /**
+ * Get a representation of a style from a component.
  *
- * @param cmp
- * @param commentOriginalSelector
- * @returns
+ * A representation can take on different forms:
+ * - An identifier (e.g. something that has been imported by name: `import styles from './styles.css';`
+ * - A string (e.g. "overflow: hidden");
+ * - An object literal (e.g. `{"$": ["overflow: hidden"]}`
+ * @param cmp the component to get the styles from
+ * @param commentOriginalSelector if `true`, add a comment with the original CSS selector to the style.
+ * @returns the retrieved style representations, or null if the styles on a component are empty
  */
 const getStyleLiteral = (
   cmp: d.ComponentCompilerMeta,
   commentOriginalSelector: boolean
-): ts.ObjectLiteralExpression | ts.Identifier | ts.StringLiteral => {
+): ts.ObjectLiteralExpression | ts.Identifier | ts.StringLiteral | null => {
   if (Array.isArray(cmp.styles) && cmp.styles.length > 0) {
     if (cmp.styles.length > 1 || (cmp.styles.length === 1 && cmp.styles[0].modeName !== DEFAULT_STYLE_MODE)) {
       // multiple style modes
@@ -138,10 +149,11 @@ const getSingleStyle = (
 };
 
 /**
- *
- * @param cmp
- * @param style
+ * Create a {@link ts.StringLiteral} version of a literal CSS string
+ * @param cmp the component metadata that uses the CSS string
+ * @param style the style metadata whose literal CSS string will be converted to a TS node
  * @param commentOriginalSelector
+ * @returns the new TS node
  */
 const createStyleLiteral = (
   cmp: d.ComponentCompilerMeta,
@@ -157,6 +169,21 @@ const createStyleLiteral = (
   return ts.factory.createStringLiteral(style.styleStr);
 };
 
+/**
+ * Generate an identifier for a component's styles.
+ *
+ * An identifier takes the form of:
+ * "componentTagNameCamelCase(ModeNamePascalCase)?Style"
+ *
+ * where the mode name is omitted for the {@link DEFAULT_STYLE_MODE}
+ *
+ *
+ * This is accomplished by mutating the provided `style` argument
+ *
+ * @param cmp the metadata for the component to generate the style identifier for
+ * @param style the compiler style metadata
+ * @returns an identifier generated for the component's styles
+ */
 const createStyleIdentifierFromUrl = (cmp: d.ComponentCompilerMeta, style: d.StyleCompiler): ts.Identifier => {
   style.styleIdentifier = dashToPascalCase(cmp.tagName);
   style.styleIdentifier = style.styleIdentifier.charAt(0).toLowerCase() + style.styleIdentifier.substring(1);
