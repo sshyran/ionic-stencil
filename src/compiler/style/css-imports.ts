@@ -82,7 +82,7 @@ export const parseCssImports = async (
       }
     }
 
-    // Recur down the tree of CSS imports, resolving all the imports in
+    // Recurse down the tree of CSS imports, resolving all the imports in
     // the children of the current file (and, by extension, in their children
     // and so on)
     await Promise.all(
@@ -222,16 +222,32 @@ export const getCssImports = async (
 
   return imports;
 };
-
+/**
+ * Determine if Stencil should resolve a style sheet from `node_modules`.
+ *
+ * The `~` prefix tells certain loaders to treat the path like a "module" in `node_modules/`.
+ *
+ * @param url the url of the stylesheet to evaluate.
+ * @returns `true` if the url should be treated as a module, `false` otherwise.
+ */
 export const isCssNodeModule = (url: string) => url.startsWith('~');
 
+/**
+ * Resolve a stylesheet from `node_modules/`.
+ *
+ * @param config the Stencil project's config
+ * @param compilerCtx the compiler context containing a filesystem object instance for reading files
+ * @param diagnostics
+ * @param filePath
+ * @param cssImportData
+ */
 export const resolveCssNodeModule = async (
   config: d.Config,
   compilerCtx: d.CompilerCtx,
   diagnostics: d.Diagnostic[],
   filePath: string,
   cssImportData: d.CssImportData
-) => {
+): Promise<void> => {
   try {
     const m = getModuleId(cssImportData.url);
     const resolved = await resolveModuleIdAsync(config.sys, compilerCtx.fs, {
@@ -254,7 +270,13 @@ export const resolveCssNodeModule = async (
     d.absFilePath = filePath;
   }
 };
-/** Determines if a CSS import resolves to a local file based on the import path @param srcInput a CSS import statement @returns `true` if the import is for a local file, `false` otherwise */
+
+/**
+ * Determines if a CSS import resolves to a local file based on the import path.
+ *
+ * @param srcImport a CSS import statement
+ * @returns `true` if the import is for a local file, `false` otherwise
+ */
 export const isLocalCssImport = (srcImport: string) => {
   srcImport = srcImport.toLowerCase();
 
@@ -269,7 +291,7 @@ export const isLocalCssImport = (srcImport: string) => {
 
   return true;
 };
-// TODO(NOW): THIS IS IT
+
 /**
  * Replace import declarations (like '@import "foobar";') with the actual CSS
  * written in the imported module, allowing us to produce a single file from a
