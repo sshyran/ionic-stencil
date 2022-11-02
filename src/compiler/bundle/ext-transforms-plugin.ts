@@ -40,6 +40,7 @@ export const extTransformsPlugin = (
      * @returns metadata for Rollup or null if no transformation should be done
      */
     async transform(_, id) {
+      console.log(`ext-transforms-plugin::transform - ${id}`);
       if (/\0/.test(id)) {
         return null;
       }
@@ -97,7 +98,7 @@ export const extTransformsPlugin = (
             );
           }
         }
-        // TODO(NOW):
+
         const cssTransformResults = await compilerCtx.worker.transformCssToEsm({
           file: pluginTransforms.id,
           input: pluginTransforms.code,

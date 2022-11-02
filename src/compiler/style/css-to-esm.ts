@@ -61,7 +61,7 @@ const CSS_IMPORT_RE = /(@import)\s+(url\()?\s?(.*?)\s?\)?([^;]*);?/gi;
 export const transformCssToEsm = async (input: d.TransformCssToEsmInput): Promise<d.TransformCssToEsmOutput> => {
   const results = transformCssToEsmModule(input);
 
-  const optimizeResults = await optimizeCss({
+  const optimizeResults: d.OptimizeCssOutput = await optimizeCss({
     autoprefixer: input.autoprefixer,
     input: results.styleText,
     filePath: input.file,

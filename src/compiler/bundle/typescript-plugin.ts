@@ -26,6 +26,8 @@ export const typescriptPlugin = (compilerCtx: d.CompilerCtx, bundleOpts: BundleO
      * @returns the module matched (with its sourcemap if it exists), null otherwise
      */
     load(id: string): LoadResult {
+      console.log(`typescript-plugin::load - ${id}`);
+
       if (isAbsolute(id)) {
         const fsFilePath = normalizeFsPath(id);
         const module = getModule(compilerCtx, fsFilePath);
@@ -50,6 +52,8 @@ export const typescriptPlugin = (compilerCtx: d.CompilerCtx, bundleOpts: BundleO
      * @returns the transpiled code, with its associated sourcemap. null otherwise
      */
     transform(_code: string, id: string): TransformResult {
+      console.log(`typescript-plugin::transform - ${id}`);
+
       if (isAbsolute(id)) {
         const fsFilePath = normalizeFsPath(id);
         const mod = getModule(compilerCtx, fsFilePath);

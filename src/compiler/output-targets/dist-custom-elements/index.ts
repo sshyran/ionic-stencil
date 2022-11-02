@@ -126,6 +126,7 @@ export const bundleCustomElements = async (
         entryFileNames: '[name].js',
         hoistTransitiveImports: false,
         preferConst: true,
+        plugins: [],
       });
 
       // the output target should have been validated at this point - as a result, we expect this field

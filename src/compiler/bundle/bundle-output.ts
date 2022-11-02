@@ -19,6 +19,14 @@ import { resolveIdWithTypeScript, typescriptPlugin } from './typescript-plugin';
 import { userIndexPlugin } from './user-index-plugin';
 import { workerPlugin } from './worker-plugin';
 
+/**
+ * Create a Rollup bundle, which contains the module graph, but _not_ the actual output
+ * @param config the Stencil configuration for the project
+ * @param compilerCtx the current compiler context
+ * @param buildCtx a context object containing information about the current build
+ * @param bundleOpts Rollup bundling options to apply to the base configuration setup by this function
+ * @returns the generated rollup bundle
+ */
 export const bundleOutput = async (
   config: d.ValidatedConfig,
   compilerCtx: d.CompilerCtx,
@@ -27,6 +35,7 @@ export const bundleOutput = async (
 ) => {
   try {
     const rollupOptions = getRollupOptions(config, compilerCtx, buildCtx, bundleOpts);
+    // https://rollupjs.org/guide/en/#rolluprollup
     const rollupBuild = await rollup(rollupOptions);
 
     compilerCtx.rollupCache.set(bundleOpts.id, rollupBuild.cache);

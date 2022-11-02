@@ -2054,11 +2054,26 @@ export interface TransformCssToEsmInput {
   styleImportData?: string;
 }
 
+/**
+ * The result of transforming CSS to an ESM-compliant piece of JavaScript
+ */
 export interface TransformCssToEsmOutput {
+  /**
+   * The CSS/"style" string, stripped of unnecessary whitespace
+   */
   styleText: string;
+  /**
+   * The ESM-compliant JavaScript, joining the `styleText` and `defaultVarName` fields
+   */
   output: string;
   map: any;
+  /**
+   * Diagnostics returned from the transformation process
+   */
   diagnostics: Diagnostic[];
+  /**
+   * A variable name to assign the `styleText` to
+   */
   defaultVarName: string;
   styleDocs: StyleDoc[];
   imports: { varName: string; importPath: string }[];
