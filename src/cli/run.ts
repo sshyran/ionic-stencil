@@ -1,6 +1,11 @@
 import { hasError, isBoolean, isFunction, shouldIgnoreError } from '@utils';
 
-import { DEFAULT_DEV_MODE, DEFAULT_FS_NAMESPACE, DEFAULT_HASHED_FILENAME_LENTH, DEFAULT_NAMESPACE } from '../compiler/config/constants';
+import {
+  DEFAULT_DEV_MODE,
+  DEFAULT_FS_NAMESPACE,
+  DEFAULT_HASHED_FILENAME_LENTH,
+  DEFAULT_NAMESPACE,
+} from '../compiler/config/constants';
 import { dependencies } from '../compiler/sys/dependencies.json';
 import { createLogger } from '../compiler/sys/logger/console-logger';
 import type * as d from '../declarations';
