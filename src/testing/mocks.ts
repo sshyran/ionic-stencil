@@ -33,12 +33,21 @@ export function mockValidatedConfig(overrides: Partial<ValidatedConfig> = {}): V
 
   return {
     ...baseConfig,
+    type: 'valid',
     flags: createConfigFlags(),
     logger: mockLogger(),
     outputTargets: baseConfig.outputTargets ?? [],
     rootDir: path.resolve('/'),
     sys: createTestingSystem(),
     testing: {},
+    namespace: 'Testing',
+    fsNamespace: 'testing',
+    minifyJs: false,
+    minifyCss: false,
+    devMode: true,
+    hashFileNames: false,
+    hashedFileNameLength: 8,
+    buildEs5: false,
     ...overrides,
   };
 }
@@ -175,13 +184,11 @@ export function mockCompilerCtx(config?: Config) {
 }
 
 export function mockBuildCtx(config?: Config, compilerCtx?: CompilerCtx): BuildCtx {
-  if (!config) {
-    config = mockConfig();
-  }
+  const validatedConfig = mockValidatedConfig(config ?? {});
   if (!compilerCtx) {
     compilerCtx = mockCompilerCtx(config);
   }
-  const buildCtx = new BuildContext(config, compilerCtx);
+  const buildCtx = new BuildContext(validatedConfig, compilerCtx);
 
   return buildCtx as BuildCtx;
 }

@@ -1,19 +1,13 @@
-import { createConfigFlags } from '../../cli/config-flags';
 import type * as d from '../../declarations';
+import { validateConfig } from '../config/validate-config';
 import { setPlatformPath } from '../sys/modules/path';
 import { createLogger } from './logger/console-logger';
-import { createSystem } from './stencil-sys';
 
 export const getConfig = (userConfig: d.Config): d.ValidatedConfig => {
   const logger = userConfig.logger ?? createLogger();
   const config: d.ValidatedConfig = {
     ...userConfig,
-    flags: createConfigFlags(userConfig.flags ?? {}),
-    logger,
-    outputTargets: userConfig.outputTargets ?? [],
-    rootDir: userConfig.rootDir ?? '/',
-    sys: userConfig.sys ?? createSystem({ logger }),
-    testing: userConfig ?? {},
+    ...validateConfig(userConfig, { logger }).config,
   };
 
   setPlatformPath(config.sys.platformPath);

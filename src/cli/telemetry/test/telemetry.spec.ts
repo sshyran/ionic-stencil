@@ -244,7 +244,7 @@ describe('anonymizeConfigForTelemetry', () => {
     config = mockValidatedConfig({ sys });
   });
 
-  it.each<keyof d.ValidatedConfig>([
+  it.each<keyof d.Config>([
     'rootDir',
     'fsNamespace',
     'packageJsonFilePath',
@@ -255,7 +255,7 @@ describe('anonymizeConfigForTelemetry', () => {
     'cacheDir',
     'configPath',
     'tsconfig',
-  ])("should anonymize top-level string prop '%s'", (prop: keyof d.ValidatedConfig) => {
+  ])("should anonymize top-level string prop '%s'", (prop: keyof d.Config) => {
     const anonymizedConfig = anonymizeConfigForTelemetry({
       ...config,
       [prop]: "shouldn't see this!",

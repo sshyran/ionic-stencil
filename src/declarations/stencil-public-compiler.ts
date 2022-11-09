@@ -55,8 +55,9 @@ export interface StencilConfig {
   globalStyle?: string;
 
   /**
-   * When the hashFileNames config is set to true, and it is a production build,
-   * the hashedFileNameLength config is used to determine how many characters the file name's hash should be.
+   * When the hashFileNames config is set to true, and it is a production
+   * build, the hashedFileNameLength config is used to determine how many
+   * characters the file name's hash should be.
    */
   hashedFileNameLength?: number;
 
@@ -405,12 +406,25 @@ export type UnvalidatedConfig = Loose<Config>;
  * type ReqFieldFoo = RequireFields<Foo, 'bar'>; // { bar: number, baz?: string }
  * ```
  */
-type RequireFields<T, K extends keyof T> = T & { [P in K]-?: T[P] };
+type RequireFields<T, K extends keyof T> = T & { [P in K]-?: T[P] } & { type: 'valid' };
 
 /**
  * Fields in {@link Config} to make required for {@link ValidatedConfig}
  */
-type StrictConfigFields = 'flags' | 'logger' | 'outputTargets' | 'rootDir' | 'sys' | 'testing';
+type StrictConfigFields =
+  | 'flags'
+  | 'logger'
+  | 'outputTargets'
+  | 'rootDir'
+  | 'sys'
+  | 'testing'
+  | 'namespace'
+  | 'fsNamespace'
+  | 'minifyJs'
+  | 'minifyCss'
+  | 'hashFileNames'
+  | 'hashedFileNameLength'
+  | 'buildEs5';
 
 /**
  * A version of {@link Config} that makes certain fields required. This type represents a valid configuration entity.

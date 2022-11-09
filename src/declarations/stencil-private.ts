@@ -23,6 +23,7 @@ import type {
   PrerenderConfig,
   StyleDoc,
   TaskCommand,
+  ValidatedConfig,
 } from './stencil-public-compiler';
 import type {
   ComponentInterface,
@@ -217,7 +218,7 @@ export interface BuildCtx {
   buildStats?: CompilerBuildStats | { diagnostics: Diagnostic[] };
   buildMessages: string[];
   bundleBuildCount: number;
-  collections: Collection[];
+  collections: CollectionCompilerMeta[];
   compilerCtx: CompilerCtx;
   esmBrowserComponentBundle: ReadonlyArray<BundleModule>;
   esmComponentBundle: ReadonlyArray<BundleModule>;
@@ -226,7 +227,7 @@ export interface BuildCtx {
   commonJsComponentBundle: ReadonlyArray<BundleModule>;
   components: ComponentCompilerMeta[];
   componentGraph: Map<string, string[]>;
-  config: Config;
+  config: ValidatedConfig;
   createTimeSpan(msg: string, debug?: boolean): LoggerTimeSpan;
   data: any;
   debug: (msg: string) => void;
@@ -462,9 +463,9 @@ export interface Cache {
 }
 
 export interface CollectionCompilerMeta {
-  collectionName?: string;
+  collectionName: string;
   moduleId?: string;
-  moduleDir?: string;
+  moduleDir: string;
   moduleFiles?: Module[];
   global?: Module;
   compiler?: CollectionCompilerVersion;
@@ -499,21 +500,6 @@ export interface CollectionBundleManifest {
 export interface CollectionDependencyManifest {
   name: string;
   tags: string[];
-}
-
-/** OLD WAY */
-export interface Collection {
-  collectionName?: string;
-  moduleDir?: string;
-  moduleFiles?: any[];
-  global?: any;
-  compiler?: CollectionCompiler;
-  isInitialized?: boolean;
-  hasExports?: boolean;
-  dependencies?: string[];
-  bundles?: {
-    components: string[];
-  }[];
 }
 
 export interface CollectionCompiler {

@@ -19,6 +19,7 @@ export const parseCollectionManifest = (
   const collection: d.CollectionCompilerMeta = {
     collectionName: collectionName,
     moduleId: collectionName,
+    moduleDir: collectionDir,
     moduleFiles: [],
     dependencies: parseCollectionDependencies(collectionManifest),
     compiler: {

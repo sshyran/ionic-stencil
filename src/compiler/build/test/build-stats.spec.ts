@@ -1,11 +1,11 @@
 import type * as d from '@stencil/core/declarations';
-import { mockBuildCtx, mockCompilerCtx, mockConfig } from '@stencil/core/testing';
+import { mockBuildCtx, mockCompilerCtx, mockValidatedConfig } from '@stencil/core/testing';
 
 import { generateBuildResults } from '../build-results';
 import { generateBuildStats } from '../build-stats';
 
 describe('generateBuildStats', () => {
-  const config = mockConfig();
+  const config = mockValidatedConfig();
   let compilerCtx: d.CompilerCtx;
   let buildCtx: d.BuildCtx;
 
@@ -28,7 +28,7 @@ describe('generateBuildStats', () => {
     }
 
     expect(result).toStrictEqual({
-      app: { bundles: 0, components: 0, entries: 0, fsNamespace: undefined, namespace: 'Testing', outputs: [] },
+      app: { bundles: 0, components: 0, entries: 0, fsNamespace: 'testing', namespace: 'Testing', outputs: [] },
       collections: [],
       compiler: { name: 'in-memory' },
       componentGraph: {},
@@ -38,11 +38,13 @@ describe('generateBuildStats', () => {
       options: {
         buildEs5: false,
         hashFileNames: false,
-        hashedFileNameLength: undefined,
+        hashedFileNameLength: 8,
         minifyCss: false,
         minifyJs: false,
       },
-      rollupResults: undefined,
+      rollupResults: {
+        modules: [],
+      },
       sourceGraph: {},
     });
   });
