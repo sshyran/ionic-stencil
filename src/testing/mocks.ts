@@ -33,7 +33,6 @@ export function mockValidatedConfig(overrides: Partial<ValidatedConfig> = {}): V
 
   return {
     ...baseConfig,
-    type: 'valid',
     flags: createConfigFlags(),
     logger: mockLogger(),
     outputTargets: baseConfig.outputTargets ?? [],

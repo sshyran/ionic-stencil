@@ -406,7 +406,7 @@ export type UnvalidatedConfig = Loose<Config>;
  * type ReqFieldFoo = RequireFields<Foo, 'bar'>; // { bar: number, baz?: string }
  * ```
  */
-type RequireFields<T, K extends keyof T> = T & { [P in K]-?: T[P] } & { type: 'valid' };
+type RequireFields<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
 /**
  * Fields in {@link Config} to make required for {@link ValidatedConfig}

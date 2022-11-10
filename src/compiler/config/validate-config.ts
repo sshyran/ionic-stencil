@@ -85,7 +85,6 @@ export const validateConfig = (
     hashFileNames,
     hashedFileNameLength: config.hashedFileNameLength ?? DEFAULT_HASHED_FILENAME_LENTH,
     buildEs5: config.buildEs5 === true || (!devMode && config.buildEs5 === 'prod'),
-    type: 'valid',
   };
 
   validatedConfig.extras = validatedConfig.extras || {};

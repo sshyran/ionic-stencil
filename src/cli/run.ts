@@ -161,7 +161,6 @@ export const runTask = async (
     hashFileNames: config.hashFileNames ?? !devMode,
     hashedFileNameLength: config.hashedFileNameLength ?? DEFAULT_HASHED_FILENAME_LENTH,
     buildEs5: config.buildEs5 === true || (!devMode && config.buildEs5 === 'prod'),
-    type: 'valid',
   };
 
   switch (task) {
