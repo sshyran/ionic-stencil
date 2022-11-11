@@ -179,15 +179,13 @@ function getCollections(
   source: string;
   tags: string[];
 }[] {
+  // @ts-ignore
   return buildCtx.collections
     .map((c) => {
       return {
         name: c.collectionName,
         source: relativePath(config, c.moduleDir),
-        tags: (c.moduleFiles ?? [])
-          .map((m) => m.cmps.map((cmp: d.ComponentCompilerMeta) => cmp.tagName))
-          .sort()
-          .flat(),
+        tags: c.moduleFiles.map((m) => m.cmps.map((cmp: d.ComponentCompilerMeta) => cmp.tagName)).sort(),
       };
     })
     .sort((a, b) => {
