@@ -1,12 +1,7 @@
 import { buildError } from '@utils';
 
 import type * as d from '../../../declarations';
-import {
-  DIST_CUSTOM_ELEMENTS_BUNDLE,
-  isValidConfigOutputTarget,
-  VALID_CONFIG_OUTPUT_TARGETS,
-} from '../../output-targets/output-utils';
-import { validateAngular } from './validate-angular';
+import { isValidConfigOutputTarget, VALID_CONFIG_OUTPUT_TARGETS } from '../../output-targets/output-utils';
 import { validateCollection } from './validate-collection';
 import { validateCustomElement } from './validate-custom-element';
 import { validateCustomElementBundle } from './validate-custom-element-bundle';
