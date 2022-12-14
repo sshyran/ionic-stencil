@@ -60,7 +60,7 @@
     "@ionic/prettier-config": "^2.0.0",
     "@rollup/plugin-commonjs": "15.1.0",
     "@rollup/plugin-json": "6.0.0",
-    "@rollup/plugin-node-resolve": "9.0.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "2.3.4",
     "@rollup/pluginutils": "5.0.2",
     "@types/eslint": "^8.4.6",
@@ -79,6 +79,7 @@
     "@types/sizzle": "^2.3.2",
     "@types/webpack": "^4.41.26",
     "@types/ws": "^8.5.4",
+    "@types/whatwg-url": "^11.0.0",
     "@types/yarnpkg__lockfile": "^1.1.5",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
@@ -124,6 +125,7 @@
     "terser": "5.16.1",
     "typescript": "4.9.4",
     "webpack": "^4.46.0",
+    "whatwg-url": "^11.0.0",
     "ws": "8.12.0"
   },
   "engines": {

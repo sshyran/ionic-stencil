@@ -34,6 +34,10 @@ export const existsSync = (fs.existsSync = (p: string) => {
   return fs.__sys.accessSync(p);
 });
 
+export const access = (fs.access = (p: string, _mode: any, cb: any) => {
+  fs.__sys.access(p).then(cb);
+});
+
 export const mkdir = (fs.mkdir = (p: string, opts: any, cb: any) => {
   cb = typeof cb === 'function' ? cb : typeof opts === 'function' ? opts : null;
   opts = typeof opts === 'function' ? undefined : opts;
@@ -179,3 +183,9 @@ export const writeFile = (fs.writeFile = (p: string, data: string, opts: any, cb
 });
 
 export default fs;
+
+// We need to export a mock of fs' 'promises' functions because Rollup depends
+// on it.
+export const promises = {
+  ...Object.fromEntries(Object.entries(fs).map(([k, v]) => [k, promisify(v)])),
+};
