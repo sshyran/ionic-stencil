@@ -34,6 +34,10 @@ export const existsSync = (fs.existsSync = (p: string) => {
   return fs.__sys.accessSync(p);
 });
 
+export const access = (fs.access = (p: string, _mode: any, cb: any) => {
+  fs.__sys.access(p).then(cb);
+});
+
 export const mkdir = (fs.mkdir = (p: string, opts: any, cb: any) => {
   cb = typeof cb === 'function' ? cb : typeof opts === 'function' ? opts : null;
   opts = typeof opts === 'function' ? undefined : opts;
