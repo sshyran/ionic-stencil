@@ -183,3 +183,9 @@ export const writeFile = (fs.writeFile = (p: string, data: string, opts: any, cb
 });
 
 export default fs;
+
+// We need to export a mock of fs' 'promises' functions because Rollup depends
+// on it.
+// export const promises = {
+//   ...Object.fromEntries(Object.entries(fs).map(([k, v]) => [k, promisify(v)])),
+// };
