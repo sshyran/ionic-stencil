@@ -54,14 +54,6 @@ export const getRollupOptions = (
   buildCtx: d.BuildCtx,
   bundleOpts: BundleOptions
 ): RollupOptions => {
-  // const customResolveOptions = createCustomResolverAsync(config.sys, compilerCtx.fs, [
-  //   '.tsx',
-  //   '.ts',
-  //   '.js',
-  //   '.mjs',
-  //   '.json',
-  //   '.d.ts',
-  // ]);
   const nodeResolvePlugin = rollupNodeResolvePlugin({
     mainFields: ['collection:main', 'jsnext:main', 'es2017', 'es2015', 'module', 'main'],
     extensions: [
@@ -74,7 +66,7 @@ export const getRollupOptions = (
     ],
     browser: true,
     rootDir: config.rootDir,
-    ...(config.nodeResolve as any),
+    // ...(config.nodeResolve as any),
   });
   const orgNodeResolveId = nodeResolvePlugin.resolveId;
   const orgNodeResolveId2 = (nodeResolvePlugin.resolveId = async function (importee: string, importer: string) {
