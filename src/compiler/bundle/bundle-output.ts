@@ -56,14 +56,7 @@ export const getRollupOptions = (
 ): RollupOptions => {
   const nodeResolvePlugin = rollupNodeResolvePlugin({
     mainFields: ['collection:main', 'jsnext:main', 'es2017', 'es2015', 'module', 'main'],
-    extensions: [
-    '.tsx',
-    '.ts',
-    '.js',
-    '.mjs',
-    '.json',
-    '.d.ts',
-    ],
+    extensions: ['.tsx', '.ts', '.js', '.mjs', '.json', '.d.ts'],
     browser: true,
     rootDir: config.rootDir,
     // ...(config.nodeResolve as any),
