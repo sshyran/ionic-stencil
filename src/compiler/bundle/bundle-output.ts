@@ -4,7 +4,6 @@ import { rollup, RollupOptions, TreeshakingOptions } from 'rollup';
 
 import type * as d from '../../declarations';
 import { lazyComponentPlugin } from '../output-targets/dist-lazy/lazy-component-plugin';
-import { createCustomResolverAsync } from '../sys/resolve/resolve-module-async';
 import { appDataPlugin } from './app-data-plugin';
 import type { BundleOptions } from './bundle-interface';
 import { coreResolvePlugin } from './core-resolve-plugin';
@@ -55,17 +54,24 @@ export const getRollupOptions = (
   buildCtx: d.BuildCtx,
   bundleOpts: BundleOptions
 ): RollupOptions => {
-  const customResolveOptions = createCustomResolverAsync(config.sys, compilerCtx.fs, [
+  // const customResolveOptions = createCustomResolverAsync(config.sys, compilerCtx.fs, [
+  //   '.tsx',
+  //   '.ts',
+  //   '.js',
+  //   '.mjs',
+  //   '.json',
+  //   '.d.ts',
+  // ]);
+  const nodeResolvePlugin = rollupNodeResolvePlugin({
+    mainFields: ['collection:main', 'jsnext:main', 'es2017', 'es2015', 'module', 'main'],
+    extensions: [
     '.tsx',
     '.ts',
     '.js',
     '.mjs',
     '.json',
     '.d.ts',
-  ]);
-  const nodeResolvePlugin = rollupNodeResolvePlugin({
-    mainFields: ['collection:main', 'jsnext:main', 'es2017', 'es2015', 'module', 'main'],
-    customResolveOptions,
+    ],
     browser: true,
     rootDir: config.rootDir,
     ...(config.nodeResolve as any),
