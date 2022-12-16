@@ -26,16 +26,21 @@ export const bundleOutput = async (
 ) => {
   try {
     const rollupOptions = getRollupOptions(config, compilerCtx, buildCtx, bundleOpts);
+    console.log('bundleOutput::options');
+    console.log(rollupOptions);
     const rollupBuild = await rollup(rollupOptions);
 
     compilerCtx.rollupCache.set(bundleOpts.id, rollupBuild.cache);
     return rollupBuild;
   } catch (e: any) {
-    if (!buildCtx.hasError) {
+    console.log('there was an error in bundleOutput');
+    console.log(e);
+
+    // if (!buildCtx.hasError) {
       // TODO(STENCIL-353): Implement a type guard that balances using our own copy of Rollup types (which are
       // breakable) and type safety (so that the error variable may be something other than `any`)
       loadRollupDiagnostics(config, compilerCtx, buildCtx, e);
-    }
+    // }
   }
   return undefined;
 };

@@ -32,7 +32,7 @@ export const createCompiler = async (userConfig: Config): Promise<Compiler> => {
     config.sys.setupCompiler({ ts });
   }
 
-  patchFs(sys);
+  // patchFs(sys);
 
   compilerCtx.fs = createInMemoryFs(sys);
   compilerCtx.cache = new Cache(config, createInMemoryFs(sys));
