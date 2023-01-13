@@ -4,7 +4,17 @@ import type { Plugin } from 'rollup';
 /**
  * Modules that are polyfilled by Stencil, rather than using the default Node implementation.
  */
-const modules = new Set(['crypto', 'events', 'fs', 'module', 'os', 'path', 'stream', 'url', 'util']);
+const modules = new Set([
+  // 'crypto',
+  'events',
+  'fs',
+  'module',
+  'os',
+  'path',
+  'stream',
+  'url',
+  'util'
+]);
 
 /**
  * Rollup plugin that aids in resolving various system level (sys) modules properly.

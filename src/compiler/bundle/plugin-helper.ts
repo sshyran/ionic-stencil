@@ -62,8 +62,8 @@ const builtIns = new Set([
   'crypto',
   'fs',
 
-  'Buffer',
-  'buffer',
+  // 'Buffer',
+  // 'buffer',
   'global',
   'http',
   'https',

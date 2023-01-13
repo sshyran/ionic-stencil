@@ -26,8 +26,8 @@ export const exists = (fs.exists = (p: string, cb: any) => {
     .catch(() => cb(false));
 });
 
-// https://nodejs.org/api/util.html#util_custom_promisified_functions
-(exists as any)[promisify.custom] = (p: string) => fs.__sys.access(p);
+// // https://nodejs.org/api/util.html#util_custom_promisified_functions
+// (exists as any)[promisify.custom] = (p: string) => fs.__sys.access(p);
 
 export const existsSync = (fs.existsSync = (p: string) => {
   // https://nodejs.org/api/fs.html#fs_fs_existssync_path

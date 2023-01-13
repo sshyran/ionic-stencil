@@ -62,14 +62,24 @@ export const getRollupOptions = (
   const nodeResolvePlugin = rollupNodeResolvePlugin({
     mainFields: ['collection:main', 'jsnext:main', 'es2017', 'es2015', 'module', 'main'],
     extensions: ['.tsx', '.ts', '.js', '.mjs', '.json', '.d.ts'],
+    preferBuiltins: false,
     browser: true,
     rootDir: config.rootDir,
+    moduleDirectories: ['node_modules', config.rootDir],
     // ...(config.nodeResolve as any),
   });
+
   const orgNodeResolveId = nodeResolvePlugin.resolveId;
   const orgNodeResolveId2 = (nodeResolvePlugin.resolveId = async function (importee: string, importer: string) {
+    console.log(`nodeResolvePlugin::resolveId::importee::`, importee);
+    console.log(`nodeResolvePlugin::resolveId::importer::`, importer);
     const [realImportee, query] = importee.split('?');
-    const resolved = await orgNodeResolveId.call(nodeResolvePlugin, realImportee, importer);
+    const [realImporter, query2] = importer.split('?');
+    console.log(`nodeResolvePlugin::about to resolve::`,orgNodeResolveId);
+
+    debugger;
+    const resolved = await orgNodeResolveId.call(nodeResolvePlugin, realImportee, realImporter);
+    console.log('nodeResolvePlugin::resolved::', resolved);
     if (resolved) {
       if (isString(resolved)) {
         return query ? resolved + '?' + query : resolved;
