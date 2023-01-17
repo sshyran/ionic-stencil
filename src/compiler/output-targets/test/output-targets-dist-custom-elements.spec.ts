@@ -74,7 +74,7 @@ describe('Custom Elements output target', () => {
       });
 
       expect(entryPoint).toEqual(`import { globalScripts } from '${STENCIL_APP_GLOBALS_ID}';
-export { setAssetPath, setPlatformOptions } from '${STENCIL_INTERNAL_CLIENT_ID}';
+export { setAssetPath, setNonce, setPlatformOptions } from '${STENCIL_INTERNAL_CLIENT_ID}';
 export * from '${USER_INDEX_ENTRY_ID}';
 
 globalScripts();
@@ -87,7 +87,8 @@ globalScripts();
         includeGlobalScripts: false,
       });
 
-      expect(entryPoint).toEqual(`export { setAssetPath, setPlatformOptions } from '${STENCIL_INTERNAL_CLIENT_ID}';
+      expect(entryPoint)
+        .toEqual(`export { setAssetPath, setNonce, setPlatformOptions } from '${STENCIL_INTERNAL_CLIENT_ID}';
 export * from '${USER_INDEX_ENTRY_ID}';
 `);
     });
