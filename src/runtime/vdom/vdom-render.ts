@@ -246,8 +246,6 @@ const addVnodes = (
  * @param vnodes a list of virtual DOM nodes to remove
  * @param startIdx the index at which to start removing nodes (inclusive)
  * @param endIdx the index at which to stop removing nodes (inclusive)
- * @param vnode a VNode
- * @param elm an element
  */
 const removeVnodes = (vnodes: d.VNode[], startIdx: number, endIdx: number) => {
   for (; startIdx <= endIdx; ++startIdx) {
