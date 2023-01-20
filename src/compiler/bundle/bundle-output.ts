@@ -64,7 +64,7 @@ export const getRollupOptions = (
     extensions: ['.tsx', '.ts', '.js', '.mjs', '.json', '.d.ts'],
     preferBuiltins: false,
     browser: true,
-    rootDir: config.rootDir,
+    // rootDir: config.rootDir,
     moduleDirectories: ['node_modules', config.rootDir],
     // ...(config.nodeResolve as any),
   });
