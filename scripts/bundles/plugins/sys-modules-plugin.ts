@@ -7,10 +7,10 @@ import type { Plugin } from 'rollup';
 const modules = new Set([
   'crypto',
   'events',
-  'fs',
+  // 'fs',
   'module',
   'os',
-  'path',
+  // 'path',
   'stream',
   'url',
   // 'util'

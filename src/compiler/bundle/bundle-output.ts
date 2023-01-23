@@ -37,9 +37,9 @@ export const bundleOutput = async (
     console.log(e);
 
     // if (!buildCtx.hasError) {
-      // TODO(STENCIL-353): Implement a type guard that balances using our own copy of Rollup types (which are
-      // breakable) and type safety (so that the error variable may be something other than `any`)
-      loadRollupDiagnostics(config, compilerCtx, buildCtx, e);
+    // TODO(STENCIL-353): Implement a type guard that balances using our own copy of Rollup types (which are
+    // breakable) and type safety (so that the error variable may be something other than `any`)
+    loadRollupDiagnostics(config, compilerCtx, buildCtx, e);
     // }
   }
   return undefined;
@@ -75,10 +75,31 @@ export const getRollupOptions = (
     console.log(`nodeResolvePlugin::resolveId::importer::`, importer);
     const [realImportee, query] = importee.split('?');
     const [realImporter, query2] = importer.split('?');
-    console.log(`nodeResolvePlugin::about to resolve::`,orgNodeResolveId);
+    console.log(`nodeResolvePlugin::about to resolve::`, orgNodeResolveId);
 
-    debugger;
-    const resolved = await orgNodeResolveId.call(nodeResolvePlugin, realImportee, realImporter);
+    const path = config.sys.platformPath;
+    const importeeJoined = path.isAbsolute(importee) ? importee : path.join(path.dirname(importer), importee);
+
+    const tempResolvePlugin = rollupNodeResolvePlugin({
+      mainFields: ['collection:main', 'jsnext:main', 'es2017', 'es2015', 'module', 'main'],
+      extensions: ['.tsx', '.ts', '.js', '.mjs', '.json', '.d.ts'],
+      preferBuiltins: false,
+      browser: true,
+      // rootDir: config.rootDir,
+      moduleDirectories: ['node_modules', path.dirname(importer)],
+      // ...(config.nodeResolve as any),
+    });
+
+    // debugger;
+    // const resolved = await orgNodeResolveId.call(tempResolvePlugin, realImportee, realImporter);
+
+    const resolved = await tempResolvePlugin.resolveId.call(
+      tempResolvePlugin,
+      realImportee,
+      realImporter,
+      {}
+    );
+
     console.log('nodeResolvePlugin::resolved::', resolved);
     if (resolved) {
       if (isString(resolved)) {
@@ -91,6 +112,7 @@ export const getRollupOptions = (
     }
     return resolved;
   });
+
   if (config.devServer && config.devServer.experimentalDevModules) {
     nodeResolvePlugin.resolveId = async function (importee: string, importer: string) {
       const resolvedId = await orgNodeResolveId2.call(nodeResolvePlugin, importee, importer);
