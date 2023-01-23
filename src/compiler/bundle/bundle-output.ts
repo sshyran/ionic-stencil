@@ -26,8 +26,6 @@ export const bundleOutput = async (
 ) => {
   try {
     const rollupOptions = getRollupOptions(config, compilerCtx, buildCtx, bundleOpts);
-    console.log('bundleOutput::options');
-    console.log(rollupOptions);
     const rollupBuild = await rollup(rollupOptions);
 
     compilerCtx.rollupCache.set(bundleOpts.id, rollupBuild.cache);
@@ -71,27 +69,19 @@ export const getRollupOptions = (
 
   const orgNodeResolveId = nodeResolvePlugin.resolveId;
   const orgNodeResolveId2 = (nodeResolvePlugin.resolveId = async function (importee: string, importer: string) {
-    console.log(`nodeResolvePlugin::resolveId::importee::`, importee);
-    console.log(`nodeResolvePlugin::resolveId::importer::`, importer);
     const [realImportee, query] = importee.split('?');
     const [realImporter, query2] = importer.split('?');
-    console.log(`nodeResolvePlugin::about to resolve::`, orgNodeResolveId);
 
     const path = config.sys.platformPath;
     const importeeJoined = path.isAbsolute(importee) ? importee : path.join(path.dirname(importer), importee);
 
     const tempResolvePlugin = rollupNodeResolvePlugin({
       mainFields: ['collection:main', 'jsnext:main', 'es2017', 'es2015', 'module', 'main'],
-      extensions: ['.tsx', '.ts', '.js', '.mjs', '.json', '.d.ts'],
+      extensions: ['.js', '.tsx', '.ts', '.mjs', '.json', '.d.ts'],
       preferBuiltins: false,
       browser: true,
-      // rootDir: config.rootDir,
       moduleDirectories: ['node_modules', path.dirname(importer)],
-      // ...(config.nodeResolve as any),
     });
-
-    // debugger;
-    // const resolved = await orgNodeResolveId.call(tempResolvePlugin, realImportee, realImporter);
 
     const resolved = await tempResolvePlugin.resolveId.call(
       tempResolvePlugin,
@@ -100,7 +90,13 @@ export const getRollupOptions = (
       {}
     );
 
-    console.log('nodeResolvePlugin::resolved::', resolved);
+    if (!resolved) {
+      console.log('had some issue resolving');
+      console.log(`nodeResolvePlugin::resolveId::importee::`, importee);
+      console.log(`nodeResolvePlugin::resolveId::importer::`, importer);
+    }
+
+
     if (resolved) {
       if (isString(resolved)) {
         return query ? resolved + '?' + query : resolved;
