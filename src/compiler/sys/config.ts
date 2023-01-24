@@ -1,11 +1,15 @@
-import {isBoolean} from '@utils';
-import {createConfigFlags} from '../../cli/config-flags';
+import { isBoolean } from '@utils';
+import { createConfigFlags } from '../../cli/config-flags';
 import type * as d from '../../declarations';
-import {DEFAULT_DEV_MODE, DEFAULT_FS_NAMESPACE, DEFAULT_HASHED_FILENAME_LENTH, DEFAULT_NAMESPACE} from '../config/constants';
-import { validateConfig } from '../config/validate-config';
+import {
+  DEFAULT_DEV_MODE,
+  DEFAULT_FS_NAMESPACE,
+  DEFAULT_HASHED_FILENAME_LENTH,
+  DEFAULT_NAMESPACE,
+} from '../config/constants';
 import { setPlatformPath } from '../sys/modules/path';
 import { createLogger } from './logger/console-logger';
-import {createSystem} from './stencil-sys';
+import { createSystem } from './stencil-sys';
 
 export const getConfig = (userConfig: d.Config): d.ValidatedConfig => {
   const logger = userConfig.logger ?? createLogger();
@@ -20,14 +24,14 @@ export const getConfig = (userConfig: d.Config): d.ValidatedConfig => {
     devMode = DEFAULT_DEV_MODE;
   }
 
-  const hashFileNames = config.hashFileNames ?? !devMode;
+  const hashFileNames = userConfig.hashFileNames ?? !devMode;
 
   const config: d.ValidatedConfig = {
     ...userConfig,
     flags: createConfigFlags(userConfig.flags ?? {}),
     logger,
     outputTargets: userConfig.outputTargets ?? [],
-    rootDir: userConfig.rootDir ??"/",
+    rootDir: userConfig.rootDir ?? '/',
     sys: userConfig.sys ?? createSystem({ logger }),
     testing: userConfig ?? {},
     namespace: userConfig.namespace ?? DEFAULT_NAMESPACE,
@@ -37,7 +41,6 @@ export const getConfig = (userConfig: d.Config): d.ValidatedConfig => {
     hashFileNames,
     hashedFileNameLength: userConfig.hashedFileNameLength ?? DEFAULT_HASHED_FILENAME_LENTH,
     buildEs5: userConfig.buildEs5 === true || (!devMode && userConfig.buildEs5 === 'prod'),
-
   };
 
   setPlatformPath(config.sys.platformPath);
