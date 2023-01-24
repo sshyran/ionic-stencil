@@ -96,7 +96,6 @@ export const getRollupOptions = (
       console.log(`nodeResolvePlugin::resolveId::importer::`, importer);
     }
 
-
     if (resolved) {
       if (isString(resolved)) {
         return query ? resolved + '?' + query : resolved;
