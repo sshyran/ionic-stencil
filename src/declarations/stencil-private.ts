@@ -466,7 +466,7 @@ export interface CollectionCompilerMeta {
   collectionName: string;
   moduleId?: string;
   moduleDir: string;
-  moduleFiles?: Module[];
+  moduleFiles: Module[];
   global?: Module;
   compiler?: CollectionCompilerVersion;
   isInitialized?: boolean;
