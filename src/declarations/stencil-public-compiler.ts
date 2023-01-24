@@ -412,19 +412,19 @@ type RequireFields<T, K extends keyof T> = T & { [P in K]-?: T[P] };
  * Fields in {@link Config} to make required for {@link ValidatedConfig}
  */
 type StrictConfigFields =
+  | 'buildEs5'
   | 'flags'
+  | 'fsNamespace'
+  | 'hashFileNames'
+  | 'hashedFileNameLength'
   | 'logger'
+  | 'minifyCss'
+  | 'minifyJs'
+  | 'namespace'
   | 'outputTargets'
   | 'rootDir'
   | 'sys'
-  | 'testing'
-  | 'namespace'
-  | 'fsNamespace'
-  | 'minifyJs'
-  | 'minifyCss'
-  | 'hashFileNames'
-  | 'hashedFileNameLength'
-  | 'buildEs5';
+  | 'testing';
 
 /**
  * A version of {@link Config} that makes certain fields required. This type represents a valid configuration entity.
