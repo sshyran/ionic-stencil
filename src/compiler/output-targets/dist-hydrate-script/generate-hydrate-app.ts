@@ -1,4 +1,5 @@
 import { catchError, createOnWarnFn, generatePreamble, loadRollupDiagnostics } from '@utils';
+import { rollupNodeResolvePlugin } from '@compiler-deps';
 import MagicString from 'magic-string';
 import { join } from 'path';
 import { RollupOptions } from 'rollup';
@@ -51,6 +52,7 @@ export const generateHydrateApp = async (
             return null;
           },
         },
+        rollupNodeResolvePlugin(),
       ],
       treeshake: false,
       onwarn: createOnWarnFn(buildCtx.diagnostics),
@@ -68,6 +70,8 @@ export const generateHydrateApp = async (
     if (!buildCtx.hasError) {
       // TODO(STENCIL-353): Implement a type guard that balances using our own copy of Rollup types (which are
       // breakable) and type safety (so that the error variable may be something other than `any`)
+      console.log('were here, were queer, there was an error :/');
+      console.log(e);
       loadRollupDiagnostics(config, compilerCtx, buildCtx, e);
     }
   }
