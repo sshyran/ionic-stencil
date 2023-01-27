@@ -248,6 +248,10 @@ export declare const State: StateDecorator;
  */
 export declare const Watch: WatchDecorator;
 
+/**
+ * Represents the shape of a function that receives an `HTMLElement`, and determines the mode (styles) that should be
+ * applied to that element
+ */
 export type ResolutionHandler = (elm: HTMLElement) => string | undefined | null;
 
 export type ErrorHandler = (err: any, element?: HTMLElement) => void;
