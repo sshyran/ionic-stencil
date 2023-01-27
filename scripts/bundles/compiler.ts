@@ -17,7 +17,6 @@ import { inlinedCompilerDepsPlugin } from './plugins/inlined-compiler-deps-plugi
 import { parse5Plugin } from './plugins/parse5-plugin';
 import { replacePlugin } from './plugins/replace-plugin';
 import { sizzlePlugin } from './plugins/sizzle-plugin';
-import { sysModulesPlugin } from './plugins/sys-modules-plugin';
 import { terserPlugin } from './plugins/terser-plugin';
 import { typescriptSourcePlugin } from './plugins/typescript-source-plugin';
 
@@ -69,6 +68,7 @@ export async function compiler(opts: BuildOptions) {
   const rollupWatchPath = join(opts.nodeModulesDir, 'rollup', 'dist', 'es', 'shared', 'watch.js');
   const compilerBundle: RollupOptions = {
     input: join(inputDir, 'index.js'),
+    external: ["fs", "path", "os", "crypto", "module", "util", "assert", "process", "events"],
     output: {
       format: 'cjs',
       file: join(opts.output.compilerDir, compilerFileName),
@@ -160,10 +160,9 @@ export async function compiler(opts: BuildOptions) {
       parse5Plugin(opts),
       sizzlePlugin(opts),
       aliasPlugin(opts),
-      sysModulesPlugin(inputDir),
       rollupNodeResolve({
         mainFields: ['module', 'main'],
-        preferBuiltins: false,
+        preferBuiltins: true,
       }),
       rollupCommonjs({
         transformMixedEsModules: false,

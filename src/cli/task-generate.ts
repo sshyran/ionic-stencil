@@ -1,3 +1,4 @@
+import {join, parse, relative} from 'path';
 import { validateComponentTag } from '@utils';
 
 import { IS_NODE_ENV } from '../compiler/sys/environment';
@@ -19,8 +20,6 @@ export const taskGenerate = async (coreCompiler: CoreCompiler, config: Validated
     config.logger.error(`"generate" command is currently only implemented for a NodeJS environment`);
     return config.sys.exit(1);
   }
-
-  const path = coreCompiler.path;
 
   if (!config.configPath) {
     config.logger.error('Please run this command in your root directory (i. e. the one containing stencil.config.ts).');
@@ -45,7 +44,7 @@ export const taskGenerate = async (coreCompiler: CoreCompiler, config: Validated
     // explicitly return here to avoid printing the error message.
     return;
   }
-  const { dir, base: componentName } = path.parse(input);
+  const { dir, base: componentName } = parse(input);
 
   const tagError = validateComponentTag(componentName);
   if (tagError) {
@@ -62,8 +61,8 @@ export const taskGenerate = async (coreCompiler: CoreCompiler, config: Validated
 
   const testFolder = extensionsToGenerate.some(isTest) ? 'test' : '';
 
-  const outDir = path.join(absoluteSrcDir, 'components', dir, componentName);
-  await config.sys.createDir(path.join(outDir, testFolder), { recursive: true });
+  const outDir = join(absoluteSrcDir, 'components', dir, componentName);
+  await config.sys.createDir(join(outDir, testFolder), { recursive: true });
 
   const filesToGenerate: readonly BoilerplateFile[] = extensionsToGenerate.map((extension) => ({
     extension,
@@ -91,7 +90,7 @@ export const taskGenerate = async (coreCompiler: CoreCompiler, config: Validated
   console.log(config.logger.bold('The following files have been generated:'));
 
   const absoluteRootDir = config.rootDir;
-  writtenFiles.map((file) => console.log(`  - ${path.relative(absoluteRootDir, file)}`));
+  writtenFiles.map((file) => console.log(`  - ${relative(absoluteRootDir, file)}`));
 };
 
 /**
@@ -123,21 +122,21 @@ const chooseFilesToGenerate = async (): Promise<ReadonlyArray<GenerableExtension
  * component name, the extension, and whether we're inside of a test directory.
  *
  * @param coreCompiler  the compiler we're using, here to acces the `.path` module
- * @param path          path to where we're going to generate the component
+ * @param filePath          path to where we're going to generate the component
  * @param componentName the user-supplied name for the generated component
  * @param extension     the file extension
  * @returns the full filepath to the component (with a possible `test` directory
  * added)
  */
 const getFilepathForFile = (
-  coreCompiler: CoreCompiler,
-  path: string,
+  _coreCompiler: CoreCompiler,
+  filePath: string,
   componentName: string,
   extension: GenerableExtension
 ): string =>
   isTest(extension)
-    ? coreCompiler.path.join(path, 'test', `${componentName}.${extension}`)
-    : coreCompiler.path.join(path, `${componentName}.${extension}`);
+    ? join(filePath, 'test', `${componentName}.${extension}`)
+    : join(filePath, `${componentName}.${extension}`);
 
 /**
  * Get the boilerplate for a file and write it to disk

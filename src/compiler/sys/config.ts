@@ -2,7 +2,7 @@ import { join } from 'path';
 
 import { createConfigFlags } from '../../cli/config-flags';
 import type * as d from '../../declarations';
-import { setPlatformPath } from '../sys/modules/path';
+// import { setPlatformPath } from '../sys/modules/path';
 import { createLogger } from './logger/console-logger';
 import { createSystem } from './stencil-sys';
 
@@ -21,7 +21,7 @@ export const getConfig = (userConfig: d.Config): d.ValidatedConfig => {
     testing: userConfig ?? {},
   };
 
-  setPlatformPath(config.sys.platformPath);
+  // setPlatformPath(path);
 
   if (config.flags.debug || config.flags.verbose) {
     config.logLevel = 'debug';

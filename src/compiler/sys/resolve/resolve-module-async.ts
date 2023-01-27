@@ -51,7 +51,11 @@ export const resolveModuleIdAsync = (
   });
 };
 
-const createCustomResolverAsync = (sys: d.CompilerSystem, inMemoryFs: InMemoryFileSystem, exts: string[]): any => {
+export const createCustomResolverAsync = (
+  sys: d.CompilerSystem,
+  inMemoryFs: InMemoryFileSystem,
+  exts: string[]
+): any => {
   return {
     async isFile(filePath: string, cb: (err: any, isFile: boolean) => void) {
       const fsFilePath = normalizeFsPath(filePath);
@@ -135,5 +139,7 @@ const createCustomResolverAsync = (sys: d.CompilerSystem, inMemoryFs: InMemoryFi
         cb(null, results.error ? fsFilePath : results.path);
       }
     },
+
+    extensions: exts,
   };
 };
