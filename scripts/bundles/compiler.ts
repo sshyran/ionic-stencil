@@ -17,7 +17,6 @@ import { inlinedCompilerDepsPlugin } from './plugins/inlined-compiler-deps-plugi
 import { parse5Plugin } from './plugins/parse5-plugin';
 import { replacePlugin } from './plugins/replace-plugin';
 import { sizzlePlugin } from './plugins/sizzle-plugin';
-import { sysModulesPlugin } from './plugins/sys-modules-plugin';
 import { terserPlugin } from './plugins/terser-plugin';
 import { typescriptSourcePlugin } from './plugins/typescript-source-plugin';
 
@@ -160,7 +159,6 @@ export async function compiler(opts: BuildOptions) {
       parse5Plugin(opts),
       sizzlePlugin(opts),
       aliasPlugin(opts),
-      sysModulesPlugin(inputDir),
       rollupNodeResolve({
         mainFields: ['module', 'main'],
         preferBuiltins: false,
