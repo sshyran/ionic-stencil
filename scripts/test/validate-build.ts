@@ -358,7 +358,6 @@ async function validateModuleTreeshake(opts: BuildOptions, moduleName: string, e
           if (id === entryId) {
             return entryModulePath;
           }
-          return null;
         },
         load(id) {
           if (id === '@stencil/core/internal/app-globals') {
