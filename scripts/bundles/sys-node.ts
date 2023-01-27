@@ -39,7 +39,7 @@ export async function sysNode(opts: BuildOptions) {
       preferConst: true,
       freeze: false,
     },
-    external: ['child_process', 'crypto', 'events', 'https', 'path', 'readline', 'os', 'util'],
+    external: ['child_process', 'crypto', 'events', 'https', 'path', 'readline', 'os', 'util', "fs", "buffer", "assert", "tty", "stream"],
     plugins: [
       relativePathPlugin('glob', './glob.js'),
       relativePathPlugin('graceful-fs', './graceful-fs.js'),

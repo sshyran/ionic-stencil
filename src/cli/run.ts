@@ -1,4 +1,5 @@
 import { hasError, isFunction, shouldIgnoreError } from '@utils';
+import { join} from 'path'
 
 import { dependencies } from '../compiler/sys/dependencies.json';
 import { createLogger } from '../compiler/sys/logger/console-logger';
@@ -137,7 +138,7 @@ export const runTask = async (
     hydratedFlag: config.hydratedFlag ?? null,
     logger,
     outputTargets: config.outputTargets ?? [],
-    packageJsonFilePath: configSys.platformPath.join(rootDir, 'package.json'),
+    packageJsonFilePath: join(rootDir, 'package.json'),
     rootDir,
     sys: configSys,
     testing: config.testing ?? {},

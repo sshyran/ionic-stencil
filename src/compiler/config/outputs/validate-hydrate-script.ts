@@ -8,7 +8,6 @@ import {
   isOutputTargetHydrate,
   isOutputTargetWww,
 } from '../../output-targets/output-utils';
-import { NODE_BUILTINS } from '../../sys/modules';
 
 export const validateHydrateScript = (config: d.ValidatedConfig, userOutputs: d.OutputTarget[]) => {
   const output: d.OutputTargetHydrate[] = [];
@@ -58,7 +57,9 @@ export const validateHydrateScript = (config: d.ValidatedConfig, userOutputs: d.
 
     outputTarget.external = outputTarget.external || [];
 
-    outputTarget.external.push(...NODE_BUILTINS);
+    outputTarget.external.push("fs");
+    outputTarget.external.push("path");
+    outputTarget.external.push("crypto");
 
     output.push(outputTarget);
   });

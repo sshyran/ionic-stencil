@@ -336,6 +336,7 @@ async function validateModuleTreeshake(opts: BuildOptions, moduleName: string, e
   const outputFile = join(opts.scriptsBuildDir, `treeshake_${moduleName}.js`);
 
   const bundle = await rollup({
+    external: ["fs", "path", "os", "crypto", "module", "util"],
     input: virtualInputId,
     treeshake: true,
     plugins: [
@@ -357,6 +358,7 @@ async function validateModuleTreeshake(opts: BuildOptions, moduleName: string, e
           if (id === entryId) {
             return entryModulePath;
           }
+          return null;
         },
         load(id) {
           if (id === '@stencil/core/internal/app-globals') {

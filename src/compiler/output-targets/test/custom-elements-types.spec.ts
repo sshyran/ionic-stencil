@@ -1,4 +1,4 @@
-import { path } from '@stencil/core/compiler';
+import path from 'path';
 import {
   mockBuildCtx,
   mockCompilerCtx,
